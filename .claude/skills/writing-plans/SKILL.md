@@ -4,7 +4,7 @@ description: >-
   Use when you have an approved spec or written requirements for a multi-step
   task and are about to implement, or when handing work to another engineer or
   a subagent to execute task-by-task. Triggers on: "write a plan", "break this
-  into tasks", "implementation plan", "plan this out", "how do we build this".
+  into tasks", "implementation plan", "plan this out".
 ---
 
 # Writing Plans
@@ -89,12 +89,12 @@ For anything beyond a small plan, dispatch an independent reviewer subagent befo
 
 ## Execution handoff
 
-After saving, the plan is ready to execute. Hand off to your execution skill if one is wired in; otherwise offer the user a choice:
+After saving, the plan is ready to execute. Offer the user an orchestration choice:
 
 - **Subagent-driven (recommended for multi-task plans):** a fresh subagent per task, with review between tasks.
 - **Inline:** execute task-by-task in this session with review checkpoints.
 
-Either way, the invariant is the same: execute one task at a time and commit after each passing test.
+> REQUIRED SUB-SKILL: Whichever orchestration, use `tdd` for each task's code — the choice above decides *who* runs the tasks, not *whether* they are test-first. Execute one task at a time; commit after each passing test.
 
 ## Red Flags — if you catch yourself here, STOP
 

@@ -1,11 +1,11 @@
 ---
 name: writing-specs
 description: >-
-  Use before writing implementation code for any non-trivial feature, refactor,
-  migration, or half-finished feature you're continuing — or when you feel
-  pressure to "just start coding" or "skip the ceremony". Triggers on:
-  "implement", "build a", "refactor X", "migrate Y", "finish this half-done
-  feature".
+  Use to turn an approved design or written requirements into a concrete spec —
+  reached from `grilling`'s handoff, or directly when continuing a half-finished
+  feature (reverse-engineer the spec first), or when you feel pressure to "just
+  start coding" or "skip the ceremony". Triggers on: "write a spec", "spec this
+  out", "turn this design into a spec", "finish this half-done feature".
 ---
 
 # Writing Specs

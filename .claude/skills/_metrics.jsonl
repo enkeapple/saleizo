@@ -5,3 +5,4 @@
 {"ts":"2026-06-18T18:44:10Z","event":"trigger_bypass_warn","skill":"handoff","tool_count":3}
 {"ts":"2026-06-18T18:46:11Z","prompt_hash":"9fd8057587a43781","skill":"handoff","event":"bypass","triggers":"handoff|hand off|session handoff|save the plan|persist (the )?plan|plan file|context limit|running out of context|compact|resume snapshot|передать сесси"}
 {"ts":"2026-06-18T18:55:37Z","prompt_hash":"d938784352d30c18","skill":"handoff","event":"bypass","triggers":"handoff|hand off|session handoff|save the plan|persist (the )?plan|plan file|context limit|running out of context|compact|resume snapshot|передать сесси"}
+{"ts":"2026-06-18T19:11:00Z","prompt_hash":"5cb7e733a2738a80","skill":"handoff","event":"bypass","triggers":"handoff|hand off|session handoff|save the plan|persist (the )?plan|plan file|context limit|running out of context|compact|resume snapshot|передать сесси"}
