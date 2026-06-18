@@ -24,7 +24,7 @@ Ownership table — do not infer from a filename:
 
 | # | Concept | Lives in | Surface / artifact | What it represents |
 | --- | --- | --- | --- | --- |
-| 1 | **skill** | `.claude/skills/<name>/SKILL.md` (+ `references/*.md`) | invoked via the `Skill` tool | a routable capability; `name:` MUST equal the directory name |
+| 1 | **skill** | source `skills/*/<name>/SKILL.md` (+ `references/*.md`); discovered via flat symlink `.claude/skills/<name>` | invoked via the `Skill` tool | a routable capability; `name:` MUST equal the directory name and the symlink name |
 | 2 | **rule** | `.claude/rules/common/*.md` | loaded on demand, never auto-injected | a convention/process doc the agent reads when relevant |
 | 3 | **hook** | `.claude/hooks/*.sh` | runs on tool events | a gate/logger (`detect-bypass`, `skill-gate`, `token-guard`, `lessons-nudge`, …) |
 | 4 | **routing** | `.claude/skills-routing.json` | read by the hooks | trigger-phrase → skill map; `skill-routing-sync.md` keeps it true |

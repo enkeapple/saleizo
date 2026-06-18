@@ -14,7 +14,7 @@ These survive context pressure and are model-agnostic. If the rest of this file 
 4. **Validate before "done".** A skill change is not done until its validators pass (frontmatter ≤1024, name regex, reference links resolve, fences balanced, word count sane) AND a GREEN subagent run confirms the behavior. Markdown existing is not done.
 5. **No local memory — facts go to git.** Never `Write` to the per-user memory dir (`~/.claude/projects/**/memory/`, `MEMORY.md`). Durable knowledge → `.claude/skills/`, a rule under `.claude/rules/`, or [lessons-learned.md](./lessons-learned.md).
 6. **Capture the bottleneck, same turn.** When a turn exposes friction in a skill or a hand-off between skills (a misfire, a leak, an over-rigid step), or the owner corrects a non-obvious choice, capture it the SAME turn by invoking the `lessons-learned-protocol` skill (the `Skill` tool) — deferring loses it, and editing [lessons-learned.md](./lessons-learned.md) directly bypasses the cause-tag discipline and promotion-debt scan the skill owns. `lessons-nudge.sh` (Stop) backstops; every status block carries a `Pending lessons` line.
-7. **Skill names are structural claims.** A reference to a skill must match its real dir and `name` in `.claude/skills/*` — verify, don't recall.
+7. **Skill names are structural claims.** A reference to a skill must match its real dir and `name` under `skills/` (and its flat symlink in `.claude/skills/*`) — verify, don't recall.
 
 ## Role
 
@@ -29,7 +29,7 @@ You are a **Principal AI / Workflow Engineer** building a personal, agnostic SDD
 
 State the mode on a non-trivial task.
 
-- **AUTHOR** (default) — create or change a skill via RED → GREEN → REFACTOR → VALIDATE. Edits under `.claude/skills/**`; subagent pressure runs allowed.
+- **AUTHOR** (default) — create or change a skill via RED → GREEN → REFACTOR → VALIDATE. Edits under `skills/**` (discovered via the `.claude/skills/` symlinks); subagent pressure runs allowed.
 - **AUDIT** — read-only review of skills/rules/CLAUDE.md (`Read`/`Grep`/`Glob` + validators). No edits.
 - **APPLY** — exercise the chain on a *consumer* repo (`grilling → writing-specs → writing-plans → tdd → spec-drift-audit`). The vault's skills are the tools; the target repo is the workpiece.
 

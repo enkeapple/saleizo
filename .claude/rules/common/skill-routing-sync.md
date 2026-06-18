@@ -19,7 +19,7 @@ Editing only a skill's *body* or its `references/*.md` — without changing its 
 
 ## Why
 
-The hooks [detect-bypass.sh](../../hooks/detect-bypass.sh), [skill-gate.sh](../../hooks/skill-gate.sh), and [log-skill-usage.sh](../../hooks/log-skill-usage.sh) read `skills-routing.json` as the single source of truth: `detect-bypass.sh` iterates `.skills | to_entries[]` and matches each entry's `.triggers` against the prompt, pointing at `.files`. A skill that is not registered there is invisible to routing — its triggers never fire, bypass is never detected, usage is never logged. A stale `files` path or wrong key silently breaks the same machinery.
+The hooks [detect-bypass.sh](../../hooks/detect-bypass.sh), [skill-gate.sh](../../hooks/skill-gate.sh), and [log-skill-usage.sh](../../hooks/log-skill-usage.sh) read `skills-routing.json` as the single source of truth: `detect-bypass.sh` iterates `.skills | to_entries[]` and matches each entry's `.triggers` against the prompt, pointing at `.files`. A skill that is not registered there is invisible to routing — its triggers never fire, bypass is never detected, usage is never logged. A stale `files` path or wrong key silently breaks the same machinery. Skills live under `skills/` (grouped into category folders); `.claude/skills/<name>` is a flat symlink into that tree, and routing `.files` point at the flat symlink path.
 
 ## Implementation
 
@@ -59,7 +59,7 @@ In the same change that creates/renames/deletes a skill or edits its triggers, u
 
 ## Review Checklist
 
-- [ ] Every invocable skill directory under `.claude/skills/` (excluding `_`-prefixed entries and `disable-model-invocation` reference skills) has exactly one matching key in `skills-routing.json` (`ls .claude/skills/` vs `jq '.skills | keys' .claude/skills-routing.json`).
+- [ ] Every invocable skill directory under `skills/` (excluding `disable-model-invocation` reference skills) has exactly one matching key in `skills-routing.json` (`find skills -name SKILL.md` vs `jq '.skills | keys' .claude/skills-routing.json`). Known carried-forward gap: `improve-codebase-architecture` has no key yet.
 - [ ] Each entry's key equals the directory name AND the `name:` in that skill's `SKILL.md`.
 - [ ] Each entry's `files` path exists and points at the skill's `SKILL.md`.
 - [ ] `triggers` is non-empty and reflects the skill's stated trigger phrases (incl. RU where declared).
