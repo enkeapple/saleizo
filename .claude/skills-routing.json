@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "ruleGates": {},
+  "skills": {
+    "handoff": {
+      "triggers": [
+        "handoff",
+        "hand off",
+        "session handoff",
+        "save the plan",
+        "persist (the )?plan",
+        "plan file",
+        "context limit",
+        "running out of context",
+        "compact",
+        "resume snapshot",
+        "передать сесси"
+      ],
+      "files": [".claude/skills/handoff/SKILL.md"]
+    }
+  }
+}
