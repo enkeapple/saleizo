@@ -49,23 +49,47 @@ Write these as a positive recipe — every section, in this order:
 
 The copy-paste template lives in [references/spec-template.md](references/spec-template.md): one canonical template, notes for the refactor and retroactive variants, and a filled example. Load it when you start writing.
 
+## No Placeholders
+
+A spec is concrete or it is fiction. These are spec failures — filler reflexes, each a deferred decision dressed up as content:
+
+- "TBD" / "TODO" / "decide during implementation" — a cut is an Out-of-scope line, not a TODO.
+- A contract written as prose ("an object with the user's data") instead of a real type / signature / shape in a code block.
+- Vague edge cases ("handle errors appropriately") instead of the actual states — empty, error, loading, and the concrete mutation cases.
+- Guessed file paths instead of ones found by discovery (grep/read/glob) — every path real or marked NEW.
+- Invented verification commands instead of the repo's real ones (package.json / Makefile / CI).
+
+Remember: real file paths, real type/signature code in Contracts, real commands whose output proves the spec — and every cut recorded in Out-of-scope, never deferred to a TODO.
+
 ## Process
 
 1. Read the request twice. Identify the domain concepts.
 2. Run discovery (grep/read/glob) — enough to fill **Files touched** and **Contracts** without guessing.
 3. Draft the spec. Ask the user ONE clarifying question only for a true product/business ambiguity. Implementation sub-variants are not ambiguities — pick the simplest one that satisfies the spec and note it.
-4. Self-review (below). Save the spec. Get user approval.
-5. Only then implement.
+4. Self-review (below). Save the spec.
+5. **User Review Gate, then Implementation hand-off** (below) — do not implement from the spec directly.
 
 ## Self-review (before showing the user)
 
-- No "TBD" / "TODO" anywhere — a cut becomes an Out-of-scope line, not a TODO.
-- Every type / file / path mentioned exists, or is explicitly marked NEW.
-- Verification uses real commands from this repo, not invented ones.
+- No Placeholders (above) — every contract, path, edge case, and command is concrete.
 - Out-of-scope list is non-empty.
 - A reviewer can pick this up cold and know what to build.
 
 For anything beyond a small spec, dispatch an independent reviewer subagent for a cold second pass before you start coding — use [references/spec-reviewer-prompt.md](references/spec-reviewer-prompt.md). Fix any issues it finds and re-review; do not code against a spec with open issues.
+
+## User Review Gate
+
+The spec gates the plan; the user gates the spec. After the spec passes review, do NOT roll straight into planning — stop and ask the user:
+
+> "Spec written and saved to `<path>`. Please review it and tell me if you want any changes before I write the implementation plan."
+
+Wait for the response. If they request changes, make them and re-run the reviewer loop. Proceed only once the user approves.
+
+## Implementation
+
+Once the user approves the spec:
+
+> REQUIRED SUB-SKILL: Use `writing-plans` to turn the approved spec into a task-by-task implementation plan. Do NOT invoke any other skill and do NOT start writing code — `writing-plans` is the next step.
 
 ## Red Flags — if you catch yourself here, STOP
 
@@ -74,8 +98,6 @@ Fast trip-wires: the moment you notice one, you are about to skip the spec. The 
 - Time pressure ("demo in an hour").
 - A verbal plan in chat instead of a file.
 - Starting with "the obvious part", speccing the rest later.
-- TODO/TBD where a scope decision belongs.
-- A contract described in prose, not a code block.
 - "It's basically the same as X" — the *difference* unwritten.
 - "It's 40% done, I'll just finish it."
 
