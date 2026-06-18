@@ -106,7 +106,7 @@
         ]
       },
       {
-        "matcher": "Read|Skill",
+        "matcher": "Read|Skill|Edit|Write|MultiEdit",
         "hooks": [
           {
             "type": "command",

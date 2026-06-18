@@ -205,6 +205,21 @@
         "сворачива"
       ],
       "files": [".claude/skills/handoff/SKILL.md"]
+    },
+    "codebase-design": {
+      "triggers": [
+        "design (a |the )?(module|interface)",
+        "improve (a |the )?(module|interface)",
+        "deep module",
+        "deepening opportunit",
+        "where (does |should )?the seam",
+        "place a seam",
+        "make (it|this|the code) (more )?testable",
+        "AI[- ]navigable",
+        "design it twice",
+        "shallow module"
+      ],
+      "files": [".claude/skills/codebase-design/SKILL.md"]
     }
   }
 }

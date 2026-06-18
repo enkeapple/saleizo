@@ -29,7 +29,7 @@ These survive context pressure and are model-agnostic. If the rest of this file 
 2. **Search-before-ask.** Decide and proceed with a one-line justification. No A/B/C/D menus on technically-derivable choices. Asking is the last step, for genuine business decisions or git-boundary actions.
 3. **Walk-the-Checklist.** "Done" = every Completeness Checklist row `[x]` or `[N/A]`-with-reason, evidence pasted. Code compiling is not done. No `Suggested commit:` while any row is `[ ]`.
 4. **No local memory — facts go to git.** Never `Write` to the per-user memory dir (`~/.claude/projects/**/memory/`, `MEMORY.md`) — it is not in git and invisible to teammates. Durable knowledge goes to git-tracked stores: an incident/learned fact → [lessons-learned.md](./lessons-learned.md); a recurring root cause (3+) → a rule under `.claude/rules/`; a future-feature contract → a spec.
-5. **Capture the lesson, in git, same turn.** When a turn exposes a non-obvious failure (hallucinated symbol, missed duplication, wrong-domain edit, contract contradicting an assumption) or the owner corrects/confirms a non-obvious choice, append it to [lessons-learned.md](./lessons-learned.md) the SAME turn — deferring loses it. Every status block carries a `Pending lessons` line.
+5. **Capture the lesson, in git, same turn.** When a turn exposes a non-obvious failure (hallucinated symbol, missed duplication, wrong-domain edit, contract contradicting an assumption) or the owner corrects/confirms a non-obvious choice, capture it the SAME turn — deferring loses it. If the repo has a lessons-capture skill (e.g. `lessons-learned-protocol`), capture by **invoking that skill (the `Skill` tool)**, not by editing [lessons-learned.md](./lessons-learned.md) directly — a direct edit bypasses the skill's cause-tag/promotion discipline; absent such a skill, append to the log. Every status block carries a `Pending lessons` line.
 
 These five are universal. **Repo-specific, infrastructure-tied invariants go below in their own sections, not here** — e.g. a skill-gate / rule-gate harness (→ Skill discipline), a model-pinning protocol, a memory-write gate. Add a sixth non-negotiable only if it is genuinely load-bearing every session AND not already enforced by a hook documented elsewhere.
 
@@ -96,7 +96,7 @@ Skills carry domain rules, routed by [skills-routing.json](./skills-routing.json
 
 ## Lessons promotion path
 
-A non-obvious failure → an entry in [lessons-learned.md](./lessons-learned.md). Same root cause hits 3+ → an actionable rule under `.claude/rules/` (see `writing-rules`). Mark each contributing entry `→ promoted to rules/<file>.md`. <Use the `lessons-learned-protocol` skill for the mechanics.>
+A non-obvious failure → a captured lesson; same root cause hits 3+ → an actionable rule under `.claude/rules/` (see `writing-rules`); mark each contributing entry `→ promoted to rules/<file>.md`. If the repo has a lessons-capture skill (e.g. `lessons-learned-protocol`), it owns these mechanics — invoke it (the `Skill` tool) to capture and to run the promotion check; do not hand-edit [lessons-learned.md](./lessons-learned.md), which skips that discipline.
 
 ## Pointers
 - Process basics: [rules/common/framework.md](./rules/common/framework.md)

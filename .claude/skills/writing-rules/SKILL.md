@@ -74,6 +74,17 @@ Shared concepts (the auth token, cache tags) are cross-linked once between the f
 
 Before saving, check it against the Review Checklist below. For a rule that will be widely loaded or promoted from a lesson, dispatch an independent reviewer using [references/rule-reviewer-prompt.md](references/rule-reviewer-prompt.md) — it checks scoping, actionability, and duplication of existing rules.
 
+## Test the rule on a cold agent (empirical RED/GREEN)
+
+Static review confirms the rule is well-*formed*. It does NOT confirm the rule *works* — that following it actually changes behaviour. A well-formed rule too vague to steer anyone is a no-op that still costs load. Before declaring the rule done, prove it earns its place with a two-run cold-agent test — the same RED/GREEN this vault runs on skills, applied to the rule:
+
+1. **Pick a concrete target case** the rule governs — a real file or task in this repo where the mistake the rule prevents would naturally occur. Can't name one? The rule has no demand; reconsider whether it should exist.
+2. **RED — cold agent, no rule.** Dispatch a subagent on that task with no rule in context. Expect it to commit the mistake the rule exists to prevent. If it complies anyway, the rule guards nothing here — it is a no-op; STOP and cut it, or find the case where the mistake is real.
+3. **GREEN — cold agent, rule injected.** Dispatch a fresh subagent on the same task with only the rule in context. Expect compliance on every Review-Checklist item. Still slips? The rule is real but ineffective — sharpen the Implementation (stronger imperative, a ✅/❌ closer to the case) and re-run until a cold agent complies.
+4. **Verdict, not a file.** Each subagent returns a structured pass/fail per Review-Checklist item as its result — do NOT hand-write any `/tmp` artifact (the vault owns temp files via `handoff`). The rule is done only when RED shows the failure and GREEN shows compliance.
+
+Dispatch both runs with [references/rule-efficacy-test-prompt.md](references/rule-efficacy-test-prompt.md). Skip only for a pure-policy rule with no single target case to exercise (e.g. an always-on charter) — and say so explicitly.
+
 ## Review Checklist
 
 - Frontmatter has a `description`. An area-specific rule has `paths` scoped as tightly as it applies; an always-on rule omits `paths` deliberately.
@@ -81,6 +92,7 @@ Before saving, check it against the Review Checklist below. For a rule that will
 - Implementation is imperative with a real ✅/❌ example — not a topic explanation.
 - Exceptions / when-NOT-to-apply are stated explicitly.
 - Covers one topic; overlaps with an existing rule are cross-linked, not duplicated.
+- Empirically tested: a cold agent failed the target case without the rule (RED) and complied with it (GREEN) — or the skip is justified for a pure-policy rule.
 
 ## Red Flags — STOP
 
@@ -91,3 +103,4 @@ Before saving, check it against the Review Checklist below. For a rule that will
 - An *area-specific* rule left always-on — a broad/global `paths`, or no `paths` at all — so it nags outside its area.
 - Skipping or rejecting an otherwise-sound rule because its layout doesn't match the template exactly.
 - A "rule" that is really a story or a rationale with no instruction.
+- Declaring a rule done on static review alone — well-formed but never empirically RED/GREEN-tested that it steers a cold agent (a no-op rule passes static review).

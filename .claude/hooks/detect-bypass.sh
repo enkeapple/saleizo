@@ -76,6 +76,20 @@ if [[ "$TOOL" == "Read" ]]; then
   fi
 fi
 
+# (1b) Direct-write-to-lessons-log check: editing lessons-learned.md without first invoking
+# the lessons-learned-protocol skill bypasses its cause-tag discipline + promotion-debt scan.
+if [[ "$TOOL" == "Edit" || "$TOOL" == "Write" || "$TOOL" == "MultiEdit" ]]; then
+  WRITE_PATH=$(echo "$INPUT" | jq -r '.tool_input.file_path // ""')
+  if [[ "$WRITE_PATH" == *lessons-learned.md ]]; then
+    INVOKED=$(jq -r 'index("lessons-learned-protocol") // empty' "$TURN_SKILLS_FILE")
+    if [[ -z "$INVOKED" ]]; then
+      echo "SKILL-BYPASS warn: you edited 'lessons-learned.md' directly without invoking the 'lessons-learned-protocol' Skill. That skill owns cause-tag reuse and the promotion-debt scan -- a direct edit skips both. Invoke the Skill tool to capture lessons." >&2
+      jq -cn --arg ts "$(date -u +%FT%TZ)" --arg p "$WRITE_PATH" \
+        '{ts:$ts, event:"direct_edit_lessons_log", path:$p}' >> "$METRICS"
+    fi
+  fi
+fi
+
 # (2) Trigger-based bypass: once per turn, after threshold, if prompt matched a skill trigger and skill not invoked, remind.
 if [[ -f "$BYPASS_WARNED_FILE" ]]; then
   exit 0

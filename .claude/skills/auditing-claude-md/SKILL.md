@@ -29,7 +29,7 @@ Mirrors `auditing-domain-rules` (same discipline, applied to the foundational ru
 ## Process
 
 1. **Enumerate every concrete claim across BOTH files.** List each: command (tables + checklist verification rows), file/folder path & cross-link, stack/version claim, routed skill or slash command, and any named protocol.
-2. **Verify each against the repo this session.** `package.json`/Makefile/CI for commands; the filesystem for paths/folders; the lockfile for versions; the skill/command registry for routing targets. Do not stop at the obvious one — the unrunnable checklist row is usually the one you'd skim.
+2. **Verify each against the repo this session.** `package.json`/Makefile/CI for commands; the filesystem for paths/folders; the lockfile for versions; the skill/command registry for routing targets. Do not stop at the obvious one — the unrunnable checklist row is usually the one you'd skim. Also flag **bypass wording**: a non-negotiable or pointer that tells the agent to `append`/`Edit` a skill-owned artifact directly (e.g. `lessons-learned.md`, a plan file) — check the routing registry for a skill that owns that workflow; if one exists, the direct-edit instruction bypasses it and is drift.
 3. **Run the cross-file consistency pass.** The root and the manual must agree: same pipeline name/vocabulary, same Role/position, same commands, no contradiction. The root stays a thin index — governance that is duplicated in both files is drift waiting to happen; it should live in the manual and be pointed to.
 4. **Classify each finding:** Confirmed / Stale doc (repo right, doc outdated) / Code drift (doc states an intended rule the repo violated — fix may be the *code*) / Broken (command/path/skill that resolves to nothing) / Inconsistent (the two files disagree).
 5. **Decide direction before editing:** Stale/Broken → fix the doc. Inconsistent → pick the single source (usually the manual) and make the other point to it, don't duplicate. Code drift → surface as a decision, don't silently rewrite the doc to bless it.
@@ -58,6 +58,7 @@ Produce a report before editing (see [references/audit-report-example.md](refere
 - Assuming every disagreement means the doc is stale — the repo can have drifted from an intended rule.
 - Fixing a drifted command by duplicating governance into the root instead of pointing to the manual.
 - "I remember this script exists" — verify against `package.json`, or it is unverified.
+- A non-negotiable/pointer instructing a direct `append`/`Edit` to a skill-owned artifact (e.g. `lessons-learned.md`, a plan file) when the repo HAS the skill that owns it — that bypasses the skill; the manual must route through the `Skill` tool.
 
 ## Rationalizations
 
@@ -67,3 +68,4 @@ Produce a report before editing (see [references/audit-report-example.md](refere
 | "Only the flagged line is wrong." | Nothing flags the rest. The audit covers every command, path, and pointer in both files. |
 | "Repo changed, so the doc is stale." | Maybe — or the repo drifted from an intended rule. Decide direction; don't auto-bless the code. |
 | "The two files say it differently, I'll leave both." | Two copies drift apart — that's how they got here. One source; the other points to it. |
+| "It says append to the lessons log — that's how capture works." | If the repo has a lessons-capture skill, a direct append bypasses it (skips cause-tag/promotion discipline). The manual must route capture through the `Skill` tool; flag the direct-edit wording as drift. |

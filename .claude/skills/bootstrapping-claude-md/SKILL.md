@@ -47,10 +47,11 @@ Each template carries the fixed section order, a filled example, and per-section
 - **Root `CLAUDE.md`** ([references/root-claude-md-template.md](references/root-claude-md-template.md)) — the scannable entry point: "How to work here" with a distinct **Hard rules** block, What this project is, **Common commands** (the *real* ones — never validator one-liners; if there's no test pipeline, say so), **Skill routing**, Slash commands / Where rules live, and a substantial **Engineering system** pointer.
 - **`.claude/CLAUDE.md`** ([references/operating-manual-template.md](references/operating-manual-template.md)) — the operating manual: Rule precedence; **Non-negotiables** (the discipline set that survives summarization, each with WHY + enforcement); **Role** (the intake position, not a generic "senior engineer"); Operating modes; **Workflow pipeline** + **Completeness Checklist** (real commands); Plan persistence; Search-before-ask; Git boundary; Status block; **Skill discipline**, **Lessons promotion path**, **Pointers**.
 
-**Two rules that override the templates' defaults:**
+**Three rules that override the templates' defaults:**
 
 - **Ground every command, path, skill, and hook in the repo this session** — a cited command/hook/path that doesn't exist is a hallucination.
 - **Hook-tied clauses are conditional** — keep skill-gate / bypass / token-guard / lessons-nudge references ONLY for hooks the repo actually has.
+- **Skill-owned workflows route through the `Skill` tool, not a direct file edit.** When the manual documents a workflow a skill owns — lesson capture, handoff/plan persistence, spec authoring — instruct invoking that skill, never an `Edit`/`Write` to the artifact the skill manages (`lessons-learned.md`, a `/tmp` plan): a direct edit bypasses the skill's discipline, routing, and metrics. Keep it conditional — route through the skill only where the repo HAS one; else document the direct fallback. (The templates already do this for `handoff`; match that pattern for lessons.)
 
 ## Step 3 — Session-jumping / handoff flow (required)
 
@@ -62,6 +63,7 @@ Document how work survives the context limit, because long tasks will hit it. Th
 - A generic persona ("senior engineer") instead of the position the human gave.
 - Assuming a test pipeline / TDD when the repo has none — verify, don't assume.
 - One mega-file instead of the entry-point + operating-manual split.
+- A non-negotiable or pointer that tells the agent to `append`/`Edit` a skill-owned artifact (e.g. the lessons log) directly when the repo has the skill that owns it — that bypasses the skill; route through the `Skill` tool instead.
 - A pipeline with no Completeness Checklist, or verification rows with invented commands.
 - No session-handoff flow — long tasks will silently lose state at the context limit.
 - Any stack/command/path claim not verified by a read this session.

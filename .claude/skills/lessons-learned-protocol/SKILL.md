@@ -48,8 +48,8 @@ Append at the **top** of `## Entries` using the template in [references/lessons-
 After appending, tally the cause-tags so a crossed threshold cannot slip:
 
 ```bash
-grep -oE 'Cause-tag\*\*:[[:space:]]*[a-z0-9-]+' .claude/lessons-learned.md \
-  | sed -E 's/.*:[[:space:]]*//' | sort | uniq -c | sort -rn
+grep -oE '^[[:space:]]*-[[:space:]]+\*\*Cause-tag[^[:alnum:]]+[a-z0-9-]+' .claude/lessons-learned.md \
+  | sed -E 's/.*Cause-tag[^[:alnum:]]+//' | sort | uniq -c | sort -rn
 ```
 
 Any tag with **count ≥ 3** that is NOT in the `## Promoted clusters` ledger is **promotion debt** — promote it now, or add a ledger line stating why it does not generalize. (Threshold 3 is the rule of three; lower it to 2 if you want earlier promotion. If a Stop hook automates this tally, it is a backstop — still run the scan yourself.)
