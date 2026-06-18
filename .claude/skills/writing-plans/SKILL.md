@@ -1,0 +1,107 @@
+---
+name: writing-plans
+description: >-
+  Use when you have an approved spec or written requirements for a multi-step
+  task and are about to implement, or when handing work to another engineer or
+  a subagent to execute task-by-task. Triggers on: "write a plan", "break this
+  into tasks", "implementation plan", "plan this out", "how do we build this".
+---
+
+# Writing Plans
+
+Write a comprehensive implementation plan assuming the engineer executing it has zero context for this codebase and questionable taste. They are a skilled developer but know almost nothing about your toolset or domain, and they may read tasks out of order. Document everything they need: which files to touch, the actual code, the exact commands, how to test it.
+
+**Core contract: every code step shows the actual code, every task is test-first, and the plan commits after each passing test.** A step that describes what to do without showing how is not a plan step — it is a wish. If a step changes code, the code is in the step.
+
+This consumes a spec written via the **writing-specs** skill. Project-agnostic: discover real commands, paths, and test syntax from the repo; copy the spec's contracts and constraints verbatim.
+
+## When to use
+
+- You have an approved spec/requirements and are about to write implementation code.
+- You are handing work to another engineer or a subagent to execute without you present.
+
+## When NOT to use
+
+- A one-step change with no decomposition (just do it).
+- There is no spec yet — write the spec first (writing-specs), then plan.
+
+## Plan location
+
+Default to `docs/plans/YYYY-MM-DD-<feature>.md` if the project has no convention. User preference overrides.
+
+## Process
+
+1. **Scope check.** If the spec spans multiple independent subsystems, split into one plan per subsystem — each must produce working, testable software on its own.
+2. **Map files first.** Before defining tasks, list every file to create/modify and its single responsibility. Files that change together live together; prefer small, focused files. In an existing codebase, follow established patterns — don't unilaterally restructure.
+3. **Right-size tasks.** A task is the smallest unit that carries its own test cycle and is worth a fresh reviewer's gate. Fold setup/config/scaffolding/docs into the task whose deliverable needs them; split only where a reviewer could reject one task while approving its neighbor. Each task ends with an independently testable deliverable.
+4. **Write each task** to the recipe below.
+5. **Self-review** (checklist below), fix inline, save.
+
+## Plan header (start every plan with this)
+
+```markdown
+# <Feature> Implementation Plan
+
+**Goal:** <one sentence>
+**Architecture:** <2-3 sentences on the approach>
+**Tech stack:** <key technologies>
+
+## Global constraints
+<Project-wide requirements copied verbatim from the spec — version floors,
+dependency limits, naming/copy rules, platform requirements. One line each.
+Every task implicitly includes these.>
+```
+
+## Task recipe (the contract for every task)
+
+Each task has, in order: **Files**, **Interfaces**, then **checkbox steps** where every code step contains real code and every command step shows the exact command + expected output. The full template and a filled example are in [references/plan-template.md](references/plan-template.md).
+
+A task's steps follow the test-first cycle, each step one action (2–5 min):
+
+1. Write the failing test (real test code).
+2. Run it, confirm it fails (exact command + expected failure).
+3. Write the minimal implementation (real code).
+4. Run the test, confirm it passes (exact command + expected output).
+5. Commit (exact `git` command).
+
+The **Interfaces** block is how out-of-order readers learn neighboring tasks' names and types:
+
+- **Consumes:** exact signatures this task uses from earlier tasks.
+- **Produces:** exact function names, parameter and return types later tasks rely on.
+
+## These are plan failures (the recipe above prevents them)
+
+The baseline failure is not lazy "TODO" markers — it is *describing instead of showing*. Each of these means the step is not done:
+
+- A code step with prose instead of a code block ("pass the cursor to the data source", "add validation", "handle edge cases").
+- A test referenced but not written out ("write tests for the above").
+- "Similar to Task N" — repeat the code; the reader may not have seen Task N.
+- A type / function / command named but never defined or shown in any task.
+- "Find the command in package.json" — look it up now and write the exact command.
+
+## Self-review (run yourself, fix inline)
+
+1. **Spec coverage:** for each spec requirement, point to the task that implements it. Add tasks for any gaps.
+2. **Show-don't-describe scan:** every code step has a code block; every command step has the exact command + expected output; every task has a commit step.
+3. **Type consistency:** the names/signatures used in later tasks match what earlier tasks produced (a `clearLayers()` in Task 3 vs `clearFullLayers()` in Task 7 is a bug).
+
+For anything beyond a small plan, dispatch an independent reviewer subagent before execution — use [references/plan-reviewer-prompt.md](references/plan-reviewer-prompt.md). Fix issues and re-review.
+
+## Execution handoff
+
+After saving, the plan is ready to execute. Hand off to your execution skill if one is wired in; otherwise offer the user a choice:
+
+- **Subagent-driven (recommended for multi-task plans):** a fresh subagent per task, with review between tasks.
+- **Inline:** execute task-by-task in this session with review checkpoints.
+
+Either way, the invariant is the same: execute one task at a time and commit after each passing test.
+
+## Red Flags — if you catch yourself here, STOP
+
+Fast trip-wires; the fix for each is in **plan failures** above (coarse tasks → right-size, Process step 3).
+
+- A step that shows no code block.
+- A test referenced but not written out.
+- A name used in a later task that no earlier task defined.
+- Coarse-bucket tasks ("build the API") with no test-first steps.
+- "I'll fill in the code during implementation."

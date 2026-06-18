@@ -1,1 +1,3 @@
 {"ts":"2026-06-18T16:16:02Z","prompt_hash":"513343384c43a18e","skill":"handoff","event":"bypass","triggers":"handoff|hand off|session handoff|save the plan|persist (the )?plan|plan file|context limit|running out of context|compact|resume snapshot|передать сесси"}
+{"ts":"2026-06-18T16:51:59Z","prompt_hash":"43666522287a9398","skill":"handoff","event":"bypass","triggers":"handoff|hand off|session handoff|save the plan|persist (the )?plan|plan file|context limit|running out of context|compact|resume snapshot|передать сесси"}
+{"ts":"2026-06-18T17:00:08Z","event":"read_instead_of_skill","skill":"handoff","path":".claude/skills/handoff/SKILL.md"}
