@@ -140,10 +140,6 @@
       }
     ]
   },
-  "statusLine": {
-    "type": "command",
-    "command": "python3 \"$CLAUDE_PROJECT_DIR\"/.claude/scripts/context-monitor.py"
-  },
   "extraKnownMarketplaces": {
     "callstack-agent-skills": {
       "source": {
