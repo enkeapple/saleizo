@@ -31,7 +31,7 @@ skills/
   foundation/   bootstrapping-claude-md/ auditing-claude-md/ bootstrapping-domain-rules/ auditing-domain-rules/
   authoring/    writing-great-skills/ writing-rules/
   design/       codebase-design/ improve-codebase-architecture/
-  process/      lessons-learned-protocol/ handoff/
+  process/      writing-lessons/ handoff/
 ```
 
 **Symlink shape** — relative, so it survives clone and is location-independent:

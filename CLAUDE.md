@@ -4,13 +4,13 @@ A **vault for developing an agnostic Spec-Driven-Development (SDD) skill framewo
 
 ## How to work here (read first)
 
-Authoring or changing a skill runs through **RED → GREEN → REFACTOR → VALIDATE** (the `writing-great-skills` TDD methodology). Applying the framework to a consumer repo runs the chain `grilling → writing-specs → writing-plans → tdd → spec-drift-audit`. Full operating manual: [.claude/CLAUDE.md](./.claude/CLAUDE.md).
+Authoring or changing a skill runs through **RED → GREEN → REFACTOR → VALIDATE** (the `writing-great-skills` TDD methodology). Applying the framework to a consumer repo runs the chain `grilling → writing-specs → writing-plans → pre-implementation-protocol → tdd → spec-drift-audit`. Full operating manual: [.claude/CLAUDE.md](./.claude/CLAUDE.md).
 
 **Hard rules:**
 
 - **No skill (or skill edit) without a failing test first.** Run the baseline subagent scenarios and watch them fail (RED) before writing. Wrote it first? Delete it, start over.
 - **Agnostic by default.** A skill never hard-depends on one project's stack, paths, or commands — the consumer repo fills specifics.
-- **Capture bottlenecks the same turn.** Friction in a skill or a hand-off → a `lessons-learned-protocol` entry now; recurring (3×) → `writing-rules`.
+- **Capture bottlenecks the same turn.** Friction in a skill or a hand-off → a `writing-lessons` entry now; recurring (3×) → `writing-rules`.
 - **Verify before "done".** Validators pass AND a GREEN subagent run confirms the behavior — code/markdown existing is not "done".
 - **Skill names are structural claims.** A reference to a skill must match its real dir/`name` in `.claude/skills/*` — verify, don't recall.
 
@@ -30,11 +30,12 @@ No build / dev / test pipeline — this is a skills vault, not an app. Verificat
 | Turn a fuzzy idea into a shared, concrete design | `grilling` |
 | Turn an approved design into a concrete spec | `writing-specs` |
 | Turn a spec into a task-by-task implementation plan | `writing-plans` |
+| Run the readiness check before executing a plan (or before coding with no plan) | `pre-implementation-protocol` |
 | Implement test-first (RED→GREEN→REFACTOR) | `tdd` |
 | Check shipped code against an approved spec | `spec-drift-audit` |
 | Create / audit the two CLAUDE.md files | `bootstrapping-claude-md` / `auditing-claude-md` |
 | Create / audit the base domain rules (glossary, framework) | `bootstrapping-domain-rules` / `auditing-domain-rules` |
-| Capture a lesson; promote a recurring one to a rule | `lessons-learned-protocol` → `writing-rules` |
+| Capture a lesson; promote a recurring one to a rule | `writing-lessons` → `writing-rules` |
 | Author or change any skill (test-first) | `writing-great-skills` |
 | Approaching the context limit / ending with unfinished work | `handoff` |
 

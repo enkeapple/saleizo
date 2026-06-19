@@ -22,7 +22,7 @@ apply-chain/  grilling writing-specs writing-plans tdd spec-drift-audit
 foundation/   bootstrapping-claude-md auditing-claude-md bootstrapping-domain-rules auditing-domain-rules
 authoring/    writing-great-skills writing-rules
 design/       codebase-design improve-codebase-architecture
-process/      lessons-learned-protocol handoff
+process/      writing-lessons handoff
 ```
 
 ---
@@ -63,7 +63,7 @@ Steps:
   git mv .claude/skills/writing-rules               skills/authoring/writing-rules
   git mv .claude/skills/codebase-design             skills/design/codebase-design
   git mv .claude/skills/improve-codebase-architecture skills/design/improve-codebase-architecture
-  git mv .claude/skills/lessons-learned-protocol    skills/process/lessons-learned-protocol
+  git mv .claude/skills/writing-lessons    skills/process/writing-lessons
   git mv .claude/skills/handoff                     skills/process/handoff
   ```
 
