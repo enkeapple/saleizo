@@ -1,5 +1,5 @@
 ---
-name: lessons-learned-protocol
+name: writing-lessons
 description: >-
   Use when a session exposed a wrong assumption, a hallucinated symbol or API,
   a test that passed for the wrong reason, a library/version pitfall, or a

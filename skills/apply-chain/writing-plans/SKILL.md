@@ -89,7 +89,7 @@ For anything beyond a small plan, dispatch an independent reviewer subagent befo
 
 ## Execution handoff
 
-After saving, the plan is ready to execute. Offer the user an orchestration choice:
+After saving, the plan is ready to execute. Before the first code edit, run the `pre-implementation-protocol` readiness check on the plan (it confirms the contracts, real verification commands, and a green baseline, then hands off to execution). Offer the user an orchestration choice:
 
 - **Subagent-driven (recommended for multi-task plans):** a fresh subagent per task, with review between tasks.
 - **Inline:** execute task-by-task in this session with review checkpoints.

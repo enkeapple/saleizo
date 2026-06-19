@@ -13,7 +13,7 @@ These survive context pressure and are model-agnostic. If the rest of this file 
 3. **Read-before-assert.** No "X has/exports/returns Y" about a skill, rule, or hook without a `Read`/`Grep`/`Glob` THIS session. Memory is not evidence; label unverified claims `(unverified — need to read X)`. Editing a skill or rule doc IS editing code.
 4. **Validate before "done".** A skill change is not done until its validators pass (frontmatter ≤1024, name regex, reference links resolve, fences balanced, word count sane) AND a GREEN subagent run confirms the behavior. Markdown existing is not done.
 5. **No local memory — facts go to git.** Never `Write` to the per-user memory dir (`~/.claude/projects/**/memory/`, `MEMORY.md`). Durable knowledge → `.claude/skills/`, a rule under `.claude/rules/`, or [lessons-learned.md](./lessons-learned.md).
-6. **Capture the bottleneck, same turn.** When a turn exposes friction in a skill or a hand-off between skills (a misfire, a leak, an over-rigid step), or the owner corrects a non-obvious choice, capture it the SAME turn by invoking the `lessons-learned-protocol` skill (the `Skill` tool) — deferring loses it, and editing [lessons-learned.md](./lessons-learned.md) directly bypasses the cause-tag discipline and promotion-debt scan the skill owns. `lessons-nudge.sh` (Stop) backstops; every status block carries a `Pending lessons` line.
+6. **Capture the bottleneck, same turn.** When a turn exposes friction in a skill or a hand-off between skills (a misfire, a leak, an over-rigid step), or the owner corrects a non-obvious choice, capture it the SAME turn by invoking the `writing-lessons` skill (the `Skill` tool) — deferring loses it, and editing [lessons-learned.md](./lessons-learned.md) directly bypasses the cause-tag discipline and promotion-debt scan the skill owns. `lessons-nudge.sh` (Stop) backstops; every status block carries a `Pending lessons` line.
 7. **Skill names are structural claims.** A reference to a skill must match its real dir and `name` under `skills/` (and its flat symlink in `.claude/skills/*`) — verify, don't recall.
 
 ## Role
@@ -31,7 +31,7 @@ State the mode on a non-trivial task.
 
 - **AUTHOR** (default) — create or change a skill via RED → GREEN → REFACTOR → VALIDATE. Edits under `skills/**` (discovered via the `.claude/skills/` symlinks); subagent pressure runs allowed.
 - **AUDIT** — read-only review of skills/rules/CLAUDE.md (`Read`/`Grep`/`Glob` + validators). No edits.
-- **APPLY** — exercise the chain on a *consumer* repo (`grilling → writing-specs → writing-plans → tdd → spec-drift-audit`). The vault's skills are the tools; the target repo is the workpiece.
+- **APPLY** — exercise the chain on a *consumer* repo (`grilling → writing-specs → writing-plans → pre-implementation-protocol → tdd → spec-drift-audit`). The vault's skills are the tools; the target repo is the workpiece.
 
 ## Workflow: RED → GREEN → REFACTOR → VALIDATE (AUTHOR)
 
@@ -55,7 +55,7 @@ Not complete until each row is `[x]` or `[N/A]`-with-reason, evidence pasted:
 | 5 | Agnostic | No project stack/paths/commands baked in; examples marked illustrative |
 | 6 | References resolve | Every `references/*.md` link exists; cross-links inside refs resolve |
 | 7 | Chain coherence | Hand-offs to/from neighbouring skills named and consistent |
-| 8 | Bottleneck captured | Any friction found this turn captured via the `lessons-learned-protocol` skill (the `Skill` tool), not a direct edit to `lessons-learned.md` |
+| 8 | Bottleneck captured | Any friction found this turn captured via the `writing-lessons` skill (the `Skill` tool), not a direct edit to `lessons-learned.md` |
 
 ## Plan persistence
 
@@ -90,7 +90,7 @@ Emit it as **rendered markdown** (NOT inside a code fence — the terminal rende
 
 ### Follow-ups
 
-- **Pending lessons** — <captured this turn via lessons-learned-protocol, or none>
+- **Pending lessons** — <captured this turn via writing-lessons, or none>
 - **Next** — <next step, or handoff-doc path on a session hand-off>
 ````
 
@@ -106,7 +106,7 @@ Skills are routed by [skills-routing.json](./skills-routing.json) (trigger keywo
 
 ## Lessons promotion path
 
-A bottleneck/failure → an entry in [lessons-learned.md](./lessons-learned.md) (use `lessons-learned-protocol`). Same root cause 3+ times → an actionable rule under `.claude/rules/` (use `writing-rules`). Mark each contributing entry `→ promoted to rules/<file>.md`.
+A bottleneck/failure → an entry in [lessons-learned.md](./lessons-learned.md) (use `writing-lessons`). Same root cause 3+ times → an actionable rule under `.claude/rules/` (use `writing-rules`). Mark each contributing entry `→ promoted to rules/<file>.md`.
 
 ## Pointers
 

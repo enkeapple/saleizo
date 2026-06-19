@@ -56,4 +56,4 @@ Don't ask what the repo or rules already answer. Before asking, check: is it in 
 
 - Replace every `<placeholder>` with this repo's real layers, commands, and patterns — the value is in the specifics, not the headings.
 - Keep it about *process*; concrete stack conventions (styles, naming, file layout) belong in their own rules, cross-linked.
-- The suspicion failure modes should reflect the failures THIS repo actually hits — add or drop modes based on the lessons log (`lessons-learned-protocol`) if one exists.
+- The suspicion failure modes should reflect the failures THIS repo actually hits — add or drop modes based on the lessons log (`writing-lessons`) if one exists.

@@ -74,6 +74,20 @@
       ],
       "files": [".claude/skills/writing-plans/SKILL.md"]
     },
+    "pre-implementation-protocol": {
+      "triggers": [
+        "start the work",
+        "start coding",
+        "begin implementation",
+        "execute the plan",
+        "kick off the task",
+        "ready to implement",
+        "погнали кодить",
+        "приступить к реализаци",
+        "начать работу по плану"
+      ],
+      "files": [".claude/skills/pre-implementation-protocol/SKILL.md"]
+    },
     "tdd": {
       "triggers": [
         "fix (this|the) bug",
@@ -127,7 +141,7 @@
       ],
       "files": [".claude/skills/writing-rules/SKILL.md"]
     },
-    "lessons-learned-protocol": {
+    "writing-lessons": {
       "triggers": [
         "lesson learned",
         "capture this",
@@ -142,7 +156,7 @@
         "это уже было",
         "извлечь урок"
       ],
-      "files": [".claude/skills/lessons-learned-protocol/SKILL.md"]
+      "files": [".claude/skills/writing-lessons/SKILL.md"]
     },
     "bootstrapping-claude-md": {
       "triggers": [

@@ -18,7 +18,7 @@ Project-agnostic: match the repo's existing rule conventions (frontmatter keys, 
 ## When to use
 
 - Capturing a convention so the agent applies it without being told each time.
-- Promoting a recurring lesson to a rule — `lessons-learned-protocol` hands off here once a cause-tag cluster crosses the threshold. Your input: the cluster's entries + the reviewer's drafted rule text and target path; your job: shape them into a properly scoped rule. That skill owns the surrounding bookkeeping (back-references, ledger, commit) — return to it after the rule file exists.
+- Promoting a recurring lesson to a rule — `writing-lessons` hands off here once a cause-tag cluster crosses the threshold. Your input: the cluster's entries + the reviewer's drafted rule text and target path; your job: shape them into a properly scoped rule. That skill owns the surrounding bookkeeping (back-references, ledger, commit) — return to it after the rule file exists.
 - A mistake keeps recurring and you want a durable, always-checked guard.
 
 ## When NOT to use
