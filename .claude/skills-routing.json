@@ -88,7 +88,7 @@
       ],
       "files": [".claude/skills/pre-implementation-protocol/SKILL.md"]
     },
-    "tdd": {
+    "test-driven-development": {
       "triggers": [
         "fix (this|the) bug",
         "red[- ]green[- ]refactor",
@@ -104,7 +104,35 @@
         "пофиксить баг",
         "починить баг"
       ],
-      "files": [".claude/skills/tdd/SKILL.md"]
+      "files": [".claude/skills/test-driven-development/SKILL.md"]
+    },
+    "inline-driven-development": {
+      "triggers": [
+        "inline[- ]driven",
+        "inline execution",
+        "execute the plan myself",
+        "run the plan solo",
+        "execute it in this session",
+        "no subagents",
+        "исполнить план соло",
+        "выполнить план сам",
+        "без сабагентов",
+        "пройти план по шагам"
+      ],
+      "files": [".claude/skills/inline-driven-development/SKILL.md"]
+    },
+    "subagent-driven-development": {
+      "triggers": [
+        "subagent[- ]driven",
+        "dispatch a subagent per task",
+        "execute the plan with subagents",
+        "fan out the tasks",
+        "run the plan in parallel",
+        "сабагент на задачу",
+        "исполнить план сабагентами",
+        "раскидать задачи по агентам"
+      ],
+      "files": [".claude/skills/subagent-driven-development/SKILL.md"]
     },
     "spec-drift-audit": {
       "triggers": [

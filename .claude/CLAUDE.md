@@ -31,7 +31,7 @@ State the mode on a non-trivial task.
 
 - **AUTHOR** (default) — create or change a skill via RED → GREEN → REFACTOR → VALIDATE. Edits under `skills/**` (discovered via the `.claude/skills/` symlinks); subagent pressure runs allowed.
 - **AUDIT** — read-only review of skills/rules/CLAUDE.md (`Read`/`Grep`/`Glob` + validators). No edits.
-- **APPLY** — exercise the chain on a *consumer* repo (`grilling → writing-specs → writing-plans → pre-implementation-protocol → tdd → spec-drift-audit`). The vault's skills are the tools; the target repo is the workpiece.
+- **APPLY** — exercise the chain on a *consumer* repo (`grilling → writing-specs → writing-plans → pre-implementation-protocol → inline-driven-development | subagent-driven-development → spec-drift-audit`, each task test-first via `test-driven-development`). The vault's skills are the tools; the target repo is the workpiece.
 
 ## Workflow: RED → GREEN → REFACTOR → VALIDATE (AUTHOR)
 

@@ -11,7 +11,7 @@ description: >-
 
 # Resolving Requirements
 
-Turn whatever the user hands you into a **resolved requirements bundle** that `grilling` can consume — without losing, paraphrasing, or fabricating any of it. This is the front door of the APPLY chain: `resolving-requirements → grilling → writing-specs → writing-plans → tdd → spec-drift-audit`.
+Turn whatever the user hands you into a **resolved requirements bundle** that `grilling` can consume — without losing, paraphrasing, or fabricating any of it. This is the front door of the APPLY chain: `resolving-requirements → grilling → writing-specs → writing-plans → pre-implementation-protocol → (inline-driven-development | subagent-driven-development) → spec-drift-audit`.
 
 **Core principle:** requirements are *sourced*, never *authored*. Your job is faithful retrieval + provenance, not summary. A paraphrased acceptance criterion is a changed acceptance criterion.
 

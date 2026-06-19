@@ -31,7 +31,7 @@ Emit the Readiness block with these five slots, in this order:
 1. **Plan & spec** — the path(s) to the plan and the spec it consumes; one line confirming the plan is approved.
 2. **Contracts** — the exact signatures, types, and data shapes the *first* task consumes and produces, copied from the spec. Tag **every** symbol with exactly one of three: `EXISTS` (located in the repo by a read/grep — cite the path), `NEW` (the plan creates it), or `UNVERIFIED` (the spec references it but you have not located it yet — resolve by a read before coding it). The tag set is exhaustive: an untagged symbol means the slot is unfinished. Example (illustrative): `validateCoupon(c: Coupon, now: Date): Result<void, CouponError>` — `Result` EXISTS (`src/shared/result.ts`), `CouponError` NEW, `Coupon` UNVERIFIED.
 3. **Verification** — the exact test / build / lint commands, taken from the repo's own config (not invented), plus one line on the baseline: the suite is green right now, *or* the pre-existing failures are named and isolated so your first RED is attributable to you (so the first RED is yours).
-4. **Execution** — one line: task-by-task, test-first, commit after each green.
+4. **Execution** — name the chosen flow (`inline-driven-development` solo, or `subagent-driven-development` for mostly-independent tasks); task-by-task, test-first, commit after each green.
 5. **Go / No-go** — `GO` only if none of these No-go conditions fire; otherwise name the blocker(s): the plan is not approved (slot 1), the baseline is neither green nor isolated (slot 3), the first task *consumes* an `UNVERIFIED` contract (slot 2), or the plan leaves a truncated task / missing type / undefined field. An `UNVERIFIED` contract the first task only *produces* is not a blocker — resolve it at its first read.
 
 Then hand off to execution.
@@ -42,7 +42,7 @@ The block is a routing decision plus a minimal pre-flight:
 
 1. **Request** — restate it in one line with its success condition. If your restatement is wider than the request, you are about to over-build; if narrower, under-build — flag which.
 2. **Route** — if the change is non-trivial (multi-file, a shared contract, a new surface), the readiness verdict is "no plan exists; routing to the chain" → go to `grilling` → `writing-specs` → `writing-plans`, and stop here.
-3. **Minimal pre-flight** — only if the change is genuinely small and local: a layer map (`file:line` — `NONE`/`PARTIAL`/`FULL`), the contracts written as code, and the real verification commands. Then execute test-first.
+3. **Minimal pre-flight** — only if the change is genuinely small and local: a layer map (`file:line` — `NONE`/`PARTIAL`/`FULL`), the contracts written as code, and the real verification commands. Then execute via `test-driven-development` (single-behavior, test-first).
 
 ## Output format
 
@@ -53,7 +53,7 @@ Readiness — PATH A:
 1. Plan/spec: <plan path> (approved) ← <spec path>
 2. Contracts (task 1): <signature> — <EXISTS path | NEW | UNVERIFIED>
 3. Verification: <exact commands>; baseline: <green | failures isolated: ...>
-4. Execution: task-by-task, test-first, commit per green
+4. Execution: <chosen flow: inline-/subagent-driven-development>; task-by-task, test-first, commit per green
 5. Go/No-go: <GO, or blocker(s): not-approved | baseline | UNVERIFIED consumed | plan gap>
 ```
 
@@ -69,7 +69,7 @@ After the block, hand off.
 ## Hand-off
 
 - **Upstream:** the plan comes from `writing-plans` (which produces it from a `writing-specs` spec).
-- **Downstream — REQUIRED SUB-SKILL:** execute with `tdd`, one task at a time, RED → GREEN → REFACTOR per behavior. This skill produces the readiness block; `tdd` writes the code.
+- **Downstream — REQUIRED SUB-SKILL:** execute via the chosen flow — `inline-driven-development` (solo, in-session) or `subagent-driven-development` (fresh subagent per task); a no-plan single-behavior change goes straight to `test-driven-development`. Each writes code test-first, one task at a time, RED → GREEN → REFACTOR per behavior. This skill produces the readiness block; the execution flow writes the code.
 
 ## Slot checklist
 
@@ -78,4 +78,4 @@ After the block, hand off.
 - [ ] Verification commands came from the repo's config, not memory; baseline green or pre-existing failures named and isolated.
 - [ ] Go/No-go is `GO` only when no No-go condition fires (approved, baseline accounted for, no `UNVERIFIED` contract consumed by task 1, no plan gap).
 - [ ] PATH B: non-trivial change routed back to the chain rather than coded ad-hoc.
-- [ ] Block emitted before the first code edit; execution handed to `tdd`.
+- [ ] Block emitted before the first code edit; execution handed to the chosen flow (`inline-driven-development` / `subagent-driven-development`, or `test-driven-development` for a no-plan single-behavior change).

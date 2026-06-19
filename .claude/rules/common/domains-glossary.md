@@ -28,14 +28,14 @@ Ownership table — do not infer from a filename:
 | 2 | **rule** | `.claude/rules/common/*.md` | loaded on demand, never auto-injected | a convention/process doc the agent reads when relevant |
 | 3 | **hook** | source `hooks/*/<name>.sh`; surfaced via flat symlink `.claude/hooks/<name>.sh`, wired by `settings.json` | runs on tool events | a gate/logger (`detect-bypass`, `skill-gate`, `token-guard`, `lessons-nudge`, …) |
 | 4 | **routing** | `.claude/skills-routing.json` | read by the hooks | trigger-phrase → skill map; `skill-routing-sync.md` keeps it true |
-| 5 | **the SDD chain** | skills #1 | `resolving-requirements → grilling → writing-specs → writing-plans → pre-implementation-protocol → tdd → spec-drift-audit` | the APPLY-mode pipeline run on a consumer repo (`resolving-requirements` is the front door: it resolves a ticket-ID/URL input into a faithful requirements bundle; a ready free-text idea enters at `grilling`; `pre-implementation-protocol` is the readiness gate between a written plan and `tdd` execution) |
+| 5 | **the SDD chain** | skills #1 | `resolving-requirements → grilling → writing-specs → writing-plans → pre-implementation-protocol → (inline-driven-development \| subagent-driven-development) → spec-drift-audit` | the APPLY-mode pipeline run on a consumer repo (`resolving-requirements` is the front door: it resolves a ticket-ID/URL input into a faithful requirements bundle; a ready free-text idea enters at `grilling`; `pre-implementation-protocol` is the readiness gate between a written plan and execution; execution runs via `inline-driven-development` (solo, in-session) or `subagent-driven-development` (fresh subagent per task), each writing code test-first via `test-driven-development`; a no-plan single-behavior change enters execution directly at `test-driven-development`) |
 | 6 | **validators** | root [CLAUDE.md](../../../CLAUDE.md) → "Common commands" | frontmatter ≤1024, name regex, reference links resolve, fence balance, word count | structural checks on a skill change — **not** a test suite |
 | 7 | **lessons** | [lessons-learned.md](../../lessons-learned.md) | append-only log | captured bottleneck; 3× same cause-tag → promoted to a rule |
 
 Term-disambiguation rules — what each word maps to, and how to resolve the ambiguous ones:
 
-- **"test"** — resolve by mode. In **AUTHOR/AUDIT** (working on the vault's own skills) → a **subagent pressure scenario**: RED = run the scenario WITHOUT the skill and watch it fail; GREEN = re-run WITH the skill and confirm compliance. In **APPLY** (the `tdd` skill on a consumer repo) → a real automated unit test on that repo's stack. Never a unit test *of the vault* — there is none.
-- **"RED / GREEN / REFACTOR"** — in **AUTHOR** it is the skill-authoring loop (`writing-great-skills`: RED→GREEN→REFACTOR→VALIDATE, object = a `SKILL.md`). In **APPLY** it is the `tdd` skill's code loop (object = implementation code). Same words, different workpiece — always name which.
+- **"test"** — resolve by mode. In **AUTHOR/AUDIT** (working on the vault's own skills) → a **subagent pressure scenario**: RED = run the scenario WITHOUT the skill and watch it fail; GREEN = re-run WITH the skill and confirm compliance. In **APPLY** (the `test-driven-development` skill on a consumer repo) → a real automated unit test on that repo's stack. Never a unit test *of the vault* — there is none.
+- **"RED / GREEN / REFACTOR"** — in **AUTHOR** it is the skill-authoring loop (`writing-great-skills`: RED→GREEN→REFACTOR→VALIDATE, object = a `SKILL.md`). In **APPLY** it is the `test-driven-development` skill's code loop (object = implementation code). Same words, different workpiece — always name which.
 - **"the vault" / "this repo"** — always this repo: the skills are the *product*. **"consumer / target repo" / "the app"** — a separate codebase the chain is APPLIED to; it supplies the stack, paths, and commands the agnostic skills never bake in.
 - **"design" → "spec" → "plan"** — ordered, distinct artifacts: `grilling` produces a **design**; `writing-specs` turns it into a **spec**; `writing-plans` turns that into a task-by-task **plan**. Do not use them interchangeably.
 - **"bootstrap" vs "audit"** — `bootstrapping-*` creates a doc from scratch; `auditing-*` checks an existing doc for drift. Two skills per target (CLAUDE.md, domain-rules).
@@ -46,7 +46,7 @@ What is NOT in this domain (must not be conflated): there is **no** `package.jso
 ## Edge Cases
 
 - The deleted `framework.md` once described a TypeScript/React-Native + `pnpm` app — that was a **project leak**, not this vault. Never reintroduce stack-specific verification (`pnpm test`, Vitest) as if it were the vault's.
-- `RED/GREEN` in a quoted `tdd` example refers to the consumer repo's tests — do not "fix" it to mean subagent runs.
+- `RED/GREEN` in a quoted `test-driven-development` example refers to the consumer repo's tests — do not "fix" it to mean subagent runs.
 - A `_`-prefixed path under `.claude/skills/` (e.g. `_metrics.jsonl`) is runtime state, not a skill — it owns no glossary row.
 
 ## Review Checklist

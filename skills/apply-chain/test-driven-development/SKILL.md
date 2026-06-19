@@ -1,5 +1,5 @@
 ---
-name: tdd
+name: test-driven-development
 description: >-
   Use when writing implementation code test-first — a bugfix, behavior change,
   or the build step of a planned feature — and when you feel pressure to "just

@@ -4,7 +4,7 @@ A **vault for developing an agnostic Spec-Driven-Development (SDD) skill framewo
 
 ## How to work here (read first)
 
-Authoring or changing a skill runs through **RED → GREEN → REFACTOR → VALIDATE** (the `writing-great-skills` TDD methodology). Applying the framework to a consumer repo runs the chain `grilling → writing-specs → writing-plans → pre-implementation-protocol → tdd → spec-drift-audit`. Full operating manual: [.claude/CLAUDE.md](./.claude/CLAUDE.md).
+Authoring or changing a skill runs through **RED → GREEN → REFACTOR → VALIDATE** (the `writing-great-skills` TDD methodology). Applying the framework to a consumer repo runs the chain `grilling → writing-specs → writing-plans → pre-implementation-protocol → inline-driven-development | subagent-driven-development → spec-drift-audit` (each task test-first via `test-driven-development`). Full operating manual: [.claude/CLAUDE.md](./.claude/CLAUDE.md).
 
 **Hard rules:**
 
@@ -31,7 +31,9 @@ No build / dev / test pipeline — this is a skills vault, not an app. Verificat
 | Turn an approved design into a concrete spec | `writing-specs` |
 | Turn a spec into a task-by-task implementation plan | `writing-plans` |
 | Run the readiness check before executing a plan (or before coding with no plan) | `pre-implementation-protocol` |
-| Implement test-first (RED→GREEN→REFACTOR) | `tdd` |
+| Implement test-first (RED→GREEN→REFACTOR) | `test-driven-development` |
+| Execute an approved plan solo, in-session (coupled tasks or a small plan) | `inline-driven-development` |
+| Execute an approved plan via a fresh subagent per task (independent tasks) | `subagent-driven-development` |
 | Check shipped code against an approved spec | `spec-drift-audit` |
 | Create / audit the two CLAUDE.md files | `bootstrapping-claude-md` / `auditing-claude-md` |
 | Create / audit the base domain rules (glossary, framework) | `bootstrapping-domain-rules` / `auditing-domain-rules` |

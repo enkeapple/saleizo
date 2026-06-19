@@ -89,12 +89,12 @@ For anything beyond a small plan, dispatch an independent reviewer subagent befo
 
 ## Execution handoff
 
-After saving, the plan is ready to execute. Before the first code edit, run the `pre-implementation-protocol` readiness check on the plan (it confirms the contracts, real verification commands, and a green baseline, then hands off to execution). Offer the user an orchestration choice:
+After saving, the plan is ready to execute. Before the first code edit, run the `pre-implementation-protocol` readiness check on the plan (it confirms the contracts, real verification commands, and a green baseline, then routes to the chosen execution flow). Offer the owner an execution choice, keyed to whether the tasks are independent:
 
-- **Subagent-driven (recommended for multi-task plans):** a fresh subagent per task, with review between tasks.
-- **Inline:** execute task-by-task in this session with review checkpoints.
+- **`subagent-driven-development` (recommended for mostly-independent tasks):** a fresh subagent per task, with two-stage review between tasks.
+- **`inline-driven-development` (tightly-coupled tasks, or a small plan you hold solo):** execute task-by-task yourself in this session, verifying and committing per task.
 
-> REQUIRED SUB-SKILL: Whichever orchestration, use `tdd` for each task's code — the choice above decides *who* runs the tasks, not *whether* they are test-first. Execute one task at a time; commit after each passing test.
+> REQUIRED SUB-SKILL: whichever flow, each task's code is written test-first via `test-driven-development` — the choice decides *who* runs the tasks and *how*, not *whether* they are test-first. One task at a time; commit after each passing test.
 
 ## Red Flags — if you catch yourself here, STOP
 

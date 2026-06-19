@@ -4,6 +4,15 @@ Append-only — never rewrite or delete an entry; new entries go at the top of `
 
 ## Entries
 
+### 2026-06-19 — Nearly added a second execution-flow fork to pre-implementation-protocol; the orchestration choice already lived in writing-plans
+
+- **Cause-tag:** `chain-handoff-duplication`
+- **Symptom:** While adding `inline-driven-development` + `subagent-driven-development` and renaming `tdd`→`test-driven-development`, I planned to put the "which execution flow" choice into `pre-implementation-protocol`. A 2-option orchestration fork (subagent vs inline, with `tdd` as the always-underneath substrate) ALREADY existed in `writing-plans` "Execution handoff" (`writing-plans/SKILL.md:90-97`). Two forks on the same decision would have silently diverged.
+- **Root cause:** Did not grep the neighbouring chain skills for an existing fork/hand-off on the same decision before designing a new one (Suspicion Protocol #5, missed-duplicate); also missed that the existing fork encoded a *different* conceptual model (orthogonal: locus × tdd-substrate) than the new design's first assumption (3 peer presets).
+- **Wrong approach:** Treated `pre-implementation-protocol` as the obvious home for a new fork because it sits at the plan→code boundary, without checking whether `writing-plans` already owned the choice.
+- **Correct approach:** Kept the canonical fork in `writing-plans`, extended it to route to the two named routable skills with `test-driven-development` as the per-task substrate, and made `pre-implementation-protocol` hand off to "the chosen flow" instead of duplicating the choice.
+- **Prevention:** Before adding a fork/router/hand-off to a boundary skill (`writing-plans`, `pre-implementation-protocol`), grep the neighbouring chain skills for an existing decision point — `grep -rnE 'orchestration|execution choice|REQUIRED SUB-SKILL|hand.?off' skills/apply-chain/*/SKILL.md` — and reconcile its conceptual model; extend the existing fork, never add a second.
+
 ### 2026-06-19 — A discipline-gate skill had no observable RED in-vault (baseline already complies); pivoted to the shaping variant, whose failure IS measurable
 
 - **Cause-tag:** `skill-value-vs-noop` (3rd instance)
