@@ -6,6 +6,7 @@ description: >-
   long-running branch returns from review, or before a refactor built on an
   old spec. Triggers on: "audit the spec", "spec drift", "does the code match
   the spec", "verify spec", "check what we built", "did we build what we agreed".
+allowed-tools: Read, Grep, Glob, Bash
 ---
 
 # Spec Drift Audit

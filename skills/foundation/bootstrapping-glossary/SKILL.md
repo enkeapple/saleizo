@@ -6,6 +6,7 @@ description: >-
   mean and who owns them) and a framework charter (how to work in this repo).
   Triggers on: "set up the base rules", "create a domain glossary", "write the
   framework rules", "bootstrap .claude/rules", "how should Claude work here".
+allowed-tools: Read, Grep, Glob
 ---
 
 # Bootstrapping Glossary

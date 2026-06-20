@@ -6,6 +6,7 @@ description: >-
   to correct them when they drift. Triggers on: "audit CLAUDE.md", "is CLAUDE.md
   accurate", "the commands in CLAUDE.md look stale", "CLAUDE.md drift", "update
   the engineering system", "check the operating manual".
+allowed-tools: Read, Grep, Glob
 ---
 
 # Auditing CLAUDE.md
