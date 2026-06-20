@@ -6,7 +6,7 @@ description: >-
   correct them when they drift. Triggers on: "audit the rules", "is the glossary
   still accurate", "the framework rule looks stale", "rule drift", "check the
   base rules", "update the glossary".
-allowed-tools: Read, Grep, Glob
+allowed-tools: Read, Grep, Glob, Edit
 ---
 
 # Auditing Glossary

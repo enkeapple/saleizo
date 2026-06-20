@@ -4,6 +4,15 @@ Transient backlog of un-promoted candidate rules — newest at the top of `## En
 
 ## Entries
 
+### 2026-06-21 — Added `allowed-tools: Read, Grep, Glob` to three audit/bootstrap skills calling them "read-only"; their bodies document Edit/Write, and allowed-tools does not restrict anyway
+
+- **Cause-tag:** `allowed-tools-semantics`
+- **Symptom:** Recommending the optional `allowed-tools` lever, I added `allowed-tools: Read, Grep, Glob` to `auditing-glossary`, `auditing-claude-md`, and `bootstrapping-glossary`, characterizing them as "read-only audit/discovery" skills. A Layer-2 validation run then FAILed `auditing-glossary` claiming the grant "blocks" its documented correction step — and the validator was *also* wrong (it read allowed-tools as restrictive). Both errors traced to the same field. The three skills' bodies in fact mandate mutation: "report the drift, **then correct it**" / "**Apply the corrections** — a surgical edit" (auditing-*) and "**Create** the two foundational rules" (bootstrapping-glossary) — they are not read-only.
+- **Root cause:** Two compounding misreads of one frontmatter lever. (1) I assigned `allowed-tools` from an *expected* skill nature ("an audit skill is read-only") without grepping the body, where the documented Edit/Write steps were plain. (2) The grant-vs-restrict semantics: per `frontmatter-reference`, `allowed-tools` AUTO-GRANTS the listed tools without a prompt but does **not** restrict the rest — Edit/Write stay callable. So a "read-only" list on a mutating skill is neither a safety restriction (it restricts nothing) nor a full friction win (the mutation step still prompts); it is just a mischaracterization. `spec-drift-audit` (genuinely read-only — "report, don't fix") is the only one where a read-trio + `Bash` grant is accurate.
+- **Wrong approach:** Picking `allowed-tools` from the skill's assumed role and labelling the skill "read-only" on that basis, without reading the body for documented mutation steps or checking what `allowed-tools` actually does.
+- **Correct approach:** Treat `allowed-tools` as auto-grant-not-restrict. Before adding it, grep the skill body for documented mutation steps (`correct|fix the|apply the correction|surgical edit|create the|write the|edit the`). If present, the skill is not read-only — either include the mutating tools in the grant (accepting that auto-granting Edit/Write on governance docs removes a human pause) or omit `allowed-tools` entirely; never describe such a skill as read-only.
+- **Prevention:** When proposing or reviewing an `allowed-tools` value, run `grep -niE 'correct it|apply the correction|surgical edit|create the|write the|edit the' <skill>/SKILL.md` first; any hit means a read-only tool list is wrong for that skill. State the semantics inline (auto-grant, does not restrict) so a "read-only allowed-tools" claim is never mistaken for a capability fence.
+
 ### 2026-06-21 — A prior task in the same plan wrote the new convention into the file later used as the RED control, so the baseline already carried the answer
 
 - **Cause-tag:** `red-scenario-contamination`

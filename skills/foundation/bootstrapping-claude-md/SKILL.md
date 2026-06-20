@@ -6,6 +6,7 @@ description: >-
   "set up CLAUDE.md", "initialize CLAUDE.md", "create the project's Claude
   config", "bootstrap the engineering system", "give Claude a persona/pipeline
   for this repo".
+allowed-tools: Read, Grep, Glob, Write, Edit
 ---
 
 # Bootstrapping CLAUDE.md
