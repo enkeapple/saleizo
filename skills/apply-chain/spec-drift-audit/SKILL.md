@@ -72,6 +72,11 @@ End with **one** decision, not edits and not a question per finding. Having reco
 
 The user picks. The audit itself still does not edit code — applying a disposition is the follow-up task the user authorizes here.
 
+## Integration
+
+- **Upstream:** invoked after the execution phase (`inline-driven-development` / `subagent-driven-development`), or standalone against already-shipped code; pairs with a spec written via `writing-specs` (the section shape it parses).
+- **Terminal:** this is the chain's closing **verify** phase — it never feeds another phase. After the disposition is chosen, the human owns the commit.
+
 ## Red Flags — if you catch yourself here, STOP
 
 Fast trip-wires: the moment you notice one, the audit is about to fail silently. The counter to each is its row in **Rationalizations** below.

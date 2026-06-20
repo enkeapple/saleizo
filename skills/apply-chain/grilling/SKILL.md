@@ -12,6 +12,8 @@ description: >-
 
 Interview the user relentlessly until a fuzzy idea becomes a shared, concrete design — then hand it to the spec. This is collaborative grilling, not a solo design dump.
 
+**Upstream:** the input arrives either as a free-text idea direct from the user, or as a faithful requirements bundle resolved by `resolving-requirements` (ticket mode) — grill it the same way; a resolved bundle is a starting point to interrogate, not a finished design.
+
 **Two core principles:**
 
 - **One question at a time, each with your recommended answer.** Asking several at once is bewildering. Lead with the answer you'd pick and why; the user corrects or confirms.

@@ -1,1 +1,0 @@
-../../hooks/quality/lint-fix.sh

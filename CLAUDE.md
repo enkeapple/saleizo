@@ -40,6 +40,8 @@ No build / dev / test pipeline — this is a skills vault, not an app. Verificat
 | Create / audit the base domain rules (glossary, framework) | `bootstrapping-glossary` / `auditing-glossary` |
 | Capture a lesson; promote a recurring one to a rule | `writing-lessons` → `writing-rules` |
 | Author or change any skill (test-first) | `writing-great-skills` |
+| Design a deep module / find a seam (shared deep-module vocabulary) | `codebase-design` |
+| Architecture review — surface deepening opportunities (user-invoked, not trigger-routed) | `improve-codebase-architecture` |
 | Approaching the context limit / ending with unfinished work | `handoff` |
 | Short user-typed aliases (deterministic entry; same skills) | `/sdd`→`sdd-lifecycle`, `/grill`→`grilling`, `/spec`→`writing-specs`, `/audit`→`spec-drift-audit` |
 
@@ -50,7 +52,7 @@ When a user prompt contains a registered trigger and the corresponding skill is 
 | Layer | Folder |
 | --- | --- |
 | Domain rules (glossary, framework charter) | [.claude/rules/domains/](./.claude/rules/domains/) |
-| Cross-cutting process & policy (code style, routing-sync, file org, …) | [.claude/rules/common/](./.claude/rules/common/) |
+| Cross-cutting process & policy (markdown style, skill-routing sync, git conventions, …) | [.claude/rules/common/](./.claude/rules/common/) |
 
 Rules load on demand, not auto-injected. Bootstrap them in a consumer repo with `bootstrapping-glossary`; keep them true with `auditing-glossary`.
 

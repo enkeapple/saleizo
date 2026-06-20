@@ -1,1 +1,0 @@
-../../hooks/quality/test-quick.sh

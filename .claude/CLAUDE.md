@@ -102,7 +102,7 @@ Rules for the slots:
 
 ## Skill discipline
 
-Skills are routed by [skills-routing.json](./skills-routing.json) (trigger keywords → skill body). When a prompt matches a trigger, invoke the `Skill` tool before reading/editing that domain — do NOT `Read` a `SKILL.md` directly to "preview" it. `detect-bypass.sh` warns and logs a bypass to `.claude/skills/_metrics.jsonl` (gitignored); `log-skill-usage.sh` records invocations; `token-guard.sh` enforces the per-turn/session token budget. (Note: `skill-gate.sh`'s `ruleGates` are currently empty — there are no code-domain edit gates in this repo, since there is no `src/`.)
+Skills are routed by [skills-routing.json](./skills-routing.json) (trigger keywords → skill body). When a prompt matches a trigger, invoke the `Skill` tool before reading/editing that domain — do NOT `Read` a `SKILL.md` directly to "preview" it. `detect-bypass.sh` warns and logs a bypass to `.claude/skills/_metrics.jsonl` (gitignored); `log-skill-usage.sh` records invocations; `token-guard.sh` enforces the per-turn/session token budget. (Note: `skill-gate.sh`'s `ruleGates` are currently empty — there are no code-domain edit gates in this repo, since there is no `src/`.) Beyond routing, `settings.json` wires **guard** hooks (`security-guard.sh`, `bash-read-guard.sh`, `read-guard.sh`, `edit-write-guard.sh` — they block credential/exfil-shaped commands and modifications to `.claude/hooks`/settings, so cleaning up hook files needs a human-run command) and an advisory **quality** pass (`quality.sh`, PostToolUse on edits — runs the validators on a vault doc, no-ops on consumer code without a node toolchain).
 
 ## Lessons promotion path
 
