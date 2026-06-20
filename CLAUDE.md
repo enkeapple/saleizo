@@ -41,6 +41,7 @@ No build / dev / test pipeline — this is a skills vault, not an app. Verificat
 | Capture a lesson; promote a recurring one to a rule | `writing-lessons` → `writing-rules` |
 | Author or change any skill (test-first) | `writing-great-skills` |
 | Approaching the context limit / ending with unfinished work | `handoff` |
+| Short user-typed aliases (deterministic entry; same skills) | `/sdd`→`sdd-lifecycle`, `/grill`→`grilling`, `/spec`→`writing-specs`, `/audit`→`spec-drift-audit` |
 
 When a user prompt contains a registered trigger and the corresponding skill is not invoked within a few tool calls, [.claude/hooks/detect-bypass.sh](./.claude/hooks/detect-bypass.sh) warns and logs the event to `.claude/skills/_metrics.jsonl` (gitignored). Triggers are listed in [.claude/skills-routing.json](./.claude/skills-routing.json).
 
