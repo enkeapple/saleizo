@@ -1,7 +1,7 @@
 ---
 name: writing-skills
 description: Test-first methodology for authoring, editing, and validating skills (RED→GREEN). User-invoked.
-disable-model-invocation: true
+disable-model-invocation: false
 allowed-tools: Read, Write, Edit, Grep, Glob, Bash, Task, Skill
 ---
 
@@ -33,13 +33,17 @@ it. Start over. No exception for "simple additions", "just a section", or "it's 
    the baseline is contaminated and "complies" for the wrong reason. No failure reproduces → there
    is nothing to fix; stop.
 2. **Match the form to the failure** (table below) before writing.
-3. **GREEN.** Write the minimal skill addressing those exact failures — in the form the failure
-   calls for. Re-run the scenarios WITH the skill; confirm compliance.
+3. **GREEN (author check).** Write the minimal skill addressing those exact failures — in the form
+   the failure calls for. Re-run the scenarios WITH the skill; confirm compliance. This is YOUR
+   check, not the gate — it does **not** satisfy Layer 2.
 4. **Offer the optional levers.** Decide whether the skill wants `allowed-tools` or `model`
    ([`frontmatter-reference.md`](./references/frontmatter-reference.md)) — offer them with their
    trade-offs; do not bake them in by reflex.
 5. **REFACTOR.** Close each new loophole the agent invents (rationalization-table row + red flag).
-6. **validate** (the gate).
+6. **Persist the test cases.** Write the RED baselines (verbatim) and GREEN expectations to
+   [`test-cases.md`](./references/test-cases.md) BEFORE the gate — Layer 2 loads them; skip it and
+   the validator re-derives cases with author bias.
+7. **validate** (the gate).
 
 ## edit
 
@@ -59,9 +63,12 @@ Two layers, both defined inside this skill — no dependency on any repo hook:
    ([`validation-subagent-prompt.md`](./assets/validation-subagent-prompt.md)) to RUN the
    skill's test cases (from [`test-cases.md`](./references/test-cases.md), or synthesized for a
    foreign skill) WITH the skill enabled, invert each (would it comply WITHOUT?), and return
-   pass/fail with verbatim evidence. A static "looks good" is not a pass.
+   pass/fail with verbatim evidence. A static "looks good" is not a pass. Layer 2 is an
+   **independent dispatch** — a fresh subagent, NOT your own GREEN run from step 3; its job is the
+   inversion (would it comply WITHOUT?) that your GREEN never asks.
 
-Never declare a skill done on Layer 1 alone, and never ship on a Layer-2 FAIL.
+Never declare a skill done on Layer 1 alone, never substitute your own GREEN run for the Layer-2
+dispatch, and never ship on a Layer-2 FAIL.
 
 ## Match the Form to the Failure
 
@@ -84,11 +91,14 @@ its own conditional.
 | "It reads fine — it's valid." | Reading ≠ running. Layer 2 runs it; a static read is not a verdict. |
 | "The baseline complied, so the skill works." | If it complied WITHOUT the skill, the skill proves nothing — re-aim at a real failure. |
 | "I'll keep the draft as reference while I test." | Delete means delete. A kept draft is a write-first skill. |
+| "My GREEN run passed, so Layer 2 is done." | GREEN is the author's check; Layer 2 is an independent subagent that inverts each case. Separate dispatch, different question. |
 
 ## Red Flags — STOP
 
 - Skill (or edit) written before a RED was observed.
 - Declaring done on a static read, with no Layer-2 subagent run.
+- Declaring validated on your own GREEN run, with no independent Layer-2 dispatch — the author's GREEN is not the gate.
+- Reaching the gate with no persisted `test-cases.md`, leaving the validator to re-derive cases with author bias.
 - A baseline that "complies" inside a repo whose manual it inherited (contaminated RED).
 - A nuance/exemption clause smuggled into a recipe.
 - `name` ≠ dir ≠ symlink, or a routing entry for a `disable-model-invocation` skill.

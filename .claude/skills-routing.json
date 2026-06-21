@@ -278,6 +278,20 @@
       ],
       "files": [".claude/skills/handoff/SKILL.md"]
     },
+    "tightening-prose": {
+      "triggers": [
+        "tighten (this|the|it)",
+        "de[- ]slop",
+        "remove the AI tells",
+        "make this less AI",
+        "cut the (fluff|slop)",
+        "почисти текст",
+        "убери воду",
+        "сделай прямее",
+        "де[- ]слоп"
+      ],
+      "files": [".claude/skills/tightening-prose/SKILL.md"]
+    },
     "codebase-design": {
       "triggers": [
         "design (a |the )?(module|interface)",

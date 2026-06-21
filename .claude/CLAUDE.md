@@ -49,7 +49,7 @@ Not complete until each row is `[x]` or `[N/A]`-with-reason, evidence pasted:
 | # | Item | Done when |
 | --- | --- | --- |
 | 1 | RED observed | Baseline subagent run failed as expected (or `[N/A]` — control showed no failure, so no skill written) |
-| 2 | GREEN confirmed | Subagent run WITH the skill complies on the same scenarios |
+| 2 | GREEN + independent Layer-2 verdict | (a) your own with-skill run complies on the same scenarios AND (b) a fresh validation subagent ran the persisted `test-cases.md`, inverted each case, and returned PASS with verbatim evidence — your GREEN run does NOT satisfy (b) |
 | 3 | Form matches failure | Discipline → prohibition+table+red-flags; shaping → positive recipe |
 | 4 | Validators pass | Frontmatter ≤1024, name regex, links resolve, fences balanced, word count — output pasted |
 | 5 | Agnostic | No project stack/paths/commands baked in; examples marked illustrative |
