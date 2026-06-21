@@ -10,7 +10,7 @@ description: >-
 
 # Grilling
 
-Interview the user relentlessly until a fuzzy idea becomes a shared, concrete design — then hand it to the spec. This is collaborative grilling, not a solo design dump.
+Interview the user relentlessly until a fuzzy idea becomes a shared, concrete design — then right-size the hand-off: the full chain (via the spec) for a non-trivial change, or straight to implementation for a small single-behavior one. This is collaborative grilling, not a solo design dump.
 
 **Upstream:** the input arrives either as a free-text idea direct from the user, or as a faithful requirements bundle resolved by `resolving-requirements` (ticket mode) — grill it the same way; a resolved bundle is a starting point to interrogate, not a finished design.
 
@@ -43,13 +43,24 @@ Once you understand the goal, propose **2-3 approaches** with trade-offs, lead w
 
 What a good design *is* — design-for-isolation, deep modules, decomposing multi-subsystem ideas, existing-codebase discipline, ruthless YAGNI — is in [references/design-principles.md](./references/design-principles.md). Read it when shaping the design, especially in an unfamiliar or large codebase.
 
-## Hand off to the spec (terminal state)
+## Hand off (terminal state) — right-size the next step
 
-When the design is approved, do **not** write code, tickets, or an implementation plan. For a non-trivial design, first dispatch an independent readiness reviewer ([assets/readiness-reviewer-prompt.md](./assets/readiness-reviewer-prompt.md)) to catch a "we're done" that still hides open assumptions — if it returns *Not ready*, grill those branches and re-check. Then hand the gathered design + Decisions list to the spec:
+The design-approval gate above holds for **every** path: even a three-sentence design is presented and approved before anything else. Once it is approved, classify it against the threshold below and take **exactly one** of two exits — do not run the full chain by reflex, and do not skip it by reflex.
 
-> **REQUIRED SUB-SKILL:** Use `writing-specs` to turn the approved design and the Decisions list into a concrete spec. Pass every decision as input so nothing is re-litigated.
+**Off-ramp → hand directly to `test-driven-development`.** Take this exit only when **ALL** hold:
 
-`writing-specs` is the **only** next step — it owns the spec → user-review gate → `writing-plans` chain. Do not jump past it to planning or code.
+- the change is a **single, cohesive behavior** (one logical change), AND
+- it touches **no shared/public contract** — no new or changed API endpoint, exported type/signature, schema, persisted shape, event, or navigation route, AND
+- it adds **no new surface** and spans **no multiple components / clients / services**, AND
+- it fits **one test-first cycle** — no task-by-task plan is needed to track it.
+
+> **REQUIRED SUB-SKILL (off-ramp):** Use `test-driven-development` to implement the approved single-behavior change test-first (RED → GREEN → REFACTOR). No spec, no plan — the approved design is the contract.
+
+**Full chain → hand to `writing-specs`.** Take this exit when the change crosses **any** line above. For a non-trivial design, first dispatch an independent readiness reviewer ([assets/readiness-reviewer-prompt.md](./assets/readiness-reviewer-prompt.md)) to catch a "we're done" that still hides open assumptions — if it returns *Not ready*, grill those branches and re-check. Then hand the gathered design + Decisions list to the spec:
+
+> **REQUIRED SUB-SKILL (full chain):** Use `writing-specs` to turn the approved design and the Decisions list into a concrete spec. Pass every decision as input so nothing is re-litigated. `writing-specs` owns the spec → user-review gate → `writing-plans` chain — do not jump past it to planning or code.
+
+The predicate is the same small-change threshold `writing-specs` ("When NOT to use") and `pre-implementation-protocol` (PATH B) already use, so the exits stay consistent across the chain. **When in doubt about which exit, take the full chain** — a wrongly-skipped spec on a contract or multi-surface change is the expensive rewrite; a slightly-heavy spec on a small change is cheap.
 
 ## Red Flags — STOP
 
@@ -57,8 +68,9 @@ When the design is approved, do **not** write code, tickets, or an implementatio
 - Stating a question with no recommended answer of your own.
 - Asking something the codebase already answers (go read it).
 - Proposing a design/solution before you understand the goal.
-- Writing code, scaffolding, or splitting tickets before the user approves the design.
-- At the end, drifting into planning or implementation instead of handing off to `writing-specs`.
+- Writing code, scaffolding, or splitting tickets before the user approves the design (the gate holds on both exits).
+- Taking the off-ramp to `test-driven-development` for a change that touches a shared contract, spans multiple surfaces, or needs a multi-step plan — that is the full chain via `writing-specs`.
+- At the end, splitting tickets or planning by hand instead of taking one of the two exits (`test-driven-development` or `writing-specs`).
 
 ## Rationalizations
 
@@ -67,4 +79,5 @@ When the design is approved, do **not** write code, tickets, or an implementatio
 | "It's simple, I'll just build it." | Simple ideas hide the most unexamined assumptions. Present a 3-sentence design and get approval. |
 | "Faster to ask everything at once." | A wall of questions is bewildering and gets half-answered. One at a time converges faster. |
 | "I'll just propose my design." | A design dropped before understanding is a guess. Grill first; let answers shape it. |
-| "We're done, I'll start on tickets." | The terminal step is `writing-specs`, not planning. The spec is what makes the design buildable and reviewable. |
+| "It's simple — I'll skip the spec and just TDD it." | The off-ramp is only for a single-behavior change with no shared contract and no new surface. Touches an API/schema/event, spans components, or needs a multi-step plan? That is the full chain via `writing-specs`. When in doubt, full chain. |
+| "We're done, I'll start on tickets / planning." | grilling never plans or splits tickets. There are exactly two exits — `test-driven-development` (small) or `writing-specs` (full chain) — and only after the design is approved. |

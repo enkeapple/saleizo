@@ -47,7 +47,19 @@ The chain **closes** on `spec-drift-audit` — the **verify** phase: after imple
 
 ## Progress list
 
-Before the first phase, seed a single harness task list with the **canonical 7-phase items** (entry phases ahead of the classified start marked skipped, never dropped), then drive its statuses as you advance. The exact label set, the one-`in_progress` rule, the create-or-update logic, and the binding of `completed` to explicit approval live in [phase-task-visualization](../../../.claude/rules/common/phase-task-visualization.md) — read it. An item turns `completed` only when the user approves that phase's artifact, so the list mirrors the gate below rather than running ahead of it.
+Before the first phase, seed a single harness task list with these **canonical 7-phase items**, in order — entry phases ahead of the classified start marked skipped, never dropped:
+
+```text
+1. Resolve requirements (resolving-requirements)
+2. Grill into a design (grilling)
+3. Write the spec (writing-specs)
+4. Write the plan (writing-plans)
+5. Readiness check (pre-implementation-protocol)
+6. Implement test-first (inline-/subagent-driven-development)
+7. Audit against the spec (spec-drift-audit)
+```
+
+Then drive its statuses as you advance. The status discipline — exactly one `in_progress`, the create-or-update logic, and the binding of `completed` to the user's explicit approval — is in [phase-task-visualization](../../../.claude/rules/common/phase-task-visualization.md). An item turns `completed` only when the user approves that phase's artifact, so the list mirrors the gate below rather than running ahead of it.
 
 ## The gate — the load-bearing rule
 
