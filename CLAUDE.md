@@ -40,11 +40,13 @@ No build / dev / test pipeline — this is a skills vault, not an app. Verificat
 | Check shipped code against an approved spec | `spec-drift-audit` |
 | Create / audit the two CLAUDE.md files | `bootstrapping-claude-md` / `auditing-claude-md` |
 | Create / audit the base domain rules (glossary, framework) | `bootstrapping-glossary` / `auditing-glossary` |
+| Create / audit the README skills catalog | `bootstrapping-readme` / `auditing-readme` |
 | Capture a lesson; promote a recurring one to a rule | `writing-lessons` → `writing-rules` |
 | Author or change any skill (test-first) | `writing-skills` |
 | Author or change a Claude Code hook (test-first) | `writing-hooks` |
 | Design a deep module / find a seam (shared deep-module vocabulary) | `codebase-design` |
 | Architecture review — surface deepening opportunities (user-invoked, not trigger-routed) | `improve-codebase-architecture` |
+| De-slop an existing chunk of prose (remove the AI tells) | `tightening-prose` |
 | Approaching the context limit / ending with unfinished work | `handoff` |
 | Short user-typed aliases (deterministic entry; same skills) | `/sdd`→`sdd-lifecycle`, `/grill`→`grilling`, `/spec`→`writing-specs`, `/audit`→`spec-drift-audit` |
 
