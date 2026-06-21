@@ -15,10 +15,9 @@ The four events this vault wires, the stdin fields each carries, and the decisio
 
 The path field depends on the tool, not just the event: `Read`/`Edit`/`Write` carry `tool_input.file_path`; `Bash` carries `tool_input.command`; `UserPromptSubmit` carries `prompt` and **no** `tool_input` at all. Do not copy `file_path` blindly into a `UserPromptSubmit` hook — read the field the event actually provides.
 
-## Decision forms (recap of SKILL.md Block 1)
+## Decision forms
 
-- **Form A — exit-code:** `exit 2` + stderr → block; `exit 0` → allow; `exit 0` + stderr → warn (advisory). Never `exit 1` as a warn.
-- **Form B — JSON-stdout:** print `{"hookSpecificOutput":{"hookEventName":"PreToolUse","permissionDecision":"deny","permissionDecisionReason":"…"}}` to stdout, then `exit 0`. Use only when a `PreToolUse` deny needs a model-visible structured reason.
+Form A (exit-code) vs Form B (JSON-stdout), and why `exit 1` is never a warn — see SKILL.md Block 1 (the single source of truth). The "Typical form" column above names which form each event takes.
 
 ## Common matchers (PreToolUse / PostToolUse)
 

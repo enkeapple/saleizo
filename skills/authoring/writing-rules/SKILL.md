@@ -80,21 +80,16 @@ Before saving, check the rule against the Review Checklist below: the **form** i
 
 ### Independent cold reviewer (the author-blind pass)
 
-For a rule that will be widely loaded or promoted from a lesson, dispatch an **independent reviewer — a fresh subagent with zero shared context, given the existing rules directory** — using [assets/rule-reviewer-prompt.md](./assets/rule-reviewer-prompt.md). Its remit is what you cannot judge from inside your own context, not a re-run of the form checklist:
-
-- **Duplication, re-derived:** you are anchored on the rule you just wrote and won't notice it restates a neighbor; a reader holding the whole rules set will. Cross-link, don't fork.
-- **Scoping & applicability:** would the `paths` nag outside its area, and would two agents reading this cold apply it two ways? You can't feel your own assumptions; a cold reader trips on them.
+For a rule that will be widely loaded or promoted from a lesson, dispatch an **independent reviewer — a fresh subagent with zero shared context, given the existing rules directory** — using [assets/rule-reviewer-prompt.md](./assets/rule-reviewer-prompt.md). Its remit is the author-blind class you cannot judge from inside your own context — duplication against the existing set (cross-link, don't fork) and scoping/applicability (would the `paths` nag, would two cold readers apply it two ways) — NOT a re-run of the form checklist. The prompt carries the full check table.
 
 ## Test the rule on a cold agent (empirical RED/GREEN)
 
-Static review confirms the rule is well-*formed*. It does NOT confirm the rule *works* — that following it actually changes behaviour. A well-formed rule too vague to steer anyone is a no-op that still costs load. Before declaring the rule done, prove it earns its place with a two-run cold-agent test — the same RED/GREEN this vault runs on skills, applied to the rule:
+Static review confirms the rule is well-*formed*; it does NOT confirm the rule *works* — a rule too vague to steer anyone is a no-op that still costs load. Before declaring the rule done, prove it earns its place with a two-run cold-agent test (the same RED/GREEN this vault runs on skills):
 
-1. **Pick a concrete target case** the rule governs — a real file or task in this repo where the mistake the rule prevents would naturally occur. Can't name one? The rule has no demand; reconsider whether it should exist.
-2. **RED — cold agent, no rule.** Dispatch a subagent on that task with no rule in context. Expect it to commit the mistake the rule exists to prevent. If it complies anyway, the rule guards nothing here — it is a no-op; STOP and cut it, or find the case where the mistake is real.
-3. **GREEN — cold agent, rule injected.** Dispatch a fresh subagent on the same task with only the rule in context. Expect compliance on every Review-Checklist item. Still slips? The rule is real but ineffective — sharpen the Implementation (stronger imperative, a ✅/❌ closer to the case) and re-run until a cold agent complies.
-4. **Verdict, not a file.** Each subagent returns a structured pass/fail per Review-Checklist item as its result — do NOT hand-write any `/tmp` artifact (the vault owns temp files via `handoff`). The rule is done only when RED shows the failure and GREEN shows compliance.
+1. **Pick a concrete target case** the rule governs — a real file or task in this repo where the mistake would naturally occur. Can't name one? The rule has no demand; reconsider whether it should exist. This judgment gates the test — make it before dispatching.
+2. **RED (no rule), then GREEN (rule injected)** on that case — dispatch both via [assets/rule-efficacy-test-prompt.md](./assets/rule-efficacy-test-prompt.md), which carries the run prompts and verdict table. RED must show the mistake (else the rule is a no-op here — cut it, or find a case where the mistake is real); GREEN must show compliance on every Review-Checklist item (else the wording is ineffective — sharpen the Implementation with a stronger imperative or a ✅/❌ closer to the case, and re-run). Each run returns a structured verdict — never a hand-written `/tmp` artifact.
 
-Dispatch both runs with [assets/rule-efficacy-test-prompt.md](./assets/rule-efficacy-test-prompt.md). Skip only for a pure-policy rule with no single target case to exercise (e.g. an always-on charter) — and say so explicitly.
+Skip only for a pure-policy rule with no single target case to exercise (e.g. an always-on charter) — and say so explicitly.
 
 ## Review Checklist
 
