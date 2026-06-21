@@ -4,6 +4,10 @@ The canonical keys a generated CLAUDE.md / glossary.md / framework.md uses for s
 nouns. The `bootstrapping-*` skills resolve each key per consumer repo; the `auditing-*` skills
 flag a leftover key or a baked noun. Keys are written `<key>` in templates.
 
+This registry is carried self-contained by each generator/auditor skill (a copy lives in this
+skill's own `references/`) so the skill stays droppable into any repo with no external dependency.
+The four copies are kept in sync; the `auditing-*` skills themselves catch drift between them.
+
 ## Keys
 
 | key | meaning | auto\|intake (+fallback) | resolution-source | example-nouns (illustrative, non-exhaustive) |
