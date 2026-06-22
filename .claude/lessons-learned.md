@@ -30,3 +30,6 @@ Transient backlog of un-promoted candidate rules — newest at the top of `## En
 - **Prevention**: dispatch baseline/RED & Layer-2 subagents read-only (`Explore` agent, or forbid writes in the prompt + "output as text"); assert `git status --short` is clean after a baseline run.
 
 ## Promoted clusters
+
+- skill-value-vs-noop → rules/common/scoping-skill-value.md (2026-06-19)
+- markdown-fence-counting → rules/common/markdown-style.md (2026-06-19)
