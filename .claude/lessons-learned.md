@@ -4,6 +4,15 @@ Transient backlog of un-promoted candidate rules — newest at the top of `## En
 
 ## Entries
 
+## 2026-06-22 — Wrote a skill file to a fabricated `.claude/skills/<category>/` path
+
+- **Cause-tag**: skill-path-source-vs-symlink
+- **Symptom**: created `test-cases.md` at `.claude/skills/apply-chain/subagent-driven-development/references/…` — a non-existent nested path under the flat-symlink dir; the Layer-2 validation subagent's `find` could not locate it and returned INCONCLUSIVE.
+- **Root cause**: spliced the source-tree category segment (`apply-chain/`) onto the symlink prefix (`.claude/skills/`). The two addressing schemes are distinct: source lives at `skills/<category>/<name>/…`; `.claude/skills/` holds only flat per-skill symlinks `.claude/skills/<name>` with NO `<category>/` level.
+- **Wrong approach**: assumed `.claude/skills/<name>` generalizes to `.claude/skills/<category>/<name>`, and wrote without checking the symlink target.
+- **Correct approach**: relocated the file to the source `skills/apply-chain/subagent-driven-development/references/test-cases.md` (reachable via the `.claude/skills/<name>` symlink) and removed the bogus `.claude/skills/apply-chain` tree.
+- **Prevention**: author skill files in the SOURCE tree `skills/<category>/<name>/…`, never under `.claude/skills/<anything-but-the-flat-name>`. Before writing into a skill, run `ls -la .claude/skills/<name>` to read the symlink target and write into that resolved source dir; treat any path of shape `.claude/skills/<seg>/<name>/…` as a red flag.
+
 ## 2026-06-22 — Coupled skills by referencing another skill's internal content
 
 - **Cause-tag**: cross-skill-content-coupling

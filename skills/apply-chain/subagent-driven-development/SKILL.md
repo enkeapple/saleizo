@@ -98,9 +98,12 @@ Use the least powerful model that can do each role — turn count matters more t
 
 - **Mechanical task** (1–2 files, complete spec) → a fast, cheap model. Most well-specified tasks are mechanical.
 - **Integration / judgment task** (multi-file, pattern-matching, debugging) → a standard model.
-- **Architecture / design / any review** → the most capable model. The final whole-change review always uses maximum capability.
+- **Architecture / design** → the most capable model.
+- **Any review** → a model **different from the one that implemented the task**, sized to the review's judgment. A reviewer left on the implementer's own model inherits its blind spots and tends to ratify the same mistakes; switching models is what buys genuinely independent error-catching. A routine per-task review can take a different, often cheaper tier — independence, not raw power, catches the implementer's misses. The final whole-change review uses the most capable tier — still a different model than the implementer where more than one exists at that tier.
 
 Signal: touches 1–2 files with a full spec → cheap; multiple files with integration concern → standard; needs design judgment or broad understanding → most capable.
+
+When the implementer is already at the top tier and the harness exposes no other model there, keep the reviewer a fresh context and note the diversity lever is unavailable — never downgrade a high-risk review just to manufacture a different model.
 
 ## Handling implementer status
 
