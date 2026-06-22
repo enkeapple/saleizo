@@ -44,9 +44,12 @@ TEXTS=$(jq -rc '
 ' "$TRANSCRIPT" 2>/dev/null) || exit 0
 
 # Current totals by class (priority: denied > blocked > error).
-cur_denied=$(printf '%s\n' "$TEXTS" | grep -ciE "user (doesn'?t|does not|did ?n'?t) want|user rejected|user declined|don'?t want to proceed" 2>/dev/null || echo 0)
-cur_blocked=$(printf '%s\n' "$TEXTS" | grep -ciE 'hook error|BLOCKED:' 2>/dev/null || echo 0)
-cur_total=$(printf '%s\n' "$TEXTS" | grep -c . 2>/dev/null || echo 0)
+# NOTE: `grep -c` PRINTS "0" and EXITS 1 on no match, so a `|| echo 0` would yield "0\n0" and
+# break the arithmetic below. Drop the `||`; sanitize each count to a clean integer instead.
+clean_int() { local n="${1//[^0-9]/}"; printf '%s' "${n:-0}"; }
+cur_denied=$(clean_int "$(printf '%s\n' "$TEXTS" | grep -ciE "user (doesn'?t|does not|did ?n'?t) want|user rejected|user declined|don'?t want to proceed" 2>/dev/null)")
+cur_blocked=$(clean_int "$(printf '%s\n' "$TEXTS" | grep -ciE 'hook error|BLOCKED:' 2>/dev/null)")
+cur_total=$(clean_int "$(printf '%s\n' "$TEXTS" | grep -c . 2>/dev/null)")
 cur_error=$(( cur_total - cur_denied - cur_blocked ))
 (( cur_error < 0 )) && cur_error=0
 

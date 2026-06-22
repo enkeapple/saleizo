@@ -24,9 +24,6 @@ WARN_PER_TOOL=60000
 WARN_PER_TURN=80000
 HARD_STOP_PER_TURN=450000
 WARN_PER_SESSION=3000000
-# Premium-tier (opus) session ceiling: research/review should NOT run on the most-capable
-# tier (see .claude/rules/common/model-selection.md). Advisory only — warns, never blocks.
-WARN_OPUS_PER_SESSION=1500000
 
 mkdir -p "$STATE_DIR"
 [[ -f "$TURN_FILE" ]] || echo '{"bytes":0,"tools":[]}' > "$TURN_FILE"
@@ -50,11 +47,13 @@ SESS_BYTES=$(jq -r '.bytes' "$SESSION_FILE")
 NEW_SESS_BYTES=$(( SESS_BYTES + RESP_BYTES ))
 jq --argjson b "$NEW_SESS_BYTES" '.bytes=$b' "$SESSION_FILE" > "$SESSION_FILE.tmp" && mv "$SESSION_FILE.tmp" "$SESSION_FILE"
 
-# Per-model accounting: bucket bytes by the dispatched model so the vault can measure adherence
-# to model-selection.md (premium tier reserved for implement, not research/review). A call with
-# no model override (main-context / inherited) buckets under "inherited".
-MODEL=$(echo "$INPUT" | jq -r '.tool_input.model // "inherited"')
-jq --arg m "$MODEL" --argjson b "$RESP_BYTES" '.[$m] = ((.[$m] // 0) + $b)' \
+# Per-agent accounting: bucket the tool_response bytes by the dispatch's accounting key — an
+# explicit .model override if present, else .subagent_type (Task/Agent dispatches carry
+# subagent_type, NOT model — the model lives in the agent's frontmatter; see lessons-learned:
+# hook-payload-assumption), else "inherited" for main-context calls. Coarse proxy only: a parent
+# PostToolUse sees the subagent's final-output bytes, not its internal token consumption.
+KEY=$(echo "$INPUT" | jq -r '.tool_input.model // .tool_input.subagent_type // "inherited"')
+jq --arg m "$KEY" --argjson b "$RESP_BYTES" '.[$m] = ((.[$m] // 0) + $b)' \
    "$BY_MODEL_FILE" > "$BY_MODEL_FILE.tmp" && mv "$BY_MODEL_FILE.tmp" "$BY_MODEL_FILE"
 
 TURN_TOKENS=$(( NEW_TURN_BYTES / 4 ))
@@ -76,11 +75,6 @@ fi
 
 if (( SESS_TOKENS > WARN_PER_SESSION )); then
   echo "TOKEN-GUARD warn: session at ~${SESS_TOKENS} tokens (>${WARN_PER_SESSION}). Consider switching to Sonnet subagent or /compact." >&2
-fi
-
-OPUS_TOKENS=$(( $(jq -r '.["opus"] // 0' "$BY_MODEL_FILE") / 4 ))
-if (( OPUS_TOKENS > WARN_OPUS_PER_SESSION )); then
-  echo "TOKEN-GUARD warn: premium-tier (opus) session usage ~${OPUS_TOKENS} tokens (>${WARN_OPUS_PER_SESSION}). Route research/review off the most-capable tier per model-selection.md." >&2
 fi
 
 exit 0

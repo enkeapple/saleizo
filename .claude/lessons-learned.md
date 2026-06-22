@@ -4,6 +4,24 @@ Transient backlog of un-promoted candidate rules — newest at the top of `## En
 
 ## Entries
 
+## 2026-06-22 — Hook shipped a zero-match branch the fixture never exercised (grep -c "0\n0")
+
+- **Cause-tag**: untested-empty-branch
+- **Symptom**: `friction-log.sh` errored on every real Stop — `line 50: 0\n0: syntax error in expression` then `cur_error: unbound variable`. It had passed its GREEN fixtures.
+- **Root cause**: `grep -c` PRINTS "0" AND EXITS 1 on no match, so `cur=$(printf … | grep -c PATTERN || echo 0)` evaluated to `"0\n0"`, which broke `cur_error=$(( cur_total - … ))` and (under `set -u`) left `cur_error` unbound. The GREEN fixtures only fed transcripts that HAD matches (nonzero counts), so the zero-match branch shipped untested and failed the moment a real turn had no `is_error` entries.
+- **Wrong approach**: treated "GREEN on the populated fixture" as proof the hook works; the populated path never hit the `|| echo 0` double-print.
+- **Correct approach**: dropped `|| echo 0`, sanitized each count to a clean integer (`${n//[^0-9]/}`, default 0); added fixtures for zero-match, partial (only one class), and no-tool_results transcripts.
+- **Prevention**: when fixturing a counting/aggregating/branching hook, ALWAYS include the empty / zero-match input (no matches, empty transcript) alongside the populated case — the happy-path fixture is a false green for the empty branch. And never wrap `grep -c` in `|| echo 0`: on no match it already prints "0" and exits 1, so the `||` double-prints "0\n0".
+
+## 2026-06-22 — Keyed hook accounting on a payload field that does not exist for that event+tool
+
+- **Cause-tag**: hook-payload-assumption
+- **Symptom**: `token-guard.sh`'s by-model accounting (#2) keys on `.tool_input.model`, but verification against 59 real `crewing-mobile` transcripts showed Task/Agent `tool_input` is only `{description, prompt, subagent_type}` — no `model`. So every subagent dispatch buckets as `"inherited"` and the per-model signal is dead.
+- **Root cause**: assumed the dispatched model is echoed in the PostToolUse payload. It is not — the model comes from the subagent's `.claude/agents/<type>.md` frontmatter, applied by the harness and never surfaced in `tool_input`. Separately, a parent PostToolUse only sees the subagent's final-output bytes, never its internal token consumption, so any parent-side token accounting is a coarse proxy at best.
+- **Wrong approach**: wrote the accounting against an imagined payload shape, fixture-tested it with a synthetic `{tool_input:{model:"opus"}}` I invented — so the fixture passed while the real dispatch payload never carries that field (a test that passed for the wrong reason).
+- **Correct approach**: key by the field that actually exists — `.tool_input.subagent_type` — and resolve its tier via the agent's frontmatter when a tier label is needed; treat parent-side byte counts as a proxy, not true cost.
+- **Prevention**: before keying hook logic on a payload field, confirm the field exists for THAT event+tool in a real transcript/payload (`grep`/inspect `~/.claude/projects/<proj>/*.jsonl`), and build the fixture from a real captured payload, not an invented one — an invented fixture validates the assumption instead of the runtime.
+
 ## 2026-06-22 — Security guard matched short tokens as substrings → false-blocked benign commands
 
 - **Cause-tag**: guard-substring-false-positive

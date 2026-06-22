@@ -23,7 +23,8 @@ echo
 echo "## Skill routing"
 if [[ -s "$METRICS" ]]; then
   jq -rs '
-    group_by(.event)
+    map(select(.event != "friction"))
+    | group_by(.event)
     | map({event: (.[0].event // "unknown"), count: length})
     | sort_by(-.count)[]
     | "- \(.event): \(.count)"
@@ -35,6 +36,18 @@ if [[ -s "$METRICS" ]]; then
       then "\nBypass rate: \($b)/\($b + $u) = \((100 * $b / ($b + $u)) | floor)%"
       else "\nBypass rate: n/a (no triggered events yet)" end
   ' "$METRICS" 2>/dev/null
+else
+  echo "- no _metrics.jsonl data yet"
+fi
+echo
+
+echo "## Friction (deterministic is_error, by class)"
+if [[ -s "$METRICS" ]]; then
+  jq -rs '
+    (map(select(.event == "friction"))) as $f
+    | if ($f | length) == 0 then "- none logged yet"
+      else ($f | group_by(.class) | map("- \(.[0].class // "?"): \(map(.count // 0) | add)") | .[]) end
+  ' "$METRICS" 2>/dev/null || echo "- (could not parse friction events)"
 else
   echo "- no _metrics.jsonl data yet"
 fi
