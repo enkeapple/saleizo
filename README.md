@@ -53,6 +53,7 @@
 
 ### prose
 
+- **[humanizing-prose](skills/prose/humanizing-prose/SKILL.md)** — Use to rewrite an EXISTING draft into natural, publication-ready prose for a narrative / article register — a blog post, LinkedIn post, newsletter, essay, or…
 - **[tightening-prose](skills/prose/tightening-prose/SKILL.md)** — Use to remove AI writing tells from an EXISTING chunk of prose — a draft, pasted text, weaker-model output, or…
 
 <!-- skills:end -->

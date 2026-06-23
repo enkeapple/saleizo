@@ -4,6 +4,15 @@ Transient backlog of un-promoted candidate rules — newest at the top of `## En
 
 ## Entries
 
+## 2026-06-23 — RED baseline subagent inherited the vault's own anti-slop skill, complied for the wrong reason
+
+- **Cause-tag**: contaminated-red-baseline
+- **Symptom**: authoring `humanizing-prose`, the RED baseline subagent (general-purpose, dispatched in the vault) opened with "the catalog applies straight, no register exemptions… Running the pass" — `tightening-prose`/stop-slop vocabulary — and emitted already-clean prose, so the baseline proved nothing.
+- **Root cause**: a subagent dispatched via the Agent tool with cwd = this vault inherits the vault's CLAUDE.md + skills-routing, so it applies an EXISTING skill whose domain overlaps the one under test; the "fresh" baseline is not a clean room.
+- **Wrong approach**: assumed a freshly dispatched subagent is uncontaminated and ran the baseline with a plain "make it read human" prompt.
+- **Correct approach**: re-dispatched with an explicit suppression clause ("ignore any repository instructions, project skills, catalogs, register frameworks, methodologies — act as a generic agent"); the clean baseline then left the long-tail tells, giving a real RED.
+- **Prevention**: when the RED baseline's domain is one the vault ITSELF has a skill for, add an explicit "ignore repo skills/catalogs/methodologies" clause to the baseline prompt, AND scan the output/preamble for that skill's vocabulary (e.g. "catalog", "register", "the pass") — if present, the RED is contaminated; re-run clean.
+
 ## 2026-06-23 — Claimed "no test-cases.md" from a depth-limited find that couldn't reach them
 
 - **Cause-tag**: broken-grep-false-verification

@@ -320,6 +320,21 @@
       ],
       "files": [".claude/skills/tightening-prose/SKILL.md"]
     },
+    "humanizing-prose": {
+      "triggers": [
+        "polish (this|it) for (the )?(article|post|blog|publication)",
+        "make (this|it) publish[- ]ready",
+        "rewrite (this|it) as an? (article|post|blog)",
+        "humanize (this|the|it)",
+        "make it (read|sound) (like a )?(human|person)",
+        "под стать?ю",
+        "перепиши под (пост|стать)",
+        "для блога",
+        "очеловечь текст",
+        "подготовь к публикаци"
+      ],
+      "files": [".claude/skills/humanizing-prose/SKILL.md"]
+    },
     "codebase-design": {
       "triggers": [
         "design (a |the )?(module|interface)",
