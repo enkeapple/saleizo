@@ -4,6 +4,15 @@ Transient backlog of un-promoted candidate rules — newest at the top of `## En
 
 ## Entries
 
+## 2026-06-23 — Modeled plugin-provided skills as kind:local with in-repo files paths in a consumer routing file
+
+- **Cause-tag**: dev-source-vs-consumer-routing
+- **Symptom**: in the consumer-side `.claude/skills-routing.json` (read by hooks from `$CLAUDE_PROJECT_DIR`) all 25 plugin skills were set `kind:"local"` with `files: ["plugins/<kit>/skills/.../SKILL.md"]`; owner flagged it — that path won't exist when the file is a real consumer's config.
+- **Root cause**: conflated "this dev repo contains the plugin source in-tree" with "the consumer routing should point at it." A plugin skill's body lives in the install cache, not under `plugins/` in a consumer; an in-repo `files` path is a dead reference and mis-models a plugin skill as locally-authored.
+- **Wrong approach**: approved design D4 as "local with real plugin paths" and wrote spec+plan on it; the in-repo paths even resolved in THIS dev repo, masking the error until the concrete file made it visible.
+- **Correct approach**: plugin-provided ⇒ `kind:"ref"` (`plugin`+`name`+`triggers`, NO `files`); `local` only for skills authored in the consumer's own `.claude/skills/<name>/`. Reverted via a spec+plan loop-back and a redone task.
+- **Prevention**: for each routing entry ask "does the body ship in an installed plugin, or is it authored in THIS repo?" Plugin ⇒ `ref`, no `files`. Local ⇒ `files` must resolve from the CONSUMER root, never a dev-tree-only path. (Kin to `skill-path-source-vs-symlink`: dev source tree vs the addressing another layer expects.)
+
 ## 2026-06-23 — Catalog re-derivation reported false drift: parser assumed all descriptions were folded scalars, missed quoted ones
 
 - **Cause-tag**: parser-format-assumption
