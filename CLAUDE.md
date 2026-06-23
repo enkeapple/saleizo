@@ -48,6 +48,7 @@ No build / dev / test pipeline — this is a skills vault, not an app. Verificat
 | Design a deep module / find a seam (shared deep-module vocabulary) | `codebase-design` |
 | Architecture review — surface deepening opportunities (user-invoked, not trigger-routed) | `improve-codebase-architecture` |
 | De-slop an existing chunk of prose (remove the AI tells) | `tightening-prose` |
+| Rewrite a draft into publication-ready prose (article / blog / post register) | `humanizing-prose` |
 | Approaching the context limit / ending with unfinished work | `handoff` |
 | Short user-typed aliases (deterministic entry; same skills) | `/sdd`→`sdd-lifecycle`, `/grill`→`grilling`, `/spec`→`writing-specs`, `/audit`→`spec-drift-audit` |
 
