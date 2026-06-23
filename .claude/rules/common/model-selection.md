@@ -29,6 +29,24 @@ Pick the model by the dispatched agent's **role**, and state the cost rationale 
 
 Name **tiers**, not a fixed model — the current Claude mapping is illustrative (cheap ≈ Haiku, standard ≈ Sonnet, most-capable ≈ Opus) and will shift as models are renamed.
 
+### Quick reference — dispatched role → tier
+
+A scannable default for the **cost-tiering** lever. Default a well-specified implement task to **standard**; escalate to **most-capable** only on a real trigger (first attempt failed, 5+ files, an architectural decision, or security-critical code). The **review** rows are deliberately not a fixed tier: a review tier is read off the *implementer's* model (one tier different), never off this table by task — that is the load-bearing rule above, and it overrides any row here.
+
+The **Tier** column is authoritative; the model in parentheses is illustrative and will shift as models are renamed — bind to the tier, not the name.
+
+| Task type | Tier (illustrative model) | Why |
+| --- | --- | --- |
+| Exploration / search | cheap (≈ Haiku) | fast, cheap, good enough for finding files |
+| Simple, single-file edit | cheap (≈ Haiku) | clear instructions, low judgment |
+| Writing docs | cheap (≈ Haiku) | structure is simple |
+| Multi-file implementation | standard (≈ Sonnet) | best balance for coding |
+| Complex architecture / design | most-capable (≈ Opus) | deep reasoning over many interacting parts |
+| Debugging a hard bug | most-capable (≈ Opus) | must hold the whole system in mind |
+| Security analysis / security-critical code | most-capable (≈ Opus) | cannot afford a missed vulnerability |
+| Routine per-task review | **one tier different from the implementer** (prefer cheaper) | independence, not raw power, catches blind spots |
+| Final / high-risk / security review | most-capable **and** different from the implementer | top capability *and* an independent pass |
+
 ```text
 ❌ WRONG — caller's premium model inherited for everything; reviewer == implementer.
   dispatch(explore "map the auth module")        model: opus    # premium model just to read files
@@ -51,6 +69,7 @@ Name **tiers**, not a fixed model — the current Claude mapping is illustrative
 ## Review Checklist
 
 - [ ] The reviewer's model differs from the implementer's (or, top-tier/single-model harness, the reviewer is at least a fresh context and that is stated) — the load-bearing check.
+- [ ] The review tier was derived from the implementer's model (one tier different), NOT read as a fixed task-type row from the quick-reference table.
 - [ ] Each subagent/workflow dispatch states the model tier AND a one-line cost rationale for that role.
 - [ ] No premium model used for a pure research/explore/read-only role, and no premium default for a mechanical implement task.
 - [ ] Model named as a tier (cheap/standard/most-capable) with any concrete model marked illustrative — not a hard-coded model as the only option.
