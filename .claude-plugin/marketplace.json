@@ -3,21 +3,18 @@
   "owner": {
     "name": "Oleksandr Bilyk"
   },
-  "metadata": {
-    "pluginRoot": "./plugins"
-  },
   "plugins": [
     {
       "name": "sdd-kit",
-      "source": "sdd-kit"
+      "source": "./plugins/sdd-kit"
     },
     {
       "name": "learning-kit",
-      "source": "learning-kit"
+      "source": "./plugins/learning-kit"
     },
     {
       "name": "craft-kit",
-      "source": "craft-kit"
+      "source": "./plugins/craft-kit"
     }
   ]
 }
