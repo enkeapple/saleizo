@@ -14,7 +14,7 @@
 #   error   — any other is_error (command exited non-zero, tool failed)
 #
 # Delta-tracked against this session's friction-seen.json so re-fired Stop hooks never double-count.
-# Output: appends {event:"friction", class, count} lines to .claude/state/_metrics.jsonl.
+# Output: appends {type:"friction", class, count} lines to .claude/state/metrics/YYYY-MM-DD.jsonl.
 # Fail-open: any error / missing transcript / no jq exits 0 with no output.
 set -uo pipefail
 
