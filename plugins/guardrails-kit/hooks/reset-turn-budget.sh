@@ -12,12 +12,17 @@ mkdir -p "$STATE_DIR"
 touch "$STATE_DIR"   # refresh mtime: mkdir -p is a no-op (no mtime bump) on an existing dir, so a
                      # resumed >GC_DAYS-old session dir would otherwise be deleted by the GC below.
 
-# Opportunistic GC: per-session state dirs (#11) accumulate forever otherwise. Remove direct
-# subdirs of .claude/state older than GC_DAYS by mtime; the current session's dir was just
-# created above (fresh mtime) so it is never collected. Scoped to direct subdirs only — never
-# root-level legacy files. Fail-open: a GC error must not disrupt the turn reset.
-GC_DAYS=7
+# Opportunistic GC: a single GC_DAYS-window sweep, run AFTER the touch above so the current
+# session's dir (fresh mtime) is never collected. Prunes by mtime: (1) dated telemetry + corpus
+# day-files and the pre-3b legacy _metrics.jsonl, (2) per-session scratch dirs (kept until build
+# 3c relocates scratch to ${TMPDIR}). Fail-open: a GC error must not disrupt the turn reset.
+GC_DAYS=14
 STATE_BASE="${CLAUDE_PROJECT_DIR:-.}/.claude/state"
+# (1) Dated day-files (metrics/, prompts/) + the legacy single file, older than GC_DAYS.
+#     Three -maxdepth-1 roots: STATE_BASE (legacy _metrics.jsonl) + metrics/ + prompts/.
+find "$STATE_BASE" "$STATE_BASE/metrics" "$STATE_BASE/prompts" \
+  -maxdepth 1 -type f -name '*.jsonl' -mtime +"$GC_DAYS" -delete 2>/dev/null || true
+# (2) Per-session scratch dirs older than GC_DAYS (stopgap until build 3c moves scratch to ${TMPDIR}).
 find "$STATE_BASE" -mindepth 1 -maxdepth 1 -type d -mtime +"$GC_DAYS" -exec rm -rf {} + 2>/dev/null || true
 
 echo '{"bytes":0,"tools":[]}' > "$STATE_DIR/turn-budget.json"

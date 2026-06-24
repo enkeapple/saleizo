@@ -26,7 +26,7 @@ command -v jq >/dev/null 2>&1 || exit 0
 SID=$(hook_sid "$INPUT")
 PROJECT_DIR="${CLAUDE_PROJECT_DIR:-.}"
 STATE_DIR="$PROJECT_DIR/.claude/state/$SID"
-METRICS="$PROJECT_DIR/.claude/state/_metrics.jsonl"
+METRICS="$PROJECT_DIR/.claude/state/metrics/$(date -u +%F).jsonl"
 SEEN_FILE="$STATE_DIR/friction-seen.json"
 
 TRANSCRIPT=$(printf '%s' "$INPUT" | jq -r '.transcript_path // empty' 2>/dev/null) || exit 0

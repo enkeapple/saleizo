@@ -4,6 +4,15 @@ Transient backlog of un-promoted candidate rules — newest at the top of `## En
 
 ## Entries
 
+## 2026-06-24 — `nullglob` does NOT drop an explicit absent path listed in a bash array
+
+- **Cause-tag**: shell-glob-assumption
+- **Symptom**: build 3b consumer `metrics-report.sh` built `METRICS_FILES=("$DIR"/metrics/*.jsonl "$DIR"/_metrics.jsonl)` under `shopt -s nullglob`; the cold-reviewer (plan gate) showed that on empty-state / post-rotation the array keeps the literal non-existent `_metrics.jsonl`, so `(( ${#arr[@]} > 0 ))` is true and `jq -rs "${arr[@]}"` crashes `No such file or directory` — the very empty-state the spec must handle.
+- **Root cause**: assumed `nullglob` suppresses any absent entry. It only removes a GLOB that matches nothing; an EXPLICIT literal path (no wildcard) is never expanded, so it stays in the array verbatim whether or not the file exists.
+- **Wrong approach**: listed the optional legacy file as a literal element inside the nullglob array, trusting nullglob to drop it when missing — and put the same wrong contract in both spec and plan.
+- **Correct approach**: glob-only array `("$DIR"/metrics/*.jsonl)`, then append the optional explicit file conditionally: `[[ -f "$DIR/_metrics.jsonl" ]] && arr+=("$DIR/_metrics.jsonl")`.
+- **Prevention**: never list an OPTIONAL explicit path inside a nullglob array — nullglob only suppresses wildcard patterns, not literals; append optional files via `[[ -f ]] && arr+=(...)`. Always execute the empty-state path (zero files) and confirm no non-existent literal reaches the downstream consumer. (Reviewer-diversity caught this — see model-selection.md: a different-model cold reviewer found the author's own wrong assumption.)
+
 ## 2026-06-24 — `. lib || exit 0` fails CLOSED under set -e (`.` is a POSIX special builtin)
 
 - **Cause-tag**: errexit-failopen-idiom

@@ -12,7 +12,7 @@ hook_require_json "$INPUT"
 SID=$(hook_sid "$INPUT")
 STATE_DIR=$(hook_state_dir "$SID")
 ROUTING="${CLAUDE_PROJECT_DIR:-.}/.claude/skills-routing.json"
-METRICS="${CLAUDE_PROJECT_DIR:-.}/.claude/state/_metrics.jsonl"
+METRICS="${CLAUDE_PROJECT_DIR:-.}/.claude/state/metrics/$(date -u +%F).jsonl"
 TURN_SKILLS_FILE="$STATE_DIR/turn-skills-invoked.json"
 LAST_PROMPT_FILE="$STATE_DIR/last-prompt.txt"
 
