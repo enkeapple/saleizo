@@ -32,7 +32,7 @@
       "triggers": [
         "lifecycle",
         "run the (full )?workflow",
-        "start the sdd flow",
+        "(start|do|run) the (full )?sdd flow",
         "kick off the pipeline",
         "full pipeline",
         "the whole flow",
@@ -270,7 +270,7 @@
         "initialize CLAUDE.md",
         "create (the )?(project'?s )?CLAUDE.md",
         "bootstrap the engineering system",
-        "give Claude a persona",
+        "give Claude a (persona|pipeline)",
         "create the project'?s Claude config",
         "настроить CLAUDE.md",
         "создать CLAUDE.md",

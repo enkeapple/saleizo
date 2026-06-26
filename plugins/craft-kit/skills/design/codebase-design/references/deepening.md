@@ -26,8 +26,7 @@ Third-party services you don't control (a payments or messaging provider, for ex
 
 ## Seam discipline
 
-- **One adapter means a hypothetical seam. Two adapters means a real one.** Don't introduce a port unless at least two adapters are justified (typically production + test). A single-adapter seam is just indirection.
-- **Internal seams vs external seams.** A deep module can have internal seams (private to its implementation, used by its own tests) as well as the external seam at its interface. Don't expose internal seams through the interface just because tests use them.
+For the canonical seam rules (one vs two adapters, internal vs external seams), see [SKILL.md](../SKILL.md) → Principles.
 
 ## Testing strategy: replace, don't layer
 
