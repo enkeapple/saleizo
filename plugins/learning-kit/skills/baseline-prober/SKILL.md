@@ -1,12 +1,12 @@
 ---
 name: baseline-prober
-description: "Calibrate what the user actually knows BEFORE they learn something — three to five application probes aimed at the spot they're most likely overconfident, a HARD STOP, then a blunt per-probe verdict and one entry point keyed to it. Refuses to hand a learning path on an unverified self-assessment. User-invoked."
+description: "Probe what the user actually knows before handing them a learning path — exposes overconfident self-assessments, then keys one entry point to the result."
 disable-model-invocation: true
 ---
 
 # Baseline Prober
 
-The user is about to learn something and wants to know where to start. The temptation is to take their self-assessment at face value ("I'm senior, skip the basics", "I basically know it already") and hand them a learning path built on an unverified claim. A path that starts at the wrong level is the failure this skill prevents, and the senior with a confident-but-wrong mental model is exactly who arrives there. Treat the self-assessment as a hypothesis to test. The probe is the deliverable; the path comes only after the answers are in.
+A path that starts at the wrong level is the failure this skill prevents, and the senior with a confident-but-wrong mental model is exactly who arrives there. Treat the self-assessment as a hypothesis to falsify. The probe is the deliverable; the path comes only after the answers are in.
 
 ## What the answer IS — produce these slots, in order
 
@@ -15,15 +15,8 @@ The user is about to learn something and wants to know where to start. The tempt
 
 ### After they answer
 
-1. **The calibrated verdict — blunt, per probe.** For each, state plainly: solid / shaky / **confident-but-wrong** (the dangerous one). Name the specific misconception where their confidence outran their knowledge. No cushioning, no "good start".
+1. **The calibrated verdict — one label per probe.** For each probe, assign exactly one of: solid / shaky / **confident-but-wrong** (the dangerous one). Name the specific misconception where their confidence outran their knowledge. No cushioning, no "good start".
 2. **One entry point, keyed to the verdict.** A single concrete starting place that fits what the probes revealed, not a generic beginner path, plus the one thing they should NOT start with given what is already solid. Then hand off: want to be functional fast → invoke `fast-track`; aiming at a concrete outcome by a deadline → invoke `plan-architect` (feed it this verdict as the current level).
-
-## Hard prohibitions — refuse these
-
-- **No learning path before the probe answers are in.** A roadmap in slot 1 or 2 is the failure.
-- **No accepting "I already know it / skip the assessment" as a reason to skip the probe** — that request is the strongest signal the probe is needed.
-- **No recall questions** ("define X") standing in for application probes.
-- **No generic beginner entry point** detached from the verdict.
 
 ## Rationalizations — all rejected
 

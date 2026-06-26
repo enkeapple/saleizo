@@ -4,6 +4,24 @@ Transient backlog of un-promoted candidate rules — newest at the top of `## En
 
 ## Entries
 
+## 2026-06-26 — Nearly applied fan-out audit findings that were false positives — subagents misread the runtime matcher and hallucinated a check
+
+- **Cause-tag**: unverified-subagent-finding
+- **Symptom**: a 25-agent fan-out audit (sonnet) of sdd-kit returned MED findings I was about to apply wholesale; on read-before-assert ~40% were false — declension-prefix triggers (`приступить к реализаци`) flagged as "truncated bugs that break detect-bypass", a stale `name===symlink` check claimed present in validation-checklist.md (it is not), and "routing ⊋ description" called a sync defect.
+- **Root cause**: treated dispatched audit findings as verified evidence because they cite `file:line`, skipping independent verification of each claim against the actual runtime and files.
+- **Wrong approach**: planned to "fix" the MED truncated-trigger findings directly — which would have broken the intentional declension-agnostic prefix matching.
+- **Correct approach**: read `detect-bypass.sh` (matcher is `grep -iE` over the whole prompt → prefixes are correct), read `validation-checklist.md` (no symlink check), re-read `skill-routing-sync.md` (routing need only reflect declared triggers); applied only the genuine defects.
+- **Prevention**: before acting on any fan-out audit finding, re-verify its claim THIS session — read the runtime that defines the behavior (the hook's matcher) and grep the cited file; a finding that cites `file:line` is still a claim, not proof. Expect a real false-positive rate from sonnet audits. (Kin to `incomplete-schema-verification`: a subagent's verification output is a lead to confirm, not ground truth.)
+
+## 2026-06-26 — Latency audit named the rarely-taken fork branch as the dominant bottleneck
+
+- **Cause-tag**: unverified-usage-assumption
+- **Symptom**: SDD-flow latency audit's headline ranked `subagent-driven-development` (16–31 dispatches) as the dominant driver (~half the run); owner corrected that he almost always runs `inline` (0 dispatches), and the metrics aggregator confirmed subagent tokens were ~7% of main — the headline bottleneck barely existed.
+- **Root cause**: ranked a cost on which branch of a user-selectable fork is theoretically heaviest, without verifying which branch is actually exercised.
+- **Wrong approach**: built the audit's top finding on the expensive-looking branch because the skill's logic made it look dominant on paper.
+- **Correct approach**: re-ranked after the owner correction; real overhead sits in the always-run cold-reviewer dispatches, not the cold fork branch; confirmed with real telemetry.
+- **Prevention**: auditing a system with a user-selectable fork (mode A vs B, sync vs async, cached vs cold) — establish which branch is actually taken (ask owner / read telemetry) BEFORE ranking any branch-specific cost as the bottleneck.
+
 ## 2026-06-25 — Authored scoping-rule-value; its in-vault RED reproduced no failure (strong agent already complies) and was self-contaminated by the rule on disk
 
 - **Cause-tag**: export-baseline-mismatch
@@ -186,6 +204,7 @@ Transient backlog of un-promoted candidate rules — newest at the top of `## En
 
 ## Promoted clusters
 
+- dedup-drops-required-element → rules/common/dedup-drops-required-element.md (2026-06-26)
 - contaminated-red-baseline → rules/common/fair-red-baseline.md (2026-06-24)
 - broken-grep-false-verification → rules/common/search-scope-verification.md (2026-06-23)
 - skill-value-vs-noop → rules/common/scoping-skill-value.md (2026-06-19)

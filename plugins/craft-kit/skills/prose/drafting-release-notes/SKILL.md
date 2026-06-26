@@ -19,12 +19,6 @@ release notes: short, human, user-facing bullets — one localized list per loca
 The diff is the source of truth; the notes are **plain-language benefits a user feels**, never a
 copied changelog of commit subjects.
 
-## When to use
-
-A release is being cut and you need the "What's New" copy for Google Play and/or the App Store.
-You have (or can produce) the diff between two release branches and a way to learn which locales
-the app ships.
-
 ## The recipe (in order)
 
 1. **Get the diff.** List what changed between the current and previous release branch using the
@@ -33,17 +27,18 @@ the app ships.
 2. **Triage to user-facing changes.** Keep only what a user notices: new features, visible
    improvements, user-relevant fixes. **Drop** everything internal — dependency bumps, refactors,
    test/CI/build changes, formatting, internal analytics, docs, version/SDK changes. When in doubt,
-   ask "would a passenger ever notice this?"; if no, cut it.
+   ask "would a user ever notice this?"; if no, cut it.
 3. **Draft the English bullets.** Rewrite each kept change as one benefit-first, present-tense line
    in plain language (see Voice). Fold the small fixes and perf work into a single closing
    **`• Bug fixes and performance improvements`** bullet — the store convention — rather than
-   listing each fix. Aim for **3–6 bullets total.**
+   listing each fix. Aim for **3–6 bullets total.** If triage leaves nothing user-facing, say so
+   and confirm with the user before emitting a notes set — do not emit empty or filler blocks.
 4. **Detect locales.** Read the project's locale directory (commonly `translations/`; the consumer
    repo may differ). **Conditional:** if it exists, the locale list is the set of files found
    (e.g. `en-US`, `de-DE`, `fr-FR`, …). If it is **absent**, produce **English only** and say so.
-5. **Translate per locale.** For every detected locale, translate the English bullets into natural,
-   native-sounding copy for that language — not a literal word-for-word rendering. English stays as
-   its own block too.
+5. **Translate per locale.** For every detected locale, translate the English bullets so each locale
+   block reads as natively authored — no literal calques, no English word-order carried into the
+   target language. English stays as its own block too.
 6. **Emit one block per locale** in the output shape below.
 
 ## Output shape (REQUIRED)
@@ -71,11 +66,11 @@ locale code as the tag, `•` bullets inside:
 
 ## Voice
 
-- **Benefit, not mechanism.** "See the price per passenger on every tour card", not "Added
+- **Benefit-first.** "See the price per passenger on every tour card", not "Added
   per-passenger price field to TourCard".
-- **Plain and warm**, present tense, second person where natural. No jargon, no class/file/API
-  names, no version numbers, no ticket IDs, no commit hashes.
-- **One idea per bullet**, short. The user is a traveller, not an engineer.
+- Present tense, second person where natural. No jargon, no class/file/API names, no version
+  numbers, no ticket IDs, no commit hashes.
+- **One idea per bullet**, short.
 
 A worked diff → notes example: [example.md](./assets/example.md).
 
@@ -83,8 +78,7 @@ A worked diff → notes example: [example.md](./assets/example.md).
 
 - Copying commit subjects verbatim (`fix(crash): guard against NPE…`) into a bullet — that is a
   changelog, not release notes. Rewrite as a user benefit or fold into the catch-all.
-- Including an internal change (dep bump, refactor, CI, internal analytics, SDK/version, docs) — a
-  user never sees it; cut it.
+- Including an internal change — the categories from Step 2 — that a user never sees.
 - Producing **English only when locales exist**, or deferring translation as "needs review" — the
   detected locales each get a translated block now.
 - One block reused for every locale, or a detected locale missing from the output.

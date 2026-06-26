@@ -19,9 +19,7 @@ Rewrite an **existing** draft into natural, publication-ready prose for a **narr
 
 ## When to use
 
-On demand, against narrative text headed for publication that still reads "AI". This is NOT a prevention pass on a strong model's own fresh output — that is already clean, so the pass is a no-op there. Apply only to the prose body; never to code, identifiers, or quoted data.
-
-**Register fork — pick the right pass.** This is the **narrative** register. For a **technical doc** (spec, README, API reference) the carve-outs invert: em-dashes, terse fragments, and precise adverbs are deliberate density there, so use `tightening-prose`, not this skill. Running the narrative bans on a technical doc fights the medium.
+On demand, against narrative text headed for publication that still reads "AI".
 
 ## These ARE tells here — the inverted carve-out
 
@@ -40,15 +38,15 @@ What a technical pass *keeps*, a narrative article must *cut*. This inversion is
 3. **Business jargon** → plain verb. ("leverage" → use, "deep dive" → analysis, "unpack" → explain.)
 4. **Empty adverbs & filler** → cut. ("genuinely", "truly", "at the end of the day", "in today's fast-paced world".)
 5. **Name the actor** → kill false agency. ("the decision emerges naturally" → say who decides, or why it follows.)
-6. **Apply the inverted carve-out above** → cut every em-dash contrast, binary-contrast crutch, dramatic fragment, and rhetorical gambit.
-7. **Vague declaratives** → the specific thing, or cut. ("the stakes are high", "the implications are significant".)
+6. **Apply the inverted carve-out above.**
+7. **Vague declaratives** → the specific thing, or cut.
 8. **Meta-commentary** → delete. ("As we'll see", "Let me walk you through".)
 
 Full phrase catalog: [phrases.md](./references/phrases.md). Structural catalog and the register-contrast table: [narrative-tells.md](./references/narrative-tells.md). Worked before/after: [examples.md](./assets/examples.md).
 
 ## Final check (lightweight)
 
-Re-read once and score 1–10 on **directness** (no hedging/throat-clearing) and **density** (every sentence earns its place), then ask: does any sentence still read "AI" — an em-dash contrast, a binary-contrast reflex, a rhetorical gambit? Any surviving tell → another pass. The full 5-dimension rubric lives in [narrative-tells.md](./references/narrative-tells.md).
+Re-read once and score 1–10 on **directness** (no hedging/throat-clearing) and **density** (every sentence earns its place), then ask: does any sentence still read "AI" — an em-dash contrast, a binary-contrast reflex, a rhetorical gambit? Any surviving tell → another pass. The full 5-dimension rubric lives in [scoring-rubric.md](../shared/scoring-rubric.md).
 
 ## Red Flags — STOP
 

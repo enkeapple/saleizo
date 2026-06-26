@@ -12,11 +12,9 @@ disable-model-invocation: true
 
 Surface architectural friction and propose **deepening opportunities** — refactors that turn shallow modules into deep ones. The aim is testability and AI-navigability.
 
-A capable agent, asked to "review the architecture", will jump straight to a prose list of recommendations. This skill exists to stop that: it forces an explicit process — explore, then present candidates *visually*, then grill the chosen one — and a shared vocabulary, neither of which happens by default.
-
 This skill is _informed_ by the project's domain model and built on a shared design vocabulary:
 
-- Run the `codebase-design` skill for the architecture vocabulary (**module**, **interface**, **depth**, **seam**, **adapter**, **leverage**, **locality**) and its principles (the deletion test, "the interface is the test surface", "one adapter = hypothetical seam, two = real"). Use these terms exactly in every suggestion — don't drift into "component," "service," "API," or "boundary."
+- Run the `codebase-design` skill for the architecture vocabulary — **module**, **interface**, **depth**, **seam**, **adapter**, **leverage**, **locality** — and its principles; that skill holds their definitions and is the single source of truth. Use these terms exactly in every suggestion; never drift into "component," "service," "API," or "boundary."
 - The project's **domain glossary** (whatever the consumer repo calls it — a `CONTEXT.md`, a domain-rules glossary, etc.) gives names to good seams; the project's **architecture decision records (ADRs)**, wherever they live, record decisions this command should not re-litigate.
 
 ## Process
@@ -39,7 +37,7 @@ Apply the **deletion test** to anything you suspect is shallow: would deleting i
 
 The deliverable is **always a written, self-contained visual artifact** — never a prose or markdown bullet list in the chat. The diagrams carry the weight; a chat list is the exact failure this skill exists to prevent, and "I'm in a hurry", "just read them aloud", "markdown is fine", or "skip the report" are the pressure to resist, not an exception that converts the deliverable into chat prose. The recommended, illustrative format is a self-contained HTML file (Tailwind + Mermaid via CDN) written to the OS temp directory so nothing lands in the repo. A consumer repo may substitute another medium **only if it stays visual, self-contained, and written to a file** — substitution swaps the format, it never downgrades it to a chat list. See [html-report.md](assets/html-report.md) for the full scaffold, diagram patterns, and styling guidance.
 
-If the user insists on chat prose *after* being told the report is one temp file with zero repo footprint, that is an explicit, informed override of the skill — name what it costs ("dropping the visual report loses the before/after diagrams that carry the deepening case") and do not slide into it silently as though the first request settled it.
+If the user wants to present findings at a review, produce the visual artifact and read talking points *from* it — do not replace it with a chat list. If the user insists on chat prose *after* being told the report is one temp file with zero repo footprint, that is an explicit, informed override of the skill — name what it costs ("dropping the visual report loses the before/after diagrams that carry the deepening case") and do not slide into it silently as though the first request settled it.
 
 Resolve the temp dir from `$TMPDIR`, falling back to `/tmp` (or `%TEMP%` on Windows), and write to `<tmpdir>/architecture-review-<timestamp>.html` so each run gets a fresh file. Open it for the user — `xdg-open <path>` on Linux, `open <path>` on macOS, `start <path>` on Windows — and tell them the absolute path.
 
@@ -60,15 +58,6 @@ End the report with a **Top recommendation** section: which candidate you'd tack
 
 Do NOT propose interfaces yet. Confirm the artifact was actually written (the file exists and you have its absolute path) **before** asking the pick question — never ask "which would you like to explore?" off a chat list that was never written to a file. After the file is written, ask the user: "Which of these would you like to explore?"
 
-### Holding the visual form under pressure
-
-| Excuse | Reality |
-| --- | --- |
-| "User's in a hurry — just give bullets." | The hurry is the pressure the skill exists to resist; the report is one temp file, seconds to write, zero repo footprint. |
-| "They want to read it aloud at the review." | Produce the visual artifact and read talking points *from* it — don't replace it with a chat list. |
-| "A markdown list is basically the same." | A list drops the before/after diagrams that carry the deepening case — the load-bearing part of the deliverable. |
-| "The format is 'illustrative / recommended', so prose is fine." | Illustrative means HTML vs another *visual, file-written* medium; it never licenses a non-visual chat list. |
-
 **Red Flags — STOP:**
 
 - Emitting the recommendations as a chat prose / markdown bullet list instead of a written visual artifact.
@@ -80,9 +69,8 @@ Do NOT propose interfaces yet. Confirm the artifact was actually written (the fi
 
 Once the user picks a candidate, run the `grilling` skill to walk the design tree with them — constraints, dependencies, the shape of the deepened module, what sits behind the seam, what tests survive.
 
-Side effects happen inline as decisions crystallize — keep the project's domain model current as you go:
+As decisions crystallize, keep the project's domain model current:
 
-- **Naming a deepened module after a concept not in the domain glossary?** Add the term to the glossary. If the project has no glossary yet, create the base set with the `bootstrapping-glossary` skill; if it has one, sharpen the entry with `auditing-glossary`.
-- **Sharpening a fuzzy term during the conversation?** Update the glossary right there (via `auditing-glossary`).
-- **User rejects the candidate with a load-bearing reason?** Offer an ADR, framed as: _"Want me to record this as an ADR so future architecture reviews don't re-suggest it?"_ Only offer when the reason would actually be needed by a future explorer to avoid re-suggesting the same thing — skip ephemeral reasons ("not worth it right now") and self-evident ones.
-- **Want to explore alternative interfaces for the deepened module?** Run the `codebase-design` skill and use its design-it-twice parallel sub-agent pattern.
+- A new or sharpened term named for a deepened module → update the domain glossary.
+- A load-bearing reason the user rejects a candidate → offer to record it as an ADR, so future reviews don't re-suggest it. Only when a future explorer would actually need it; skip ephemeral or self-evident reasons.
+- **Want to explore alternative interfaces for the deepened module?** Run the `codebase-design` skill and use its design-it-twice parallel sub-agent pattern

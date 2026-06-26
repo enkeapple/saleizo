@@ -11,11 +11,7 @@ description: >-
 
 # Tightening Prose
 
-Run a fixed-catalog de-slop pass over an **existing** chunk of prose — a draft, pasted text, weaker-model output, or slop-laden human input. A strong model's own taste removes the obvious tells but reliably leaves a long tail (empty adverbs, binary-contrast crutches, false agency); the catalog closes that gap.
-
-## When to use
-
-On demand, against text that already exists and reads "AI". This is NOT a prevention pass on a strong model's own fresh output — that is already clean, so the pass is a no-op there. Apply only to the prose body; never to code, identifiers, or data.
+A strong model's own taste removes the obvious tells but reliably leaves a long tail (empty adverbs, binary-contrast crutches, false agency); the catalog closes that gap.
 
 ## Register first — what is NOT slop here
 
@@ -42,7 +38,7 @@ Full catalogs: [phrases.md](./references/phrases.md), [structures.md](./referenc
 
 ## Final check (lightweight)
 
-Re-read once and score 1–10 on **directness** (no hedging/throat-clearing) and **density** (every sentence earns its place). Below ~7 on either → another pass. The full 5-dimension rubric lives in [structures.md](./references/structures.md).
+Re-read once and score 1–10 on **directness** (no hedging/throat-clearing) and **density** (every sentence earns its place). Below ~7 on either → another pass. The full 5-dimension rubric lives in [scoring-rubric.md](../shared/scoring-rubric.md).
 
 ## Red Flags — STOP
 

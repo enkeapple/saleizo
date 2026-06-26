@@ -1,6 +1,6 @@
 # Narrative Tells & the Inverted Register
 
-Sentence- and paragraph-level patterns to cut in a **narrative / article register**, plus the scoring rubric. The phrase-level cuts (throat-clearing, jargon, empty adverbs, meta-commentary) live in [phrases.md](./phrases.md); what is *specific* to this skill is the **inversion** below. Worked before/after in [examples.md](../assets/examples.md).
+Sentence- and paragraph-level patterns to cut in a **narrative / article register**. The phrase-level cuts (throat-clearing, jargon, empty adverbs, meta-commentary) live in [phrases.md](./phrases.md) and the shared [scoring-rubric.md](../../shared/scoring-rubric.md); what is *specific* to this skill is the **inversion** below. Worked before/after in [examples.md](../assets/examples.md).
 
 ## The inverted register — what flips versus a technical doc
 
@@ -26,17 +26,3 @@ Applying the *technical* carve-outs to an article is the main failure mode this 
 - **Staccato monotone** — a run of equally short punchy sentences reads as manufactured rhythm. Vary sentence length.
 - **False agency** — "the decision emerges naturally", "the habit takes care of itself" → name who acts or why it follows.
 - **Weak starters** — Wh-openers ("What if…") and a paragraph-leading "So" that announce instead of asserting. Lead with the subject or verb.
-
-## Scoring rubric (5 dimensions, 1–10 each)
-
-Use when a piece is going out and you want a number.
-
-| Dimension | High score means |
-| --- | --- |
-| Directness | states the point; no throat-clearing, no hedging, no rhetorical setup |
-| Rhythm | sentence length varies naturally; no forced staccato, no monotone |
-| Trust | trusts the reader; no over-explaining, no manufactured suspense |
-| Authenticity | a human voice; no performative sincerity, no em-dash drama |
-| Density | every sentence earns its place; no filler |
-
-Sum the five. **Below 35/50: revise.** For a narrative article weight Authenticity and Rhythm highest — they are what a reader registers as "a person wrote this", and exactly what the technical rubric weights lowest.
