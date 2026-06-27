@@ -121,6 +121,26 @@
         "начать работу по плану"
       ]
     },
+    "systematic-debugging": {
+      "kind": "ref",
+      "plugin": "sdd-kit",
+      "name": "systematic-debugging",
+      "triggers": [
+        "debug this",
+        "why is (this|it) (failing|breaking|happening)",
+        "track down (this|the) bug",
+        "root cause",
+        "this test is flaky",
+        "flaky test",
+        "diagnose (this|the)",
+        "unexpected behavior",
+        "почему падает",
+        "найди причину",
+        "отладь",
+        "разберись почему",
+        "флакает тест"
+      ]
+    },
     "test-driven-development": {
       "kind": "ref",
       "plugin": "sdd-kit",
