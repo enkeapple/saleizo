@@ -34,6 +34,8 @@ A test that cannot fail for the right reason is worse than no test: it shows gre
 
   expect(render(data)).toMatchSnapshot();       // snapshot auto-captured, never human-verified
 
+  parseConfig(raw); expect(true).toBe(true);    // coverage-gaming: line executed, nothing real asserted
+
 ✅ CORRECT — asserts observable behavior against intent (illustrative)
   const saved = await service.create(input, realRepo);
   expect(saved.id).toBeDefined();

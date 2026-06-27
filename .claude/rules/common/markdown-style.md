@@ -28,8 +28,6 @@ These files are read by Claude Code, GitHub, and Obsidian. We standardise on the
 
 ### Tables — spaced delimiter row
 
-The header-separator row needs a space on each side of every pipe and around each cell's dash-run, matching the padded cells above it. The dash run can be a single `---` or a wider one — only the surrounding spaces are required.
-
 ```text
 ✅ CORRECT
 | Concept | Lives in | What it represents |

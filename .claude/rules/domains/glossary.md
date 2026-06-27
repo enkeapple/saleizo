@@ -16,9 +16,9 @@ STOP and read this before acting whenever a prompt or your own draft uses any of
 
 This vault has no application code — its "domain" is the SDD skill framework itself, and several of its core words collide with their ordinary software meaning. The dangerous one is **"test"**: a reader who hears "write a failing test first" (Iron Law) and reaches for a unit-test runner is lost — there is no `pnpm`, no Vitest, no suite here. The RED/GREEN test is a *subagent pressure run*. Getting this wrong turns the whole discipline into theatre.
 
-**Source-of-truth principle:** if code/skills on disk disagree with this file, fix THIS file first, then reconcile the code — never let the two silently diverge. A glossary cell that greps to nothing is a defect (`auditing-glossary` catches it).
-
 ## Implementation
+
+**Source-of-truth principle:** if code/skills on disk disagree with this file, fix THIS file first, then reconcile the code — never let the two silently diverge. A glossary cell that greps to nothing is a defect (`auditing-glossary` catches it).
 
 Ownership table — do not infer from a filename:
 

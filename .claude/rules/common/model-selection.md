@@ -58,7 +58,7 @@ The **Tier** column is authoritative; the model in parentheses is illustrative a
 ✅ CORRECT — model by role, each with a cost rationale, reviewer differs from implementer.
   dispatch(explore "map the auth module")        model: haiku   # bulk-token read role → cheapest tier
   dispatch(implement "add one well-specified fn") model: sonnet  # mechanical, full spec → standard, not premium
-  dispatch(review the diff)                       model: opus    # DIFFERENT from implementer → independent pass
+  dispatch(review the diff)                       model: haiku   # routine review → DIFFERENT & CHEAPER than the sonnet implementer (independence, not an upgrade)
 ```
 
 ## Edge Cases

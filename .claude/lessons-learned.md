@@ -4,6 +4,15 @@ Transient backlog of un-promoted candidate rules — newest at the top of `## En
 
 ## Entries
 
+## 2026-06-26 — Rules-audit synth agent's dedup recommendations conflicted with rule-self-containment; one validity flag was a false positive
+
+- **Cause-tag**: unverified-subagent-finding
+- **Symptom**: a 25-agent rules-audit (sonnet finders + opus synth) recommended single-sourcing `scoping-rule-value`↔`scoping-skill-value`, cross-linking `flibco`→`agnostic-skill-authoring`, and flagged `skill-routing-sync`'s `.claude/skills/**` path as a HIGH "stale glob". I nearly applied all three.
+- **Root cause**: treated the synth's recommendations as actionable without checking them against invariants it didn't weigh — these rules load on DISJOINT `paths` (never co-load), so `rule-self-containment` forbids the proposed "see X" as a load-bearing link; and the framework↔CLAUDE overlap is an INTENDED two-altitude split encoded in the bootstrap templates.
+- **Wrong approach**: about to "dedup" rules whose duplication is REQUIRED (disjoint-paths self-containment) and trim a framework.md the generator template deliberately keeps; `.claude/skills/**` is the intentional local-skill path, not dead.
+- **Correct approach**: verified each — read `rule-self-containment` (disjoint → keep both self-contained), the bootstrap templates (altitude split by design), the empty `.claude/skills/` (intentional). Shipped only the genuine fixes (model-selection example, markdown-style dup, coverage-gaming snippet).
+- **Prevention**: before acting on a cross-file dedup/cross-link recommendation, check (1) do the two files co-load? disjoint `paths` → `rule-self-containment` makes any "see X" load-bearing-forbidden, so the duplication is REQUIRED not a defect; (2) is the overlap intended design owned by a `bootstrapping-*` template? never dedup a generated instance without reconciling its generator. A synth agent's recommendation is a lead, not a verdict.
+
 ## 2026-06-26 — Nearly applied fan-out audit findings that were false positives — subagents misread the runtime matcher and hallucinated a check
 
 - **Cause-tag**: unverified-subagent-finding
@@ -88,7 +97,7 @@ Transient backlog of un-promoted candidate rules — newest at the top of `## En
 ## 2026-06-23 — Linked a skill from a rule via a deep in-tree plugin path instead of its canonical name
 
 - **Cause-tag**: dev-source-vs-consumer-routing
-- **Symptom**: authored `.claude/rules/common/resolving-requirements-flibco-source.md` with a markdown link `[…](../../../plugins/sdd-kit/skills/chain/resolving-requirements/SKILL.md)`; owner flagged it — "вот такого не должно существовать, на крайняк референс просто на скилл без путей".
+- **Symptom**: authored `.claude/rules/flibco/resolving-requirements-flibco-source.md` with a markdown link `[…](../../../plugins/sdd-kit/skills/chain/resolving-requirements/SKILL.md)`; owner flagged it — "вот такого не должно существовать, на крайняк референс просто на скилл без путей".
 - **Root cause**: same conflation as the routing variant — treated the dev repo's in-tree plugin source path as a stable address. A plugin skill's body ships in the install cache, not under `plugins/` for a consumer; a deep relative path to `plugins/*/skills/**/SKILL.md` resolves only in THIS dev tree and is a dead reference everywhere else. The canonical address of a skill is its NAME (the routing key), not a filesystem path.
 - **Wrong approach**: reached for the habitual markdown file-link to "let the reader open the skill", deep-linking into the plugin tree.
 - **Correct approach**: cite the skill by bare backtick name (`resolving-requirements`); dropped the link and the `../../../plugins/...` path entirely — the rule reads fine without it.

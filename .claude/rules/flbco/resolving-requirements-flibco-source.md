@@ -22,6 +22,7 @@ Apply these four values where the skill says "the configured …":
 
 ```text
 ✅ CORRECT — input "FLIBCO-1234"
+  # sync fresh: if /tmp/flibco-specs/.git exists → git -C /tmp/flibco-specs pull --rebase --quiet; else clone (below)
   git clone --depth=1 'https://flibco-ci@dev.azure.com/flibco-ci/Flibco%20AI%20Tooling/_git/flibco-specs' /tmp/flibco-specs
   find /tmp/flibco-specs -iname "*FLIBCO-1234*" -print   # read the whole match, verbatim
   → hand grilling the verbatim bundle + provenance (source/revision/ticket/files)
