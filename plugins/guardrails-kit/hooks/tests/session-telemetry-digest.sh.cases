@@ -1,0 +1,5 @@
+{"name":"resume-silent","stdin":{"hook_event_name":"SessionStart","source":"resume"},"expect_exit":0,"expect_stdout_empty":true}
+{"name":"clear-silent","stdin":{"hook_event_name":"SessionStart","source":"clear"},"expect_exit":0,"expect_stdout_empty":true}
+{"name":"no-source-silent","stdin":{"hook_event_name":"SessionStart"},"expect_exit":0,"expect_stdout_empty":true}
+{"name":"garbage-fail-open","stdin_raw":"not json","expect_exit":0,"expect_stdout_empty":true}
+{"name":"startup-exit0","stdin":{"hook_event_name":"SessionStart","source":"startup"},"expect_exit":0}
