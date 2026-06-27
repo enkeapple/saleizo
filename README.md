@@ -5,7 +5,7 @@ A Claude Code **skill marketplace** — its plugins turn a fuzzy idea into shipp
 ## Quickstart
 
 1. Add the marketplace, then install the kit you want — see [Installation](#installation).
-2. Building a feature? Run the gated chain: `grilling` → `writing-specs` → `writing-plans` → implement test-first → `spec-drift-audit`.
+2. Building a feature? Run the gated chain: `grilling` → `writing-specs` → `writing-plans` → implement test-first → `verifying-implementation`.
 3. Just learning a topic, or polishing prose? Reach for [learning-kit](plugins/learning-kit/README.md) or [craft-kit](plugins/craft-kit/README.md).
 
 ## Installation

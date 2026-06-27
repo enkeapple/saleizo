@@ -23,7 +23,7 @@ This skill ends at the report. Do **not** edit code, write the fix, or start "wh
 ## When to use
 
 - The user asks to audit / review / "what to refactor" in a specific area, and wants findings before committing to changes.
-- Not for: the deep-module / seam lens (use `improve-codebase-architecture`); not for executing a refactor (use the chain above); not for checking code against a spec (use `spec-drift-audit`).
+- Not for: the deep-module / seam lens (use `improve-codebase-architecture`); not for executing a refactor (use the chain above); not for checking code against a spec (use `verifying-implementation`).
 
 ## Process
 

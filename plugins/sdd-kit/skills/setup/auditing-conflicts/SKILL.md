@@ -15,7 +15,7 @@ allowed-tools: Read, Grep, Glob, Bash, Task
 
 A read-only **cross-artifact** coherence audit of a framework repo. It finds conflicts *between* skills, rules, and routing — overlapping triggers, duplicated ownership, broken hand-offs, contradictions, routing/invocation-invariant breaks, orphan references — and ends in a single decision picker. **It does not edit artifacts during the audit.**
 
-This is **not** a one-pair drift auditor. `spec-drift-audit`, `auditing-claude-md`, `auditing-glossary`, and `auditing-readme` each check one artifact against its own reality (code↔spec, README↔disk, …). This skill checks artifacts *against each other*. A drift-class observation is **never** re-checked here — it becomes a finding whose disposition *names* the right auditor to run (`→ run auditing-readme`), never a `Skill` invocation. (`Bash` runs read-only grep/jq inventory and the mechanical re-check on a fix; `Task` dispatches the judgment-layer fan-out. The read-only guarantee holds despite `Bash`.)
+This is **not** a one-pair drift auditor. `verifying-implementation`, `auditing-claude-md`, `auditing-glossary`, and `auditing-readme` each check one artifact against its own reality (code↔spec, README↔disk, …). This skill checks artifacts *against each other*. A drift-class observation is **never** re-checked here — it becomes a finding whose disposition *names* the right auditor to run (`→ run auditing-readme`), never a `Skill` invocation. (`Bash` runs read-only grep/jq inventory and the mechanical re-check on a fix; `Task` dispatches the judgment-layer fan-out. The read-only guarantee holds despite `Bash`.)
 
 The detection contract — the 9 conflict classes, their layer, fix lane, and detection method, plus the class-6 split, the locked finding shape, and the disagreement rule — lives in [references/conflict-catalog.md](./references/conflict-catalog.md). The deterministic recipes (grep/jq for classes 1/6/8/9, the reproducible shortlist computations, the class-9 search rules) live in [references/mechanical-checks.md](./references/mechanical-checks.md). A filled report is in [assets/audit-report-example.md](./assets/audit-report-example.md).
 
@@ -29,7 +29,7 @@ The detection contract — the 9 conflict classes, their layer, fix lane, and de
 
 ## When NOT to use
 
-- A single-artifact drift check (use the matching `auditing-*` / `spec-drift-audit`).
+- A single-artifact drift check (use the matching `auditing-*` / `verifying-implementation`).
 - A pure validator pass on one skill (`writing-skills` owns that).
 
 ## Process

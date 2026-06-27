@@ -11,7 +11,7 @@ description: >-
 
 # Resolving Requirements
 
-Turn whatever the user hands you into a **resolved requirements bundle** that `grilling` can consume. This is the front door of the APPLY chain: `resolving-requirements → grilling → writing-specs → writing-plans → pre-implementation-protocol → (inline-driven-development | subagent-driven-development) → spec-drift-audit`.
+Turn whatever the user hands you into a **resolved requirements bundle** that `grilling` can consume. This is the front door of the APPLY chain: `resolving-requirements → grilling → writing-specs → writing-plans → pre-implementation-protocol → (inline-driven-development | subagent-driven-development) → verifying-implementation`.
 
 **Core principle:** requirements are *sourced*, never *authored* — faithful retrieval + provenance, never summary, paraphrase, or invention. A paraphrased acceptance criterion is a changed acceptance criterion.
 
@@ -35,7 +35,7 @@ The ticket-ID **pattern**, the **remote spec source**, how to **sync** it, and *
 
 ## Output contract → hand off to `grilling`
 
-Produce one bundle carrying the source content **verbatim** plus a provenance block, then hand it off. A **non-text attachment** (image, mockup, binary) has no verbatim text — carry it **by reference** (name + path in `files`), never transcribe or describe it as source; a described mockup is authored requirements, the one thing this skill prevents, and `grilling` reads the bytes itself if it needs them. Provenance is what makes the fetch reproducible and keeps every later artifact grounded in a citable source: keep it with the bundle (not chat-only memory) and intact through `grilling` — `writing-specs` carries it forward in its conditional **Source** section and `spec-drift-audit` reads it for the code↔source trace.
+Produce one bundle carrying the source content **verbatim** plus a provenance block, then hand it off. A **non-text attachment** (image, mockup, binary) has no verbatim text — carry it **by reference** (name + path in `files`), never transcribe or describe it as source; a described mockup is authored requirements, the one thing this skill prevents, and `grilling` reads the bytes itself if it needs them. Provenance is what makes the fetch reproducible and keeps every later artifact grounded in a citable source: keep it with the bundle (not chat-only memory) and intact through `grilling` — `writing-specs` carries it forward in its conditional **Source** section and `verifying-implementation` reads it for the code↔source trace.
 
 ```text
 source: <repo URL/path the bundle came from>

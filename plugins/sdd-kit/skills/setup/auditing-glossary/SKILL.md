@@ -26,7 +26,7 @@ Pairs with `bootstrapping-glossary`, which creates the foundational docs this sk
 ## When NOT to use
 
 - The docs don't exist yet — that is `bootstrapping-glossary`.
-- Auditing shipped code against a spec — that is `spec-drift-audit`.
+- Auditing shipped code against a spec — that is `verifying-implementation`.
 
 ## Process
 

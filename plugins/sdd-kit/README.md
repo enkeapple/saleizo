@@ -5,7 +5,7 @@ The gated spec-driven-development chain — turn a fuzzy idea into shipped, spec
 ## Quickstart
 
 1. Install it — see [Installation](#installation).
-2. Run the chain on a change: `grilling` (design) → `writing-specs` → `writing-plans` → `pre-implementation-protocol` → execute test-first (`test-driven-development`) → `spec-drift-audit`. Or drive the whole thing with `sdd-lifecycle`.
+2. Run the chain on a change: `grilling` (design) → `writing-specs` → `writing-plans` → `pre-implementation-protocol` → execute test-first (`test-driven-development`) → `verifying-implementation`. Or drive the whole thing with `sdd-lifecycle`.
 3. Short aliases for the common entries: `/grill`, `/spec`, `/sdd`, `/audit`.
 
 ## How it works
@@ -37,7 +37,7 @@ Each phase is its own skill and ends at an explicit approval gate — nothing au
 ### aliases
 
 - **[adr](skills/aliases/adr/SKILL.md)** — Short user-typed entry point to record an architectural decision as an ADR. Alias for the writing-adrs skill.
-- **[audit](skills/aliases/audit/SKILL.md)** — Short user-typed entry point to check shipped code against an approved spec. Alias for the spec-drift-audit skill.
+- **[audit](skills/aliases/audit/SKILL.md)** — Short user-typed entry point to check shipped code against an approved spec. Alias for the verifying-implementation skill.
 - **[grill](skills/aliases/grill/SKILL.md)** — Short user-typed entry point to grill a fuzzy idea into a shared design. Alias for the grilling skill.
 - **[sdd](skills/aliases/sdd/SKILL.md)** — Short user-typed entry point that runs the full gated SDD pipeline. Alias for the sdd-lifecycle skill.
 - **[spec](skills/aliases/spec/SKILL.md)** — Short user-typed entry point to turn an approved design into a concrete spec. Alias for the writing-specs skill.
@@ -57,7 +57,7 @@ Each phase is its own skill and ends at an explicit approval gate — nothing au
 - **[pre-implementation-protocol](skills/chain/pre-implementation-protocol/SKILL.md)** — Use at the plan-to-implementation boundary, right before the first edit of a planned change — when an approved plan or…
 - **[resolving-requirements](skills/chain/resolving-requirements/SKILL.md)** — Use at the very start of the chain, before grilling, when the build input is a ticket reference rather than a ready…
 - **[sdd-lifecycle](skills/chain/sdd-lifecycle/SKILL.md)** — Use when the user wants the full spec-driven pipeline run end-to-end on a feature or change — an explicit "run the…
-- **[spec-drift-audit](skills/chain/spec-drift-audit/SKILL.md)** — Use when checking whether shipped or in-progress code still matches an approved written spec — after implementation and…
+- **[verifying-implementation](skills/chain/verifying-implementation/SKILL.md)** — Use when checking whether shipped or in-progress code still matches an approved written spec — after implementation and…
 - **[subagent-driven-development](skills/chain/subagent-driven-development/SKILL.md)** — Use when an approved multi-task implementation plan exists and you want to execute it in the current session with…
 - **[test-driven-development](skills/chain/test-driven-development/SKILL.md)** — Use when writing implementation code test-first — a bugfix, behavior change, or the build step of a planned feature —…
 - **[writing-plans](skills/chain/writing-plans/SKILL.md)** — Use when you have an approved spec or written requirements for a multi-step task and are about to implement, or when…

@@ -4,6 +4,15 @@ Transient backlog of un-promoted candidate rules — newest at the top of `## En
 
 ## Entries
 
+## 2026-06-27 — RED'd two external superpowers ports in-vault (sonnet+haiku); both no-op, nearly flat-cut an export-bound discipline skill
+
+- **Cause-tag**: export-baseline-mismatch
+- **Symptom**: asked to port obra/superpowers `dispatching-parallel-agents`, then `systematic-debugging`, into the vault. RED both in-vault: parallel-dispatch was done by sonnet unprompted (independence test + one-message fan-out + integrate); systematic-debugging held across 3 scenarios × 2 tiers (sonnet AND haiku) under explicit "just make it pass / shipping now" pressure — both traced symptom→root across layers, refused the band-aid, and reproduced the source's own techniques (condition-based-waiting, root-cause-tracing) with no skill. I was about to report a flat "don't build / cut."
+- **Root cause**: judged an EXPORT-bound discipline skill by the in-vault agentic baseline. A tool-equipped Claude Code agent recons/traces/self-checks by default at EVERY tier (haiku included), so even a cheap-tier green RED under-values a discipline skill whose real consumers are weaker / non-agentic harnesses. Testing haiku felt like it covered the export concern, but haiku-in-vault is still tool-equipped; the true export floor (sub-haiku / non-agentic) went untested.
+- **Wrong approach**: nearly translated "no-op in-vault across sonnet+haiku" into "no-op, don't build" — the exact trap the two 2026-06-25 `export-baseline-mismatch` entries already document, now recurring for an external skill PORT rather than rule authoring.
+- **Correct approach**: reframed to "no-op against the agentic in-vault fleet; for an export-bound discipline skill that is 'no-op here / possibly valuable for weaker/non-agentic export targets,' not a flat cut" — same ship-on-policy basis as `scoping-skill-value`/`scoping-rule-value`. Surfaced the long-horizon piece (anti-thrashing "stop after 3+ failed fixes") a single-shot RED structurally cannot cover as the only part with an un-refuted failure.
+- **Prevention**: before cutting/declining an EXPORT-bound discipline skill (incl. an external port) on an in-vault RED, remember a tool-equipped Claude Code agent recons/verifies at EVERY tier (haiku included) — so a green in-vault RED is "no-op here / valuable there," never a cut. RED against a representative export FLOOR (weaker / non-agentic harness) or decide on the export-policy basis like `scoping-skill-value`. Source reputation is not evidence of value; an in-vault no-op is not evidence of worthlessness for the export target.
+
 ## 2026-06-26 — Rules-audit synth agent's dedup recommendations conflicted with rule-self-containment; one validity flag was a false positive
 
 - **Cause-tag**: unverified-subagent-finding
@@ -213,6 +222,7 @@ Transient backlog of un-promoted candidate rules — newest at the top of `## En
 
 ## Promoted clusters
 
+- export-baseline-mismatch → KEPT in lessons, not promoted (independent review 2026-06-27): real, generalizable class but already covered by `rules/common/fair-red-baseline.md` §"Context inheritance" + `rules/common/scoping-skill-value.md` §Caveat + `rules/common/scoping-rule-value.md` Edge Case; a new rule would duplicate them (too thin a delta). Entries kept as archived backlog.
 - dedup-drops-required-element → rules/common/dedup-drops-required-element.md (2026-06-26)
 - contaminated-red-baseline → rules/common/fair-red-baseline.md (2026-06-24)
 - broken-grep-false-verification → rules/common/search-scope-verification.md (2026-06-23)

@@ -4,7 +4,7 @@ A **Claude Code skill marketplace** and the in-place dev vault that develops it.
 
 ## How to work here (read first)
 
-Authoring or changing a skill runs through **RED → GREEN → REFACTOR → VALIDATE** (the `writing-skills` TDD methodology). Applying the framework to a consumer repo runs the chain `grilling → writing-specs → writing-plans → pre-implementation-protocol → inline-driven-development | subagent-driven-development → spec-drift-audit` (each task test-first via `test-driven-development`). Full operating manual: [.claude/CLAUDE.md](./.claude/CLAUDE.md).
+Authoring or changing a skill runs through **RED → GREEN → REFACTOR → VALIDATE** (the `writing-skills` TDD methodology). Applying the framework to a consumer repo runs the chain `grilling → writing-specs → writing-plans → pre-implementation-protocol → inline-driven-development | subagent-driven-development → verifying-implementation` (each task test-first via `test-driven-development`). Full operating manual: [.claude/CLAUDE.md](./.claude/CLAUDE.md).
 
 **Hard rules:**
 
@@ -37,7 +37,7 @@ No build / dev / test pipeline — this is a skills vault, not an app. Verificat
 | Implement test-first (RED→GREEN→REFACTOR) | `test-driven-development` |
 | Execute an approved plan solo, in-session (coupled tasks or a small plan) | `inline-driven-development` |
 | Execute an approved plan via a fresh subagent per task (independent tasks) | `subagent-driven-development` |
-| Check shipped code against an approved spec | `spec-drift-audit` |
+| Check shipped code against an approved spec | `verifying-implementation` |
 | Adopt / install the framework into a fresh consumer repo (ordered: copy → symlinks → bootstraps → routing → verify) | `adopting-framework` |
 | Create / audit the two CLAUDE.md files | `bootstrapping-claude-md` / `auditing-claude-md` |
 | Create / audit the base domain rules (glossary, framework) | `bootstrapping-glossary` / `auditing-glossary` |
@@ -54,7 +54,7 @@ No build / dev / test pipeline — this is a skills vault, not an app. Verificat
 | Turn a release diff into user-facing store release notes (Google Play / App Store) | `drafting-release-notes` |
 | Audit / improve React Native screen accessibility against WCAG 2.2 AA | `accessibility` |
 | Approaching the context limit / ending with unfinished work | `handoff` |
-| Short user-typed aliases (deterministic entry; same skills) | `/sdd`→`sdd-lifecycle`, `/grill`→`grilling`, `/spec`→`writing-specs`, `/audit`→`spec-drift-audit`, `/adr`→`writing-adrs` |
+| Short user-typed aliases (deterministic entry; same skills) | `/sdd`→`sdd-lifecycle`, `/grill`→`grilling`, `/spec`→`writing-specs`, `/audit`→`verifying-implementation`, `/adr`→`writing-adrs` |
 
 When a user prompt contains a registered trigger and the corresponding skill is not invoked within a few tool calls, `detect-bypass.sh` (from `guardrails-kit`) warns and logs the event to `.claude/state/_metrics.jsonl` (gitignored). Triggers are listed in [.claude/skills-routing.json](./.claude/skills-routing.json).
 

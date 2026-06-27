@@ -26,7 +26,7 @@ Audit only the managed blocks — scaffold prose (intro, Quickstart, Installatio
 ## When NOT to use
 
 - No README/catalog exists yet — that is `bootstrapping-readme`.
-- Auditing shipped code against a spec — that is `spec-drift-audit`.
+- Auditing shipped code against a spec — that is `verifying-implementation`.
 
 ## Process
 

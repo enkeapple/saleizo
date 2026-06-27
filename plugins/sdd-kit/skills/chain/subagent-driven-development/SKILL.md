@@ -65,7 +65,7 @@ digraph process {
     "Implementer fixes quality issues" [shape=box];
     "Mark task complete in the ledger" [shape=box];
     "Dispatch final reviewer over the whole change" [shape=box];
-    "Hand off: spec-drift-audit, then propose the commit to the owner" [shape=box style=filled fillcolor=lightgreen];
+    "Hand off: verifying-implementation, then propose the commit to the owner" [shape=box style=filled fillcolor=lightgreen];
 
     "Read plan once; extract every task's full text + context; build a durable ledger" -> "More tasks remain?";
     "More tasks remain?" -> "Dispatch implementer subagent (./assets/implementer-prompt.md)" [label="yes"];
@@ -84,7 +84,7 @@ digraph process {
     "Quality approved?" -> "Mark task complete in the ledger" [label="yes"];
     "Mark task complete in the ledger" -> "More tasks remain?";
     "More tasks remain?" -> "Dispatch final reviewer over the whole change" [label="no"];
-    "Dispatch final reviewer over the whole change" -> "Hand off: spec-drift-audit, then propose the commit to the owner";
+    "Dispatch final reviewer over the whole change" -> "Hand off: verifying-implementation, then propose the commit to the owner";
 }
 ```
 
@@ -138,5 +138,5 @@ Hand subagents large artifacts as **files**, not pasted blobs: give the task's f
 
 - **Upstream:** `writing-plans` produces the plan this skill executes; `pre-implementation-protocol` runs the readiness check and routes here when the owner picks subagent-driven execution.
 - **Inside each task:** subagents write code via `test-driven-development` (RED → GREEN → REFACTOR per behavior).
-- **Downstream:** after the final review, run `spec-drift-audit` over the whole change, then propose the commit to the owner (the human owns the commit).
+- **Downstream:** after the final review, run `verifying-implementation` over the whole change, then propose the commit to the owner (the human owns the commit).
 - **Alternative:** `inline-driven-development` for solo, sequential, in-session execution when tasks are coupled or the change is small.

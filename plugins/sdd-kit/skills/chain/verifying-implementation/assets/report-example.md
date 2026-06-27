@@ -3,7 +3,7 @@
 A concrete reference for the report format and the level of detail expected. Plain text, no edits to code. Replace commands/paths/types with the real ones from your repo.
 
 ```text
-# Spec Drift Audit — pagination.md
+# Implementation Verification — pagination.md
 
 ## Verification
 - `npm run typecheck` → FAIL: ItemsList.tsx:14 Property 'nextCursor' does not exist on type '{ items: Item[]; cursor: string | null; hasMore: boolean }'.

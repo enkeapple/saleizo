@@ -45,7 +45,7 @@ Never batch: do not start task 2 before task 1 is verified and committed.
 
 ### 3. Complete
 
-After the last task: full suite green, then run `spec-drift-audit` over the whole change, and propose the commit(s) to the owner — the human owns the commit.
+After the last task: full suite green, then run `verifying-implementation` over the whole change, and propose the commit(s) to the owner — the human owns the commit.
 
 ## The durable ledger
 
@@ -84,5 +84,5 @@ If the plan itself is wrong, return to the plan with the owner; don't patch arou
 
 - **Upstream:** `writing-plans` produces the plan; `pre-implementation-protocol` runs the readiness check and routes here when the owner picks solo, in-session execution.
 - **Inside each task:** `test-driven-development` (RED → GREEN → REFACTOR per behavior).
-- **Downstream:** `spec-drift-audit` over the whole change, then propose the commit to the owner.
+- **Downstream:** `verifying-implementation` over the whole change, then propose the commit to the owner.
 - **Alternative:** `subagent-driven-development` for fresh-subagent-per-task execution with review gates when tasks are independent.

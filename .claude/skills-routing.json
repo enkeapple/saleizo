@@ -173,10 +173,10 @@
         "раскидать задачи по агентам"
       ]
     },
-    "spec-drift-audit": {
+    "verifying-implementation": {
       "kind": "ref",
       "plugin": "sdd-kit",
-      "name": "spec-drift-audit",
+      "name": "verifying-implementation",
       "triggers": [
         "audit the spec",
         "spec drift",
