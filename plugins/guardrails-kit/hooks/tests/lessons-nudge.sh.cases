@@ -1,0 +1,2 @@
+{"name":"happy-no-bypass-flag","stdin":{"session_id":"fixturetest"},"expect_exit":0}
+{"name":"garbage-fail-open","stdin_raw":"not json","expect_exit":0}

@@ -1,0 +1,6 @@
+{"name":"block-ssh","stdin":{"tool_input":{"file_path":"/home/u/.ssh/id_rsa"}},"expect_exit":2,"expect_stderr_grep":"BLOCKED: Reading .ssh"}
+{"name":"block-env","stdin":{"tool_input":{"file_path":"/proj/.env"}},"expect_exit":2,"expect_stderr_grep":"BLOCKED: Reading .env"}
+{"name":"block-pem","stdin":{"tool_input":{"file_path":"/proj/key.pem"}},"expect_exit":2,"expect_stderr_grep":"BLOCKED: Reading private key"}
+{"name":"block-aws","stdin":{"tool_input":{"file_path":"/home/u/.aws/credentials"}},"expect_exit":2,"expect_stderr_grep":"BLOCKED: Reading AWS"}
+{"name":"allow-source","stdin":{"tool_input":{"file_path":"/proj/src/app.ts"}},"expect_exit":0}
+{"name":"garbage-fail-open","stdin_raw":"not json","expect_exit":0}

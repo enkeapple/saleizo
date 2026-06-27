@@ -1,0 +1,2 @@
+{"name":"happy-validate-existing-rule","stdin":{"tool_input":{"file_path":".claude/rules/common/git-conventions.md"}},"expect_exit":0}
+{"name":"garbage-fail-open","stdin_raw":"not json","expect_exit":0}

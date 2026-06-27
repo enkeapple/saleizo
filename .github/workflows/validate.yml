@@ -89,3 +89,8 @@ jobs:
               done )
           done
           echo "RULE_LINKS_OK"
+
+      - name: Hook fixtures
+        run: |
+          bash scripts/run-hook-fixtures.sh
+          echo "HOOK_FIXTURES_OK"

@@ -1,0 +1,5 @@
+{"name":"block-cat-ssh","stdin":{"tool_input":{"command":"cat ~/.ssh/id_rsa"}},"expect_exit":2,"expect_stderr_grep":"BLOCKED: Command attempts to read"}
+{"name":"block-source-env","stdin":{"tool_input":{"command":"source /proj/.env"}},"expect_exit":2,"expect_stderr_grep":"BLOCKED: Command sources"}
+{"name":"block-grep-aws","stdin":{"tool_input":{"command":"grep key ~/.aws/credentials"}},"expect_exit":2,"expect_stderr_grep":"BLOCKED: Command reads sensitive"}
+{"name":"allow-benign-reset-sync","stdin":{"tool_input":{"command":"git reset --hard && rsync -a a/ b/ # sync files"}},"expect_exit":0}
+{"name":"garbage-fail-open","stdin_raw":"not json","expect_exit":0}
