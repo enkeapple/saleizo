@@ -4,6 +4,15 @@ Transient backlog of un-promoted candidate rules — newest at the top of `## En
 
 ## Entries
 
+## 2026-06-29 — Diagnosed a degenerate telemetry metric (bypass-rate 100%) from its shape, twice, before reading the emitter source and raw events
+
+- **Cause-tag**: unverified-usage-assumption
+- **Symptom**: reviewing-telemetry blamed a 100% bypass-rate / noisy trigger on guessed causes — first "the regex matched tokens like UTF-8/SHA-256", then "used_correctly is not instrumented" — both wrong; the prompt corpus and `log-skill-usage.sh` showed otherwise.
+- **Root cause**: inferred a metric's mechanism from its surface shape. Real causes: `detect-bypass.sh` matches the trigger union with `grep -qiE` (case-insensitive) so `[A-Z][A-Z0-9]+-[0-9]+` degraded to matching `skills-2`/`claude-501`/UUID fragments/dates; and `used_correctly` IS emitted but was per-turn-defined while skill use is cross-turn → intersection structurally 0.
+- **Wrong approach**: drafted a root-cause/finding from the metric value alone, before reading the emitting hook's match flags or the raw per-event records.
+- **Correct approach**: read the prompt corpus (`.claude/state/prompts/*.jsonl`) and the hook source; the corpus proved the trigger tune (41 noise matches → 0) and the per-turn-vs-cross-turn defect (RED bypass:1/used_correctly:0 → GREEN 1/1).
+- **Prevention**: when a routing/telemetry metric reads as a degenerate constant (100%/0%/never-fires), STOP — read the emitting hook's matching logic (incl. `grep` case flags) AND the raw per-event records before asserting a cause; suspect the metric DEFINITION (per-turn vs cross-turn, case-sensitivity) before the instrumentation.
+
 ## 2026-06-27 — Persisted hook-fixture suite shipped its `.cases` inside the plugin but its runner/CI stayed vault-root; spec over-claimed consumer regression value
 
 - **Cause-tag**: plugin-boundary-infra-reach
