@@ -563,6 +563,49 @@
         "аудит доступности",
         "сделай экран доступным"
       ]
+    },
+    "scaffolding-docs": {
+      "kind": "ref",
+      "plugin": "saleizo-docs",
+      "name": "scaffolding-docs",
+      "triggers": [
+        "set up (the )?docs",
+        "scaffold documentation",
+        "bootstrap (project )?docs",
+        "docs from scratch",
+        "generate (the )?docs",
+        "настроить документацию",
+        "сгенерировать доки",
+        "создать документацию"
+      ]
+    },
+    "auditing-docs": {
+      "kind": "ref",
+      "plugin": "saleizo-docs",
+      "name": "auditing-docs",
+      "triggers": [
+        "audit the docs",
+        "are the docs stale",
+        "docs drift",
+        "check documentation",
+        "проверь документацию",
+        "аудит доков",
+        "дрейф документации"
+      ]
+    },
+    "extending-docs": {
+      "kind": "ref",
+      "plugin": "saleizo-docs",
+      "name": "extending-docs",
+      "triggers": [
+        "add a doc type",
+        "new documentation type",
+        "extend the docs",
+        "custom doc contract",
+        "добавить тип документации",
+        "новый контракт документации",
+        "расширить доки"
+      ]
     }
   }
 }

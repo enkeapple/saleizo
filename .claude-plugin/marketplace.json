@@ -39,6 +39,10 @@
     {
       "name": "saleizo-prose",
       "source": "./plugins/saleizo-prose"
+    },
+    {
+      "name": "saleizo-docs",
+      "source": "./plugins/saleizo-docs"
     }
   ]
 }
