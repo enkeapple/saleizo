@@ -1,0 +1,6 @@
+{
+  "scripts": {
+    "ios": "run on iOS",
+    "build": "compile"
+  }
+}
