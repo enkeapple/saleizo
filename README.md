@@ -33,6 +33,7 @@ Swap `saleizo-core` for any other plugin name to install it. Each plugin is self
 - **[saleizo-learning](plugins/saleizo-learning/README.md)** — User-invoked learning skills: translate confusion, expose gaps, build learning plans.
 - **[saleizo-controls](plugins/saleizo-controls/README.md)** — Skill-routing guardrails over a marketplace: usage/friction telemetry, bypass detection, token-budget and edit gates.
 - **[saleizo-react-native](plugins/saleizo-react-native/README.md)** — React Native domain skills. Each skill is independent and self-contained; the first audits a screen or component against WCAG 2.2 AA.
+- **[saleizo-docs](plugins/saleizo-docs/README.md)** — Scaffold, audit, and extend a consumer repo's project documentation as manifest-declared views over machine-readable sources.
 
 <!-- plugins:end -->
 
