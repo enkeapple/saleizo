@@ -27,14 +27,14 @@ Project-agnostic: fill the blanks (paths, commands, type syntax) from the repo y
 
 ## When NOT to use
 
-No spec is needed when the change is **small** — and "small" is the off-ramp predicate, ALL of which must hold:
+No spec is needed when the change is **small** — the off-ramp predicate, ALL of which must hold:
 
 - a **single, cohesive behavior** (one logical change), AND
-- it touches **no shared/public contract** — no new or changed API endpoint, exported type/signature, schema, persisted shape, event, or navigation route, AND
-- it adds **no new surface** and spans **no multiple components / clients / services**, AND
-- it fits **one test-first cycle** — no task-by-task plan (a source file plus its own test is one cycle, not "multiple files").
+- **no shared/public contract** touched (API, exported type/signature, schema, event, route), AND
+- **no new surface** and no multiple components / clients / services, AND
+- fits **one test-first cycle** — no task-by-task plan (a source file plus its own test is one cycle, not "multiple files").
 
-The trivial end of this predicate — one-line fixes, typo/format/rename with no semantic change, cosmetic single-file tweaks — obviously qualifies. A change crossing **any** line above needs a spec (see "When to use"); when in doubt, write the spec.
+**Discriminator:** any single crossing of the four conditions above — a shared contract, a new surface, multiple components, or needing a task-by-task plan — flips *small* to the full chain (see "When to use"). When in doubt, full chain. Near-miss boundary cases (✓/✗): see the `grilling` off-ramp.
 
 ## Spec location and naming
 
@@ -75,7 +75,7 @@ A spec is concrete or it is fiction. Each Required section above defines what "c
 Two passes with **disjoint remits** — why each is needed and why they must not overlap: [references/review-layers.md](./references/review-layers.md).
 
 - **Self-review** (author pass, every time): No Placeholders (above), Out-of-scope list non-empty, all 8 required sections present and internally consistent. This pass is blind to what you misread.
-- **Independent cold reviewer** (anything **beyond small** — more than one surface/module, a shared contract, or a destructive/irreversible op): dispatch a fresh zero-context subagent ([assets/spec-reviewer-prompt.md](./assets/spec-reviewer-prompt.md)); hand it the original request / approved design *alongside* the spec — without the source it collapses into a second self-review. Its remit is the author-blind class: **conformance to source** and **ambiguity** (any requirement two engineers would build differently).
+- **Independent cold reviewer** (anything **beyond small** — more than one surface/module, a shared contract, or a destructive/irreversible op): dispatch a fresh zero-context subagent ([assets/spec-reviewer-prompt.md](./assets/spec-reviewer-prompt.md)); hand it the original request / approved design *alongside* the spec — without the source it collapses into a second self-review. Its remit is the author-blind class: **conformance to source**, **ambiguity** (any requirement two engineers would build differently), and **scope drift** (work in Scope the source never asked for, or an asked-for piece silently missing) — the same three the reviewer prompt runs.
 
 Fix what it finds and re-review; do not code against a spec with open issues.
 

@@ -20,6 +20,7 @@ Use [assets/spec-reviewer-prompt.md](../assets/spec-reviewer-prompt.md), and han
 
 - **Conformance to source** — the consistent-but-wrong misread: a spec internally clean but divergent from what the request/design actually asked for.
 - **Ambiguity** — any requirement two competent engineers would build differently.
+- **Scope drift** — work in Scope the source never asked for (over-engineering), or an asked-for piece silently missing from Scope.
 
 Fix what it finds and re-review; do not code against a spec with open issues.
 
