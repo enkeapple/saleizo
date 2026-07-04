@@ -41,18 +41,7 @@ Default to `docs/plans/YYYY-MM-DD-<feature>.md` if the project has no convention
 
 ## Plan header (start every plan with this)
 
-```markdown
-# <Feature> Implementation Plan
-
-**Goal:** <one sentence>
-**Architecture:** <2-3 sentences on the approach>
-**Tech stack:** <key technologies>
-
-## Global constraints
-<Project-wide requirements copied verbatim from the spec — version floors,
-dependency limits, naming/copy rules, platform requirements. One line each.
-Every task implicitly includes these.>
-```
+Open every plan with the header whose exact layout is in [assets/plan-template.md](./assets/plan-template.md) — do not restate the skeleton here. It carries: **Goal** (one sentence), **Architecture** (2–3 sentences on the approach), **Tech stack**, and a **Global constraints** block — project-wide requirements copied verbatim from the spec (version floors, dependency limits, naming/copy rules, platform requirements), one line each, implicitly included by every task.
 
 ## Task recipe (the contract for every task)
 
