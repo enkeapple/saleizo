@@ -55,7 +55,7 @@ Maintain an on-disk ledger as you go — your runtime's todo mechanism and/or st
 
 Stop the instant any of these happen; find the root cause, ask only if it is genuinely ambiguous:
 
-- A step's command fails or a test won't go green — understand *why* before touching it; tweaking until green is guessing, not fixing.
+- A step's command fails or a test won't go green **and you cannot name why** — hand off to `systematic-debugging` to reach a confirmed root cause before any fix, then resume the task test-first. Tweaking until green is guessing, not fixing. (Cause already obvious? Just fix it test-first — no hand-off.)
 - An instruction is unclear, or a path/name in the plan doesn't exist.
 - A step contradicts what you found in the code.
 
@@ -84,5 +84,6 @@ If the plan itself is wrong, return to the plan with the owner; don't patch arou
 
 - **Upstream:** `writing-plans` produces the plan; `pre-implementation-protocol` runs the readiness check and routes here when the owner picks solo, in-session execution.
 - **Inside each task:** `test-driven-development` (RED → GREEN → REFACTOR per behavior).
+- **On an unexplained failure:** `systematic-debugging` — investigate to a confirmed root cause (it owns the flaky/timing and test-pollution techniques), then return to the task's `test-driven-development` loop with the fix.
 - **Downstream:** `verifying-implementation` over the whole change, then propose the commit to the owner.
 - **Alternative:** `subagent-driven-development` for fresh-subagent-per-task execution with review gates when tasks are independent.
