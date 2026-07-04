@@ -1,8 +1,9 @@
 ---
 name: handoff
 description: >-
-  Use when a task crosses the plan-file threshold (shared API contract / slice
-  shape / navigation route / >2 features) and its plan must be persisted to
+  Use when a task crosses the plan-file threshold (a shared API or data
+  contract, a cross-cutting change spanning several modules, or >2 features)
+  and its plan must be persisted to
   disk, OR when a turn ends incomplete or the context window nears its limit
   and work must resume in a fresh session. Triggers: handoff, save the plan,
   persist plan, plan file, context limit, running out of context, compact,
