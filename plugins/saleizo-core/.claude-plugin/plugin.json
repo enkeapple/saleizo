@@ -1,7 +1,7 @@
 {
   "name": "saleizo-core",
   "description": "Gated spec-driven-development chain: resolving-requirements → grilling → writing-specs → writing-plans → pre-implementation-protocol → implement (test/inline/subagent) → verifying-implementation, plus systematic-debugging and handoff.",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "skills": [
     "./skills/resolving-requirements",
     "./skills/grilling",
