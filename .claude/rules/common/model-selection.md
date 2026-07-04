@@ -17,10 +17,7 @@ STOP and choose the model deliberately whenever you spawn work in a separate con
 
 ## Why
 
-Two distinct levers, with one weak by default and one strong:
-
-- **Cost-tiering** (cheap model for reading, capable model for hard work) a strong caller usually already applies on its own — keep it, but it is not where the value is.
-- **Reviewer-model diversity is the lever that does not happen by default.** A reviewer left on the implementer's model inherits its failure modes and rationalizations and tends to ratify the same mistakes — even with fresh context. Forcing a *different* model is a genuinely independent pass, and one a capable agent will skip unless told (it reasons "review is as hard as writing, keep it on the strong model" and reuses the implementer's model).
+Two levers. **Cost-tiering** (cheap for reading, capable for hard work) a strong caller already applies — keep it, but it is not the value. **Reviewer-model diversity** is the lever that does NOT happen by default: a reviewer left on the implementer's model inherits its blind spots and ratifies the same mistakes even with fresh context, and a capable agent skips the switch unless told ("review is as hard as writing, keep it on the strong model"). Forcing a *different* model is the genuinely independent pass.
 
 ## Implementation
 
@@ -41,10 +38,8 @@ The **Tier** column is authoritative; the model in parentheses is illustrative a
 
 | Task type | Tier (illustrative model) | Why |
 | --- | --- | --- |
-| Exploration / search | cheap (≈ Haiku) | fast, cheap, good enough for finding files |
-| Reuse / existing-code search before implementing | cheap (≈ Haiku) | mechanical high-recall lookup; don't burn the implementer's tier grepping inline |
-| Simple, single-file edit | cheap (≈ Haiku) | clear instructions, low judgment |
-| Writing docs | cheap (≈ Haiku) | structure is simple |
+| Exploration / search · reuse / existing-code lookup | cheap (≈ Haiku) | bulk-token, high-recall, low-judgment; don't grep inline on the implementer's tier |
+| Simple single-file edit · writing docs | cheap (≈ Haiku) | clear instructions, low judgment |
 | Multi-file implementation | standard (≈ Sonnet) | best balance for coding |
 | Complex architecture / design | most-capable (≈ Opus) | deep reasoning over many interacting parts |
 | Debugging a hard bug | most-capable (≈ Opus) | must hold the whole system in mind |
@@ -71,13 +66,12 @@ The **Tier** column is authoritative; the model in parentheses is illustrative a
 - **Implementer already on the most-capable tier** → there is no *higher* model for the reviewer. Keep the reviewer a different model anyway (a strong-but-distinct one) for independence; if the harness exposes only one top-tier model, fall back to a fresh-context same-model reviewer and **say so** — independence of context is the residual lever.
 - **Only one model available** (no tier choice) → the cost-tiering collapses; still dispatch the reviewer as a fresh context and state that the diversity lever is unavailable.
 - A `BLOCKED`/stuck subagent that needs *more* reasoning is re-dispatched on a more capable model — escalating capability on a real block is not a violation of "cheapest that works".
-- **RED/GREEN efficacy run vs review — the discriminator is structural, not a judgment call.** Ask: is this a **paired run whose only intended difference is an injected rule/skill/prompt** (RED = without, GREEN = with)? → *constancy* (same model both halves, pinned low). Is this a **single artifact — code, a diff, a doc — being judged for quality**? → *diversity* (reviewer ≠ implementer). A routine code/work review is never a RED/GREEN pair, so constancy never applies to it, and a RED/GREEN pair is never a work-product review, so diversity never applies to it. Applying diversity to a RED/GREEN pair (a different model per half) invalidates the verdict; applying constancy to a review forfeits the independent pass. If you cannot point to the injected-only-variable that makes it a pair, it is a review — use diversity.
+- **RED/GREEN vs review — structural discriminator, not judgment.** A **paired run whose only intended difference is an injected rule/skill/prompt** (RED without, GREEN with) → *constancy* (same model both halves, pinned low). A **single artifact judged for quality** (code, diff, doc) → *diversity* (reviewer ≠ implementer). Crossing them breaks the result: diversity on a RED/GREEN pair confounds the verdict; constancy on a review forfeits the independent pass. Can't point to the injected-only variable? It's a review — use diversity.
 - **No model at the consumer floor available** (the harness exposes only strong tiers) → run RED/GREEN on the lowest available tier, hold it constant, and **state that the floor is above the real consumer's** — a green RED there is weaker evidence, per the export-floor carve-out in `scoping-rule-value.md`.
 
 ## Review Checklist
 
-- [ ] The reviewer's model differs from the implementer's (or, top-tier/single-model harness, the reviewer is at least a fresh context and that is stated) — the load-bearing check.
-- [ ] The review tier was derived from the implementer's model (one tier different), NOT read as a fixed task-type row from the quick-reference table.
+- [ ] The reviewer's model differs from the implementer's — derived one tier off the implementer (NOT read as a fixed task-row from the quick-reference table); or on a top-tier/single-model harness the reviewer is at least a fresh context and that is stated. The load-bearing check.
 - [ ] Each subagent/workflow dispatch states the model tier AND a one-line cost rationale for that role.
 - [ ] No premium model used for a pure research/explore/read-only role, and no premium default for a mechanical implement task.
 - [ ] A non-trivial pre-implementation reuse/existing-code search was dispatched to a cheap tier, not run inline on the implementer's (premium) model.
