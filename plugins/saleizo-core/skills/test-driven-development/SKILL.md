@@ -50,6 +50,15 @@ Run RED → GREEN → REFACTOR for **one** behavior, then repeat for the next.
 5. **REFACTOR — only while green.** Remove duplication, improve names, extract helpers, deepen modules. Never refactor while red; add no new behavior ([references/refactoring.md](./references/refactoring.md)).
 6. **Repeat** with the next failing test.
 
+**Discriminator:** *one behavior* = one observable input→output rule you can name in the test title without "and". If the title needs "and", or the code adds a second, unrelated decision branch, it is multiple behaviors — one cycle each.
+
+| Case (illustrative — your stack may differ) | Verdict | Why |
+| --- | --- | --- |
+| Parse `"30m"` → 30 minutes | ✓ one behavior | single input→output rule |
+| Parse `"30m"`, `"1h30m"`, `"45s"` together | ✗ multiple | three rules — one cycle each, sequential |
+| Parse a valid value **and** reject empty with an error | ✗ multiple | valid-path and error-path are separate rules |
+| Add a field + validate that same field | ✓ one behavior | one cohesive rule (validate-this-field) |
+
 ## Vertical slices, not horizontal
 
 Do **not** write all the tests first and then all the implementation. That "write every test, then write every impl" approach produces tests of *imagined* behavior — they test the shape of things, pass when behavior breaks, and outrun what you've actually learned.
