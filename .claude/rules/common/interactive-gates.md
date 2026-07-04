@@ -5,8 +5,7 @@ description: >-
   absent), not ad-hoc prose. Covers four archetypes — phase approval (A),
   execution-mode fork (B), readiness (C-readiness), drift disposition (C-drift,
   batched). Owns presentation only — the stop and the progress list are owned
-  elsewhere. Loaded on demand by the gate work that links it (no path trigger).
-  Vault-only; not shipped to consumers.
+  elsewhere. Applies on every SDD-chain gate.
 ---
 
 # Interactive Gate Prompts
@@ -61,10 +60,20 @@ C-drift is **one batched picker**, never one picker per finding; the audit must 
 
 The picker **is** the stop: presenting options and waiting for a pick is the gate's "STOP for explicit approval"; "never auto-advance" means "never advance without a pick". An `Approve` pick **is** that explicit approval, so advancing after it honors the gate. A gate-turn awaiting a pick is `Result: IN PROGRESS` (awaiting approval), never `BLOCKED` (reserved for scope decisions / git-boundary actions).
 
+An **interrupt (Esc) or a mid-step user redirect is not a pick** and never an implicit `Approve`. If the picker was pending or unanswered when interrupted, **re-present the same archetype picker on resume** rather than advancing; resuming after an interrupt never auto-advances the gate — only an explicit pick does.
+
+```text
+❌ WRONG — user hits Esc mid-phase, redirects, later says "ok continue"; the agent advances to the
+   next phase. The picker was never answered → advancing reads the interrupt as an implicit Approve.
+
+✅ CORRECT — on resume, re-present the same archetype picker for the interrupted gate; advance only
+   on an explicit `Approve` pick.
+```
+
 ## Edge Cases
 
 - **No picker tool** → markdown numbered-list fallback (above); the choice is never dropped.
-- **Consumer repo without this rule** → the gate prompts degrade to plain prose; the picker simply does not appear. The rule being vault-only is intentional, not a leak.
+- **Repo without a picker tool AND without this rule loaded** → the gate prompts degrade to plain prose; the picker simply does not appear. That is graceful degradation, not a defect.
 - **Two-step picks** — `Redo a previous phase` (A) and `Adjust per-finding` (C-drift) collect the *branch*; a follow-up free-text prompt collects the detail (which phase / walking findings).
 - **Standalone phase invocation** → the phase still presents its own archetype picker at its gate; archetype **B** is only meaningful post-plan.
 
@@ -76,3 +85,4 @@ The picker **is** the stop: presenting options and waiting for a pick is the gat
 - [ ] C-drift is one batched picker and the audit produces a per-finding recommended disposition.
 - [ ] Does not restate the gate's stop or the progress-list status discipline — only the picker presentation.
 - [ ] Gate-turn status is `IN PROGRESS`, not `BLOCKED`.
+- [ ] An interrupt / unanswered picker was re-presented on resume, never treated as an implicit `Approve` or auto-advanced.

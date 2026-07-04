@@ -5,9 +5,9 @@ description: >-
   explicit approval of that phase's artifact (it mirrors the chain's approval gate),
   and a skipped phase is shown-and-marked, never dropped. A full gated run seeds the
   whole canonical phase set; a standalone phase seeds/updates only its own item —
-  never a second, competing list. Owns the list's status discipline only, not the
-  phase set itself. Loaded on demand by the SDD phase work that links it (no path
-  trigger). Vault-only; not shipped to consumers.
+  never a second, competing list. A user interrupt mid-phase changes no status —
+  the active item stays in_progress and resume reconciles to it. Owns the list's status discipline only, not the
+  phase set itself. Applies on every SDD-chain phase run.
 ---
 
 # Phase Task Visualization
@@ -32,6 +32,15 @@ This rule owns the **status discipline of the list**, not the phase set: which p
 - **`completed` ONLY on the user's explicit approval of that phase's artifact** — never on "the artifact is produced" or "the phase ran". Producing an artifact is not completing its item; the user approving it is. This makes the list a faithful mirror of the approval gate, not a progress counter that runs ahead of it.
 - **A skipped phase stays in the list, marked skipped** (e.g. an entry phase whose input is absent, or an explicit `skip <phase>` control). Resolve its item as skipped with a one-word note — your runtime's `cancelled`/closed status, or `completed` annotated `(skipped: <reason>)`. **Never silently omit a row** — a shortened list hides which phase was bypassed.
 - On a `redo <phase>`, flip that item back to `in_progress` and the later items to `pending`.
+- **A user interrupt (Esc) mid-phase changes no status.** An interrupt is neither approval nor completion: the active item stays `in_progress`, later items stay `pending`, and nothing flips to `completed`. Handling an off-chain aside the user raises during the interrupt does not complete the phase — only their explicit approval of its artifact does. **On resume, reconcile to the single `in_progress` item** (the interrupted phase) and continue there; never advance past it and never open a second list.
+
+```text
+❌ WRONG — interrupt mid-phase; on resume the agent flips the item to `completed`
+   (or opens a fresh list) and moves to the next phase — reading the interrupt as approval.
+
+✅ CORRECT — the item stayed `in_progress` through the interrupt; resume reconciles to that
+   single `in_progress` item and continues there; it turns `completed` only on explicit approval.
+```
 
 ### Create-or-update — one list, never two
 
@@ -67,4 +76,5 @@ Before touching the list, check whether a phase task list **already exists this 
 - [ ] A bypassed entry phase is present and marked skipped — the list is never silently shortened.
 - [ ] Exactly one list exists — a phase under the orchestrator updated the existing list rather than creating a second.
 - [ ] A standalone phase seeded only its own item, not the whole chain.
+- [ ] A mid-phase interrupt left the active item `in_progress` (not `completed` or advanced); resume reconciled to that same item, no second list.
 - [ ] No specific phase/skill name is load-bearing: deleting it leaves the rule applicable.
