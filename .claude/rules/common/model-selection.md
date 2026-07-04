@@ -3,15 +3,17 @@ description: >-
   When dispatching a subagent or workflow agent, assign its model to a DIFFERENT
   one from the implementer for review passes, so the reviewer does not inherit the
   implementer's blind spots. Reading/explore roles take the cheapest tier; an
-  implement role takes the cheapest tier that reliably does it. Each dispatch
-  carries a one-line cost rationale.
+  implement role takes the cheapest tier that reliably does it. A RED/GREEN
+  efficacy or subagent-pressure pair instead holds the model CONSTANT across both
+  halves, pinned to a consumer floor, so the injected rule is the only variable.
+  Each dispatch carries a one-line cost rationale.
 ---
 
 # Model Selection by Role
 
 ## When
 
-STOP and choose the model deliberately whenever you spawn work in a separate context — an `Explore`/research subagent, an implementer subagent, a reviewer subagent, or a `Workflow` `agent()` call with a `model` option. Applies to every dispatch, in any mode (AUTHOR / AUDIT / APPLY) and in a consumer repo.
+STOP and choose the model deliberately whenever you spawn work in a separate context — an `Explore`/research subagent, an implementer subagent, a reviewer subagent, a **RED/GREEN efficacy or subagent-pressure test agent** (the paired cold runs a skill/rule change is verified with), or a `Workflow` `agent()` call with a `model` option. Applies to every dispatch, in any mode (AUTHOR / AUDIT / APPLY) and in a consumer repo.
 
 ## Why
 
@@ -27,6 +29,7 @@ Pick the model by the dispatched agent's **role**, and state the cost rationale 
 - **review → a model DIFFERENT from the one that implemented (the load-bearing rule).** This is the lever a capable agent skips by default — it reuses the implementer's model, reasoning "review is as hard as writing". For a routine per-task review prefer a different, often *cheaper* tier: independence, not raw power, is what catches the implementer's blind spots, and it saves tokens. For the final whole-change or high-risk review use the most-capable tier — but still a different model than the implementer where the harness offers more than one. _Rationale: the model switch buys defect-catching a same-model reviewer structurally cannot._
 - **cost-tiering of the other roles (a strong caller usually already does this — light scaffolding, not the point):** the operative default is *the cheapest model sufficient for the task* — escalating capability is the exception you justify per dispatch, not the starting point. A read-only research/explore role takes the cheapest capable tier (bulk-token, low-judgment); a well-specified implement task takes the cheapest tier that reliably does it (count turns, not just per-token price), escalating to the most-capable tier only for subtle, correctness-critical, or multi-file integration work. Do NOT default every implement task to the premium model.
 - **reuse / existing-code search before implementing → dispatch it cheap, do NOT search inline on the implementer's tier.** The lookup for an existing implementation or wrapper (the search behind [reuse-before-reimplement](../anti-patterns/reuse-before-reimplement.md) — see-also, not required to apply this rule) is mechanical, high-recall, low-judgment work. When it is non-trivial (a large or unfamiliar codebase), dispatch it to a cheap-tier subagent rather than spending the implementer's often-premium tier grepping inline. _Rationale: an implementer searching on its own expensive model is the silent default — a cheap search subagent returns the same hits for a fraction of the tokens._
+- **RED/GREEN efficacy & subagent-pressure runs → hold the model CONSTANT across the paired runs, pinned to a representative consumer floor — NOT the most-capable tier, and NOT diversified.** These are controlled experiments, not work-plus-review: the injected rule/skill is the ONLY variable that may change between the RED (no rule) and GREEN (rule injected) halves, so **both halves run on the same model** — a RED on one tier and a GREEN on another confounds the verdict (the behaviour change could be the model, not the rule). Pin that shared model to the weakest harness the change must serve, not the strongest tier: a strong model already complies cold and reports a **false no-op** RED (or a false-clean pressure run), the contaminated-control failure `scoping-rule-value.md` and `scoping-skill-value.md` name. This is the **opposite** of the diversity lever above — diversity is for reviewing a *work product*; constancy is for isolating a *single variable*, so do NOT apply the "reviewer differs from implementer" rule to a RED/GREEN pair. _Rationale: the only inference a RED/GREEN run supports ("the rule caused the change") holds only when the model is held fixed and set low enough to actually exhibit the failure._
 
 Name **tiers**, not a fixed model — the current Claude mapping is illustrative (cheap ≈ Haiku, standard ≈ Sonnet, most-capable ≈ Opus) and will shift as models are renamed.
 
@@ -48,6 +51,7 @@ The **Tier** column is authoritative; the model in parentheses is illustrative a
 | Security analysis / security-critical code | most-capable (≈ Opus) | cannot afford a missed vulnerability |
 | Routine per-task review | **one tier different from the implementer** (prefer cheaper) | independence, not raw power, catches blind spots |
 | Final / high-risk / security review | most-capable **and** different from the implementer | top capability *and* an independent pass |
+| RED/GREEN efficacy / subagent-pressure run | **same model across both halves**, pinned to a representative consumer floor (NOT most-capable, NOT diversified) | isolate the rule/skill as the only variable; a strong model no-ops it → false-clean RED |
 
 ```text
 ❌ WRONG — caller's premium model inherited for everything; reviewer == implementer.
@@ -67,6 +71,8 @@ The **Tier** column is authoritative; the model in parentheses is illustrative a
 - **Implementer already on the most-capable tier** → there is no *higher* model for the reviewer. Keep the reviewer a different model anyway (a strong-but-distinct one) for independence; if the harness exposes only one top-tier model, fall back to a fresh-context same-model reviewer and **say so** — independence of context is the residual lever.
 - **Only one model available** (no tier choice) → the cost-tiering collapses; still dispatch the reviewer as a fresh context and state that the diversity lever is unavailable.
 - A `BLOCKED`/stuck subagent that needs *more* reasoning is re-dispatched on a more capable model — escalating capability on a real block is not a violation of "cheapest that works".
+- **RED/GREEN efficacy run vs review — the discriminator is structural, not a judgment call.** Ask: is this a **paired run whose only intended difference is an injected rule/skill/prompt** (RED = without, GREEN = with)? → *constancy* (same model both halves, pinned low). Is this a **single artifact — code, a diff, a doc — being judged for quality**? → *diversity* (reviewer ≠ implementer). A routine code/work review is never a RED/GREEN pair, so constancy never applies to it, and a RED/GREEN pair is never a work-product review, so diversity never applies to it. Applying diversity to a RED/GREEN pair (a different model per half) invalidates the verdict; applying constancy to a review forfeits the independent pass. If you cannot point to the injected-only-variable that makes it a pair, it is a review — use diversity.
+- **No model at the consumer floor available** (the harness exposes only strong tiers) → run RED/GREEN on the lowest available tier, hold it constant, and **state that the floor is above the real consumer's** — a green RED there is weaker evidence, per the export-floor carve-out in `scoping-rule-value.md`.
 
 ## Review Checklist
 
@@ -76,4 +82,6 @@ The **Tier** column is authoritative; the model in parentheses is illustrative a
 - [ ] No premium model used for a pure research/explore/read-only role, and no premium default for a mechanical implement task.
 - [ ] A non-trivial pre-implementation reuse/existing-code search was dispatched to a cheap tier, not run inline on the implementer's (premium) model.
 - [ ] Model named as a tier (cheap/standard/most-capable) with any concrete model marked illustrative — not a hard-coded model as the only option.
+- [ ] A RED/GREEN efficacy or subagent-pressure pair ran BOTH halves on the same model, pinned to a representative consumer floor — not diversified across halves, not defaulted to the most-capable tier (or the floor-above-consumer caveat was stated).
+- [ ] Named which lever applies before picking — constancy for a RED/GREEN experiment, diversity for a work-product review — and did not cross them.
 - [ ] Not applied to non-dispatched, in-context work.
