@@ -4,6 +4,51 @@ Transient backlog of un-promoted candidate rules — newest at the top of `## En
 
 ## Entries
 
+## 2026-07-04 — Nearly deduped a Progress: paragraph shared across export-bound plugin skills into a consumer-repo rule pointer
+
+- **Cause-tag**: plugin-boundary-infra-reach
+- **Symptom**: an audit master-plan flagged the `Progress:` paragraph duplicated across 6 chain skills as removable duplication and proposed replacing it with a pointer to `.claude/rules/common/phase-task-visualization.md`. I nearly executed before checking where that target lives.
+- **Root cause**: `phase-task-visualization.md` is a CONSUMER-repo rule, not shipped by the plugin; an export-bound plugin skill pointing at it dies in any consumer lacking that rule. The cross-skill duplication is load-bearing portability (each skill must be self-contained), not a defect.
+- **Wrong approach**: treated "same paragraph in 6 skills" as pure SSoT-violation duplication, about to dedup shipped skill content into a shared home that never crosses the plugin→consumer boundary.
+- **Correct approach**: kept the inlined paragraph per skill; confirmed within-skill dedup (SKILL.md ↔ its OWN shipped asset, e.g. `writing-plans` header ↔ `plan-template.md`) IS valid because the asset ships with the skill.
+- **Prevention**: before deduping content shared across plugin skills into one shared home, confirm that home ships WITH the plugin (a skill-local `assets/`/`references/` file), never a consumer-side `.claude/rules/**` or `CLAUDE.md`; a consumer-side target → the inlined duplication is required, keep it. Distinct from `agnostic-skill-authoring` (don't bake consumer specifics IN) — this is don't dedup OUT to a consumer-side home. (Kin: `dev-source-vs-consumer-routing`, `skill-path-source-vs-symlink` — dev-tree/boundary reality ≠ consumer reach; family now 5 across 3 tags, watch for unified promotion.)
+
+## 2026-07-04 — Labeled an external skill "novel" in a dedup shortlist; the vault already had it under a near-synonym name
+
+- **Cause-tag**: missed-capability-duplicate
+- **Symptom**: producing a dedup shortlist of `affaan-m/ECC` skills vs this vault, I put ECC's `council` in Tier 2 as a NOVEL candidate ("extends grilling + model-selection diversity"). The vault already ships `decision-council` (saleizo-design; triggers "convene a council"/"consilium"/"five perspectives"). It only surfaced when a later `git status` showed the `decision-council/` dir — after the shortlist was already approved.
+- **Root cause**: ran the novelty check on ONE side only — grepped/enumerated the EXTERNAL repo's names, but never grepped the vault's own `.claude/skills-routing.json` / `plugins/*/skills/` by CONCEPT for each candidate. A dedup task feels like it already covers dedup, so the own-side inventory check got skipped; and I matched on the exact external name `council` rather than the concept, which `decision-council` answers.
+- **Wrong approach**: asserted "novel / not-a-dup" per candidate from memory of the vault plus an ECC-name scan, advancing the shortlist to approval before verifying each candidate concept against the vault's actual routing.
+- **Correct approach**: `git status` exposed `decision-council`; grepped routing, confirmed the trigger set ("convene a council"/"consilium"/"five perspectives") is exactly ECC's `council`; struck it from the shortlist as a duplicate and recorded the miss in the roadmap doc.
+- **Prevention**: in any dedup/novelty analysis, before labeling ANY candidate "novel" run a CONCEPT grep over the vault's own inventory — `grep -riE '<concept-keywords>' .claude/skills-routing.json plugins/*/skills` (e.g. `council|consilium|panel` — not just the source's exact name) — and confirm no existing skill answers it. A one-sided (external-only) inventory scan or an exact-name match is a false-clean; the vault's own routing is the authority for "already exists". (Kin: framework Suspicion #5 greps names; `search-scope-verification` — a scoped/one-sided "0 = absent" is false-clean when the capability lives under another name. Second occurrence of this tag — watch the count toward promotion.)
+
+## 2026-07-04 — Cited a skill's word count as "1543 > 1500" from naive `wc -w`; the validator strips frontmatter+fences (real 1477)
+
+- **Cause-tag**: metric-method-mismatch
+- **Symptom**: while speccing an edit to `writing-specs/SKILL.md`, asserted its body was "1543 words > the ≤1500 budget" and built the spec's word-budget risk/edge-case around that. A plan-reviewer subagent flagged it: the vault's word-count validator counts the **body only** (`awk` stripping frontmatter + fenced blocks) → **1477**. The 1543 was a whole-file `wc -w` including the 66-word frontmatter.
+- **Root cause**: reported a *governed metric* (the ≤1500 word budget) using a convenient tool (`wc -w file`) whose definition differs from the validator's authoritative method (strips frontmatter AND fenced blocks). "Measured" ≠ "measured the way the gate measures".
+- **Wrong approach**: `wc -w SKILL.md` → 1543 → "43 over budget, trim one bullet parenthetical" in the spec. Real headroom was 23 words, not −43, which materially changed Task 1 (the grilling-host fallback fired).
+- **Correct approach**: measure the governed metric with the validator's own command (the awk-strip method), confirmed body = 1477, headroom 23. Trap noted: a markdown **table counts** (not a fenced block), unlike a code fence which is stripped.
+- **Prevention**: before citing a skill body's word count against the ≤1500 budget, run the validator's awk-strip method (`writing-skills` validation-checklist), never a bare `wc -w <file>` — they diverge by the frontmatter size + every fenced block. Generally: when asserting a number a gate enforces, measure it with the gate's own instrument, not a lookalike.
+
+## 2026-07-04 — Under /sdd, seeded a standalone single-phase list instead of the full canonical set after a pre-chain detour
+
+- **Cause-tag**: orchestrated-entry-misclassified
+- **Symptom**: invoked via `/sdd`; did pre-chain repo analysis, then entered `grilling` and seeded ONE standalone task item. Owner corrected — "я стартанул с sdd, оно априори должно было запуститься" — expected the full canonical 8-phase list.
+- **Root cause**: `phase-task-visualization` keys "orchestrated vs standalone" on "does a list already exist?", which is silent when no list exists yet AND a pre-chain detour ("not a build → no pipeline") already framed the phase as standalone.
+- **Wrong approach**: seeded a single `grilling` item (standalone create-branch) even though the session entered through `/sdd` (`sdd-lifecycle`), i.e. the orchestrator was driving by definition.
+- **Correct approach**: rebuilt the full canonical `sdd-lifecycle` phase set (entry phases marked skipped, `grilling` `in_progress`); `/sdd` entry makes the run orchestrated regardless of a pre-chain detour.
+- **Prevention**: if a session was invoked via `/sdd` (or `sdd-lifecycle`), the run is orchestrated by definition — on entering the FIRST real phase seed the whole canonical phase set (`sdd-lifecycle` "Progress list"), never a standalone single item, even after a pre-chain discovery detour.
+
+## 2026-07-04 — Proposed a new skill for a "gap" already covered by a neighbour skill's review sub-steps — grepped names, didn't read the body
+
+- **Cause-tag**: missed-capability-duplicate
+- **Symptom**: in a "what can we add from this diagram" grill, proposed a new `validating-specs` core phase for the diagram's "Validate Specifications" stage; got scope+form+checks approved. User asked how it differs from `writing-specs`' existing reviewer subagent — its two-layer review already covers 4 of the 5 proposed checks.
+- **Root cause**: judged a capability "missing" from a skill-NAME/routing grep (no `validating-specs` dir) without reading the adjacent skill's body — `writing-specs`' self-review + independent cold-reviewer subagent already give completeness/consistency/clarity/traceability.
+- **Wrong approach**: ran gap-analysis on the name/routing inventory and presented the "gap", advancing scope→form→checks decisions before ever reading `writing-specs` fully.
+- **Correct approach**: read `writing-specs` SKILL.md + `spec-reviewer-prompt.md` + `review-layers.md`; mapped each proposed check to existing behavior — only testability was a thin, mis-layered delta; looped back and dropped the phantom gap.
+- **Prevention**: before proposing a new skill/phase as a "gap", read the FULL body of every scope-adjacent skill — especially its self-review / cold-reviewer / subagent sub-steps — and map each proposed check to existing behavior; a name/routing grep returning no match proves no NAME-duplicate, never no CAPABILITY-duplicate. (Kin: framework Suspicion #5 greps names; `search-scope-verification` — a scoped search's "0 = absent" is false-clean when the capability lives under another name.)
+
 ## 2026-06-29 — Diagnosed a degenerate telemetry metric (bypass-rate 100%) from its shape, twice, before reading the emitter source and raw events
 
 - **Cause-tag**: unverified-usage-assumption
