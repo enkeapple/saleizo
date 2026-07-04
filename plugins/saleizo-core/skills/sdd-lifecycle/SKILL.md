@@ -36,6 +36,9 @@ Route the input to its entry phase, then gate from there:
 | A half-done feature (code, no current spec) | `writing-specs` (reverse-engineer the spec) |
 | A spec exists, no plan | `writing-plans` |
 | An approved plan | `pre-implementation-protocol` |
+| A single, well-understood behavior change with a known cause and no plan — not merely cosmetic (a scoped bugfix, a small addition) | `test-driven-development` directly (skip the upstream phases) |
+
+(A one-line / cosmetic change is not on the table at all — make it directly per "When to use / when not", still test-first. The row above is for a real but single-behavior change that needs no design/spec/plan yet still warrants RED→GREEN.)
 
 (`verifying-implementation` is not an entry — it is the terminal verify phase (see The phases). A standalone audit of already-shipped code *outside* a full run invokes `verifying-implementation` directly.)
 
