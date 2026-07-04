@@ -47,6 +47,8 @@ Each skill is invoked by naming the foundation task ("set up CLAUDE.md", "audit 
 - **[auditing-hooks](skills/auditing-hooks/SKILL.md)** — Find drift between hook scripts and their wiring in the harness hook configuration.
 - **[auditing-conflicts](skills/auditing-conflicts/SKILL.md)** — Find conflicts and contradictions between skills, rules, and routing.
 - **[reviewing-telemetry](skills/reviewing-telemetry/SKILL.md)** — Review the SDD framework's own routing/telemetry health and produce a fixed-shape triage digest.
+- **[skill-comply](skills/skill-comply/SKILL.md)** — Actively probe whether a repo's skills/rules are followed and report a fixed-shape compliance scorecard so runs are comparable.
+- **[context-budget](skills/context-budget/SKILL.md)** — Audit what consumes the context window (CLAUDE.md, rules, skill catalog, MCP/tool schemas, hooks, agents) and produce a fixed-shape budget snapshot with prioritized trims.
 
 <!-- skills:end -->
 

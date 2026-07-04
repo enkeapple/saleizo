@@ -8,11 +8,15 @@ A concrete reference for the report format and the level of detail expected. Pla
 ## Verification
 - `npm run typecheck` → FAIL: ItemsList.tsx:14 Property 'nextCursor' does not exist on type '{ items: Item[]; cursor: string | null; hasMore: boolean }'.
 
+## Scope coverage
+- Cursor param on `listItems` + next cursor in the return shape — implemented at api/items.ts (contract shape differs; see Contract drift). OK.
+- "Load more" button to fetch the next page — not implemented in ui/ItemsList.tsx. Missed scope.
+
 ## Files touched
 | File | Spec said | Code shows | Status |
 | --- | --- | --- | --- |
 | api/items.ts | EDIT — add cursor param, return nextCursor | EDIT happened; return shape differs; extra sort param + sortItems() added | SILENT EXPANSION |
-| ui/ItemsList.tsx | EDIT — add Load more button | No Load more button; Row now renders an Avatar | MISSED + SILENT EXPANSION |
+| ui/ItemsList.tsx | EDIT — add Load more button | No Load more button (see Scope coverage); Row now renders an Avatar | SILENT EXPANSION |
 
 ## Contract drift
 - `listItems` return: spec `{ items, nextCursor: string | null }` → code `{ items, cursor, hasMore }`.

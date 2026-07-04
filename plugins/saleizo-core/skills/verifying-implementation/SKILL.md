@@ -38,11 +38,12 @@ This pairs with a spec written via the **writing-specs** skill and assumes its s
 ## Process
 
 1. **Parse the spec.** Extract verbatim: the Source provenance block (if present), Goal, Scope bullets, Out-of-scope bullets, Contracts, the Files-touched table, the Verification commands.
-2. **Verify each file touched — both directions.** For every row in the spec's Files-touched table: open the file; confirm the change kind (NEW / EDIT / DELETE) actually happened; for EDIT, grep for the symbols the spec named. Then invert: list any file the diff touched that is **absent** from the spec's table — an untabled touched file is itself a silent expansion, even if no out-of-scope bullet names it.
-3. **Compare contracts field by field.** For each type / signature / shape in the spec, find its real definition and diff it. Note every added / removed / renamed / re-typed field.
-4. **Sweep out-of-scope.** For *every* out-of-scope bullet, actively grep the codebase for evidence it was touched anyway — check each bullet, not just the first.
-5. **Run verification; cite fresh output.** Execute each command from the spec's Verification section and paste the actual result — exit status and the real lines. Never "should pass" / "looks fine"; a claim without fresh output is not a result. If you genuinely cannot run a command (no runtime, sandbox), say so and record the result as **UNVERIFIED** — never infer pass/fail, and never parrot a pre-supplied output as if you ran it.
-6. **Trace to source (only if a Source block is present).** Confirm the cited `source`/`revision` is recorded and reachable, then check the shipped behavior against the *original* requirements that bundle carried — not just against the spec. A requirement present in the source but absent from both spec and code is **source drift** (the spec silently narrowed its own ticket); flag it.
+2. **Walk each Goal / Scope requirement.** For *every* Goal outcome and Scope bullet, confirm the code actually implements it — check each requirement, not just the first, and independently of the Files-touched table: a required behavior can sit inside an already-tabled file or have no file of its own. A required behavior with no implementing code is **Missed scope**, even when the file it belongs in was touched and the Verification commands pass. This is the symmetric partner to the out-of-scope sweep below.
+3. **Verify each file touched — both directions.** For every row in the spec's Files-touched table: open the file; confirm the change kind (NEW / EDIT / DELETE) actually happened; for EDIT, grep for the symbols the spec named. Then invert: list any file the diff touched that is **absent** from the spec's table — an untabled touched file is itself a silent expansion, even if no out-of-scope bullet names it.
+4. **Compare contracts field by field.** For each type / signature / shape in the spec, find its real definition and diff it. Note every added / removed / renamed / re-typed field.
+5. **Sweep out-of-scope.** For *every* out-of-scope bullet, actively grep the codebase for evidence it was touched anyway — check each bullet, not just the first.
+6. **Run verification; cite fresh output.** Execute each command from the spec's Verification section and paste the actual result — exit status and the real lines. Never "should pass" / "looks fine"; a claim without fresh output is not a result. If you genuinely cannot run a command (no runtime, sandbox), say so and record the result as **UNVERIFIED** — never infer pass/fail, and never parrot a pre-supplied output as if you ran it.
+7. **Trace to source (only if a Source block is present).** Confirm the cited `source`/`revision` is recorded and reachable, then check the shipped behavior against the *original* requirements that bundle carried — not just against the spec. A requirement present in the source but absent from both spec and code is **source drift** (the spec silently narrowed its own ticket); flag it.
 
 ## Drift classification
 
@@ -59,12 +60,13 @@ Label every difference:
 Produce a report with these sections, in order (see [assets/report-example.md](./assets/report-example.md) for a filled example):
 
 1. **Verification** — each command → real output.
-2. **Files touched** — table: file → spec said → code shows → status (OK / MISSED / SILENT EXPANSION).
-3. **Contract drift** — per contract: spec shape → code shape → classification + severity.
-4. **Out-of-scope check** — per out-of-scope bullet: touched? where? classification.
-5. **Source trace** (only if the spec has a Source block) — the cited `source`/`revision`; per source requirement: present in spec? in code? classification (incl. Source drift).
-6. **Summary** — counts per classification. Count one per distinct violation, not per code site (a single out-of-scope change spread over several files is one finding); note the sites under it.
-7. **Recommended disposition** — per finding, the audit's recommended action (Fix code / Amend spec / Accept) with a one-line reason.
+2. **Scope coverage** — per Goal outcome / Scope bullet: implemented? where (file:symbol)? classification (OK / Missed scope). This is the deterministic home for every Missed-scope finding — never fold one into Files touched or Contract drift.
+3. **Files touched** — table: file → spec said → code shows → status (OK / MISSED / SILENT EXPANSION).
+4. **Contract drift** — per contract: spec shape → code shape → classification + severity.
+5. **Out-of-scope check** — per out-of-scope bullet: touched? where? classification.
+6. **Source trace** (only if the spec has a Source block) — the cited `source`/`revision`; per source requirement: present in spec? in code? classification (incl. Source drift).
+7. **Summary** — counts per classification. Count one per distinct violation, not per code site (a single out-of-scope change spread over several files is one finding); note the sites under it.
+8. **Recommended disposition** — per finding, the audit's recommended action (Fix code / Amend spec / Accept) with a one-line reason.
 
 ## Required decision after the report
 

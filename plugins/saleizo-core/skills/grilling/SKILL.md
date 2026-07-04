@@ -52,6 +52,15 @@ The design-approval gate above holds for **every** path: even a three-sentence d
 - it adds **no new surface** and spans **no multiple components / clients / services**, AND
 - it fits **one test-first cycle** — no task-by-task plan is needed to track it.
 
+**Discriminator:** off-ramp only when the change is one cohesive behavior crossing **no** shared/public contract and adding **no** new surface; any single crossing flips it to the full chain. When in doubt, full chain. (This is the canonical near-miss table for the shared "small" predicate — `writing-specs` → "When NOT to use" points here.)
+
+| Case (illustrative — your stack may differ) | Verdict | Why |
+| --- | --- | --- |
+| Add a field to an existing form + its own validation | ✓ off-ramp | one behavior, no shared contract |
+| Add that field **and** a new endpoint to persist it | ✗ full chain | new API endpoint = shared contract |
+| Rename an exported type used by other modules | ✗ full chain | exported signature = shared/public contract |
+| Typo/format/rename, or a source file + its own test | ✓ off-ramp | cosmetic / single cycle, no contract or new surface |
+
 > **REQUIRED SUB-SKILL (off-ramp):** Use `test-driven-development` to implement the approved single-behavior change test-first (RED → GREEN → REFACTOR). No spec, no plan — the approved design is the contract.
 
 **Full chain → hand to `writing-specs`.** Take this exit when the change crosses **any** line above. For a non-trivial design, first dispatch an independent readiness reviewer ([assets/readiness-reviewer-prompt.md](./assets/readiness-reviewer-prompt.md)) to catch a "we're done" that still hides open assumptions — if it returns *Not ready*, grill those branches and re-check. Then hand the gathered design + Decisions list to the spec:

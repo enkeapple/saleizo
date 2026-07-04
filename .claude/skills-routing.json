@@ -451,6 +451,24 @@
         "shallow module"
       ]
     },
+    "decision-council": {
+      "kind": "ref",
+      "plugin": "saleizo-design",
+      "name": "decision-council",
+      "triggers": [
+        "convene a council",
+        "council review",
+        "consilium",
+        "get me a panel",
+        "five perspectives",
+        "stress-test .* from (multiple|different) (angles|perspectives|sides)",
+        "multiple viewpoints and a verdict",
+        "консилиум",
+        "созови (совет|консилиум)",
+        "разбери .* с разных сторон",
+        "совет из ролей"
+      ]
+    },
     "writing-adrs": {
       "kind": "ref",
       "plugin": "saleizo-authoring",
@@ -527,6 +545,42 @@
         "что мисфайрит",
         "шумные триггеры",
         "дайджест телеметри"
+      ]
+    },
+    "skill-comply": {
+      "kind": "ref",
+      "plugin": "saleizo-foundation",
+      "name": "skill-comply",
+      "triggers": [
+        "compliance probe",
+        "are my skills (being )?followed",
+        "do agents (obey|follow) the rules",
+        "skill compliance",
+        "compliance rate",
+        "measure adherence",
+        "проверь соблюдение скиллов",
+        "следуют ли правилам",
+        "compliance[- ]прогон",
+        "измерь соблюдение"
+      ]
+    },
+    "context-budget": {
+      "kind": "ref",
+      "plugin": "saleizo-foundation",
+      "name": "context-budget",
+      "triggers": [
+        "context budget",
+        "context bloat",
+        "what'?s eating (my )?context",
+        "token budget audit",
+        "trim my setup",
+        "too many (skills|rules)",
+        "reduce context usage",
+        "проверь контекст[- ]бюджет",
+        "что ест контекст",
+        "раздут контекст",
+        "почистить сетап",
+        "аудит токенов"
       ]
     },
     "writing-skills": {

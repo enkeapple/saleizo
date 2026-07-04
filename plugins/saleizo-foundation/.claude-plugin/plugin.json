@@ -12,6 +12,8 @@
     "./skills/auditing-readme",
     "./skills/auditing-hooks",
     "./skills/auditing-conflicts",
-    "./skills/reviewing-telemetry"
+    "./skills/reviewing-telemetry",
+    "./skills/skill-comply",
+    "./skills/context-budget"
   ]
 }
