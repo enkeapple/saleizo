@@ -5,6 +5,7 @@
   "skills": [
     "./skills/codebase-design",
     "./skills/improve-codebase-architecture",
-    "./skills/auditing-code-quality"
+    "./skills/auditing-code-quality",
+    "./skills/decision-council"
   ]
 }
