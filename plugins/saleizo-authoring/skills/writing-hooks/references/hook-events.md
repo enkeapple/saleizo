@@ -1,6 +1,6 @@
 # Hook Events — thin catalog
 
-The four events this vault wires, the stdin fields each carries, and the decision form that fits. This is a quick-reference, **not** a reproduction of the official docs — for the full event list, matcher rules, and the complete JSON schema, see the Claude Code hooks documentation (`docs.claude.com` → Claude Code → Hooks).
+The four events this repo wires, the stdin fields each carries, and the decision form that fits. This is a quick-reference, **not** a reproduction of the official docs — for the full event list, matcher rules, and the complete JSON schema, see the Claude Code hooks documentation (`docs.claude.com` → Claude Code → Hooks).
 
 ## Events in use
 

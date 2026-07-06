@@ -1,7 +1,7 @@
 {
   "name": "saleizo-docs",
   "description": "Scaffold, audit, and extend a consumer repo's project documentation as manifest-declared views over machine-readable sources (agnostic).",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "skills": [
     "./skills/scaffolding-docs",
     "./skills/auditing-docs",

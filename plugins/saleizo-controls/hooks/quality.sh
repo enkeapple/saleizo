@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 # PostToolUse hook (matcher: Edit|MultiEdit|Write): advisory quality pass, branched by file class.
 # Replaces the split lint-fix.sh + test-quick.sh with ONE agnostic hook:
-#   - Vault docs (a SKILL.md, or any file under a .claude/rules/ tree): run the vault's own
+#   - Framework docs (a SKILL.md, or any file under a .claude/rules/ tree): run the framework's own
 #     structural validators -- frontmatter <=1024 bytes, balanced code fences, and for a SKILL.md
 #     the name regex (^[a-z0-9-]+$ and name == dir), plus reference-link resolution.
 #   - Consumer code (.ts/.tsx/.js/.jsx): run `eslint --fix` + `jest`, but ONLY if `npx` resolves.
-# Fail-open and non-blocking: every check warns to stderr; the hook always exits 0. In this vault
+# Fail-open and non-blocking: every check warns to stderr; the hook always exits 0. In this repo
 # (no node toolchain, no .ts/.js) the code branch is a silent no-op; in a consumer repo with no
 # SKILL.md / .claude/rules the docs branch never fires. The same hook is correct in either repo --
 # which is why it is branched by file class, not pinned to one stack.
@@ -20,7 +20,7 @@ base=$(basename "$FILE")
 
 case "$FILE" in
   *.md)
-    # Only validate vault docs: a SKILL.md, or a file under a .claude/rules/ tree.
+    # Only validate framework docs: a SKILL.md, or a file under a .claude/rules/ tree.
     if [ "$base" = "SKILL.md" ] || printf '%s' "$FILE" | grep -q '/\.claude/rules/'; then
 
       # frontmatter <= 1024 bytes (only when a leading --- block exists)
@@ -63,7 +63,7 @@ case "$FILE" in
     ;;
 
   *.ts|*.tsx|*.js|*.jsx)
-    # Consumer code only; no-op in this vault (no node toolchain). Lint and test are DISTINCT
+    # Consumer code only; no-op in this repo (no node toolchain). Lint and test are DISTINCT
     # checks with DISTINCT conditions -- do not lump them onto one trigger:
     #   - Lint: `eslint --fix` on the touched file itself (any source or test file).
     #   - Test: `jest`, keyed to the file's ROLE -- a test file (*.test.* / *.spec.*) is run

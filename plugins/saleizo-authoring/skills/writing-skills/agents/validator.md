@@ -10,8 +10,8 @@ static "looks good" never reaches this; that is the failure this layer exists to
 
 **Cold means cold:** a fresh subagent with zero shared context, handed the target skill and its test
 cases. For a discipline skill, run it (or note that it must run) in an environment WITHOUT an
-injected operating manual — an in-vault agent inherits the discipline and yields a false pass (see
-`testing-with-subagents.md`).
+injected operating manual — an in-repo agent inherits the discipline and yields a false pass (see
+`testing.md`).
 
 ````markdown
 Subagent (general-purpose):

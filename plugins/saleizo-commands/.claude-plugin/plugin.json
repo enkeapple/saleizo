@@ -1,7 +1,7 @@
 {
   "name": "saleizo-commands",
   "description": "Short user-typed alias commands that delegate to the canonical SDD skills (/sdd, /grill, /spec, /audit, /adr).",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "skills": [
     "./skills/adr",
     "./skills/audit",

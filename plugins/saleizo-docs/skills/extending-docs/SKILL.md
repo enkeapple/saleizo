@@ -32,4 +32,4 @@ Add a new doc-type **contract** to a project. A contract is a **data file** — 
 
 ## Edge Cases
 
-- **Export-bound skill.** Its value is for consumer harnesses adding doc-types — including weaker/non-agentic ones. A strong tool-equipped agent may already round-trip by reflex (a green in-vault baseline), but the empirical-round-trip mandate is what a weaker consumer harness needs; the skill is scoped to that floor, not cut on an in-vault no-op.
+- **Export-bound skill.** Its value is for consumer harnesses adding doc-types — including weaker/non-agentic ones. A strong tool-equipped agent may already round-trip by reflex (a green in-repo baseline), but the empirical-round-trip mandate is what a weaker consumer harness needs; the skill is scoped to that floor, not cut on an in-repo no-op.

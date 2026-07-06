@@ -1,5 +1,5 @@
 ---
-description: 'Format conventions for git in this skills vault — Conventional Commits (lowercase type, ≤72-char imperative subject, one-line default), optional scope = skill name or area (skills/rules/hooks), <type>/<kebab> branches, PR title = commit subject + validator/subagent evidence. Always-on; the autonomy boundary lives in CLAUDE.md → Git boundary and is not restated here.'
+description: 'Format conventions for git in this skills marketplace — Conventional Commits (lowercase type, ≤72-char imperative subject, one-line default), optional scope = skill name or area (skills/rules/hooks), <type>/<kebab> branches, PR title = commit subject + validator/subagent evidence. Always-on; the autonomy boundary lives in CLAUDE.md → Git boundary and is not restated here.'
 ---
 
 # Git & Commit Conventions
@@ -16,7 +16,7 @@ The **Git boundary** (what Claude may and may not do autonomously — never `git
 
 ### Commit messages
 
-Use **Conventional Commits** with a lowercase type. The types in use in this vault: `feat:` / `fix:` / `docs:` / `refactor:` / `chore:` (the rest of the standard set — `test:` / `perf:` / `style:` — apply only if such work ever lands; there is no app code, tests, or styling here today).
+Use **Conventional Commits** with a lowercase type. The types in use in this repo: `feat:` / `fix:` / `docs:` / `refactor:` / `chore:` (the rest of the standard set — `test:` / `perf:` / `style:` — apply only if such work ever lands; there is no app code, tests, or styling here today).
 
 ```text
 # ❌ WRONG — past tense, trailing period, two changes bundled, agent trailer
@@ -30,7 +30,7 @@ docs(rules): add git-conventions rule with review checklist
 
 - Subject ≤ 72 chars, **imperative mood** ("add", not "added"/"adds"), no trailing period.
 - Default to a **one-line** message (no body, no trailer) — matches CLAUDE.md's one-line Conventional Commit proposal. Add a body only when the *why* is non-obvious from the diff; wrap at ~72 cols, separated from the subject by a blank line.
-- Scope is optional. When used, it is **the skill name or the area touched** — `feat(grilling):`, `docs(rules):`, `fix(hooks):`, `chore(routing):` — not a file name. This vault has no product/domain scopes; a consumer repo would supply those from its own domain glossary.
+- Scope is optional. When used, it is **the skill name or the area touched** — `feat(grilling):`, `docs(rules):`, `fix(hooks):`, `chore(routing):` — not a file name. This repo has no product/domain scopes; a consumer repo would supply those from its own domain glossary.
 - **One logical change per commit.** Don't bundle a skill edit with an unrelated rule change; don't bundle formatting noise with logic.
 - No tool/agent attribution trailers (per CLAUDE.md → Git boundary, "No AI attribution") unless the user explicitly asks.
 
@@ -42,7 +42,7 @@ docs(rules): add git-conventions rule with review checklist
 ### Pull requests
 
 - Title = the same Conventional Commit subject for the squashed change.
-- Body: what changed and why, plus the **verification evidence this vault actually produces** — the skill validators (frontmatter ≤1024, name regex, reference links resolve, fence balance, word count) and a GREEN subagent run, per the Completeness Checklist in [.claude/CLAUDE.md](../../CLAUDE.md). There is no `pnpm`/build/test pipeline and no simulator here. Note any out-of-scope follow-ups.
+- Body: what changed and why, plus the **verification evidence this repo actually produces** — the skill validators (frontmatter ≤1024, name regex, reference links resolve, fence balance, word count) and a GREEN subagent run, per the Completeness Checklist in [.claude/CLAUDE.md](../../CLAUDE.md). There is no `pnpm`/build/test pipeline and no simulator here. Note any out-of-scope follow-ups.
 - Never open / merge / close a PR autonomously (see CLAUDE.md → Git boundary).
 
 ## Edge Cases

@@ -595,10 +595,14 @@
         "change a skill",
         "validate a skill",
         "new skill",
+        "improve a skill's description",
+        "split a skill",
         "написать скилл",
         "создать скилл",
         "отредактировать скилл",
-        "новый скилл"
+        "улучшить скилл",
+        "новый скилл",
+        "разбить скилл"
       ]
     },
     "accessibility": {

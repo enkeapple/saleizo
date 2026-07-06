@@ -2,7 +2,7 @@
 # Metrics report — skill-routing health + token spend by model, from the hook-emitted state.
 # Read-only and side-effect-free; safe to run anytime.
 #
-# Sources (all produced by the vault's hooks; absent → that section says "no data yet"):
+# Sources (all produced by the framework's hooks; absent → that section says "no data yet"):
 #   - .claude/state/metrics/YYYY-MM-DD.jsonl   dated day-files (+ pre-3b legacy _metrics.jsonl while
 #                                    it survives the 14-day window). v1 records {v,type,ts,session,…}:
 #                                    type=="skill_event" (event: bypass / used_correctly /

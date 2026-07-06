@@ -41,7 +41,7 @@ Everything else here is a recipe. These two are not negotiable:
 **Contract — choose ONE form, do not hedge both** (this is the convergence the skill enforces):
 
 ```text
-FORM A — exit-code (DEFAULT; simple guards). The vault majority.
+FORM A — exit-code (DEFAULT; simple guards). The common default.
   BLOCK  = message on stderr + `exit 2`   (stderr is fed back to the model)
   allow  = `exit 0`
 FORM B — JSON-stdout (ONLY when a PreToolUse deny needs a model-visible REASON
@@ -83,8 +83,8 @@ Keep the RED-0 (logic not yet written) and the fail-open-0 (garbage input) as **
 
 Three moves, all required; a hook that exists but is unwired (or mis-matched) silently never fires:
 
-1. **Source** — the script lives in the repo's hook tree (in this vault, `hooks/<area>/<name>.sh`; the buckets `guards/`, `quality/`, `routing/`, `session/` are _illustrative — your repo may differ_).
-2. **Discovery** — whatever the harness reads (in this vault, a flat symlink `.claude/hooks/<name>.sh` → the source); `chmod +x`.
+1. **Source** — the script lives in the repo's hook tree (in this repo, `hooks/<area>/<name>.sh`; the buckets `guards/`, `quality/`, `routing/`, `session/` are _illustrative — your repo may differ_).
+2. **Discovery** — whatever the harness reads (in this repo, a flat symlink `.claude/hooks/<name>.sh` → the source); `chmod +x`.
 3. **Register** in `settings.json` under the **correct event** with the **correct matcher**: a tool-name regex like `"Bash"` or `"Edit|Write|MultiEdit"`, or `".*"`; `UserPromptSubmit` and `Stop` take **no** matcher. A wrong matcher fires on the wrong tool — or never. Verify the wiring, not just that an entry exists.
 
 ### Authoring-time fixtures vs the persisted CI suite

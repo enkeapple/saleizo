@@ -1,4 +1,4 @@
-# SDD Workflow Vault — Engineering System
+# SDD Workflow — Engineering System
 
 Operating manual for Claude in this repo. The root [CLAUDE.md](../CLAUDE.md) is the entry point (what this is, the skill chain, validators); this file governs HOW to work.
 
@@ -8,7 +8,7 @@ Rule precedence: user instructions in chat > this file > `.claude/rules/*` > def
 
 These survive context pressure and are model-agnostic. If the rest of this file is summarized away, these do not.
 
-1. **Iron Law — no skill or skill edit without a failing test first.** Run the baseline subagent scenarios and watch them fail (RED) before writing. Wrote it first? Delete it, start over. No exception for "simple edits". This is the discipline the whole vault exists to practice.
+1. **Iron Law — no skill or skill edit without a failing test first.** Run the baseline subagent scenarios and watch them fail (RED) before writing. Wrote it first? Delete it, start over. No exception for "simple edits". This is the discipline the whole repo exists to practice.
 2. **Agnostic by default.** A skill never hard-depends on one project's stack, paths, or commands. Examples needing a stack are marked illustrative; the consumer repo fills specifics. Project leakage into an agnostic skill is a defect.
 3. **Read-before-assert.** No "X has/exports/returns Y" about a skill, rule, or hook without a `Read`/`Grep`/`Glob` THIS session. Memory is not evidence; label unverified claims `(unverified — need to read X)`. Editing a skill or rule doc IS editing code.
 4. **Validate before "done".** A skill change is not done until its validators pass (frontmatter ≤1024, name regex, reference links resolve, fences balanced, word count sane) AND a GREEN subagent run confirms the behavior. Markdown existing is not done.
@@ -18,7 +18,7 @@ These survive context pressure and are model-agnostic. If the rest of this file 
 
 ## Behavioral baseline
 
-This vault has **opted into** the default conduct set (the canonical source is [bootstrapping-claude-md/references/behavioral-baseline.md](../plugins/saleizo-foundation/skills/bootstrapping-claude-md/references/behavioral-baseline.md); `auditing-claude-md` verifies this section against it). It shapes every change *on top of* the Non-negotiables above — where the two overlap, the Non-negotiable is the enforced form and this is the conduct lens; do not treat them as separate mandates.
+This repo has **opted into** the default conduct set (the canonical source is [bootstrapping-claude-md/references/behavioral-baseline.md](../plugins/saleizo-foundation/skills/bootstrapping-claude-md/references/behavioral-baseline.md); `auditing-claude-md` verifies this section against it). It shapes every change *on top of* the Non-negotiables above — where the two overlap, the Non-negotiable is the enforced form and this is the conduct lens; do not treat them as separate mandates.
 
 - **Think Before Coding** — surface assumptions and tradeoffs before implementing; when interpretations diverge, present them rather than picking silently; when unclear, stop and ask. (Here: the Implementation/Suspicion protocols in [framework.md](./rules/domains/framework.md).)
 - **Simplicity First** — write the minimum that solves the stated problem; no speculative features, single-use abstractions, or unrequested configurability.
@@ -40,7 +40,7 @@ State the mode on a non-trivial task.
 
 - **AUTHOR** (default) — create or change a skill via RED → GREEN → REFACTOR → VALIDATE. Edits under `plugins/*/skills/**` (discovered via the installed plugin); subagent pressure runs allowed.
 - **AUDIT** — read-only review of skills/rules/CLAUDE.md (`Read`/`Grep`/`Glob` + validators). No edits.
-- **APPLY** — exercise the chain on a *consumer* repo (`grilling → writing-specs → writing-plans → pre-implementation-protocol → inline-driven-development | subagent-driven-development → verifying-implementation`, each task test-first via `test-driven-development`). The vault's skills are the tools; the target repo is the workpiece.
+- **APPLY** — exercise the chain on a *consumer* repo (`grilling → writing-specs → writing-plans → pre-implementation-protocol → inline-driven-development | subagent-driven-development → verifying-implementation`, each task test-first via `test-driven-development`). This repo's skills are the tools; the target repo is the workpiece.
 
 ## Workflow: RED → GREEN → REFACTOR → VALIDATE (AUTHOR)
 
@@ -57,7 +57,7 @@ Not complete until each row is `[x]` or `[N/A]`-with-reason, evidence pasted:
 
 | # | Item | Done when |
 | --- | --- | --- |
-| 1 | RED observed | The baseline run failed as expected (or `[N/A]` — control showed no failure); for an **export-bound** skill (value is for weaker/non-agentic consumer harnesses), a green in-vault RED across tiers is NOT an `[N/A]`-cut — RED against a representative export floor, or ship on the policy basis and record which (see-also `rules/common/fair-red-baseline.md`, `rules/common/scoping-skill-value.md`, `rules/common/scoping-rule-value.md`) |
+| 1 | RED observed | The baseline run failed as expected (or `[N/A]` — control showed no failure); for an **export-bound** skill (value is for weaker/non-agentic consumer harnesses), a green in-repo RED across tiers is NOT an `[N/A]`-cut — RED against a representative export floor, or ship on the policy basis and record which (see-also `rules/common/fair-red-baseline.md`, `rules/common/scoping-skill-value.md`, `rules/common/scoping-rule-value.md`) |
 | 2 | GREEN + independent Layer-2 verdict | (a) your own with-skill run complies on the same scenarios AND (b) a fresh validation subagent ran the cases staged for the gate (a temporary file, deleted after the run — not a persisted `test-cases.md`), inverted each case, and returned PASS with verbatim evidence — your GREEN run does NOT satisfy (b) |
 | 3 | Form matches failure | Discipline → prohibition+table+red-flags; shaping → positive recipe |
 | 4 | Validators pass | Frontmatter ≤1024, name regex, links resolve, fences balanced, word count — output pasted |
@@ -111,7 +111,7 @@ Rules for the slots:
 
 ## Skill discipline
 
-Skills are routed by [skills-routing.json](./skills-routing.json) (trigger keywords → skill body). When a prompt matches a trigger, invoke the `Skill` tool before reading/editing that domain — do NOT `Read` a `SKILL.md` directly to "preview" it. The routing/metric/session/quality hooks (`detect-bypass.sh`, `log-skill-usage.sh`, `token-guard.sh`, `friction-log.sh`, `skill-gate.sh`, `reset-turn-budget.sh`, `lessons-nudge.sh`, `quality.sh`) ship in the `saleizo-controls` plugin (`plugins/saleizo-controls/hooks/`) and read the consumer's `.claude/skills-routing.json`; `detect-bypass.sh` logs bypasses to `.claude/state/_metrics.jsonl` (gitignored). (Note: `skill-gate.sh` has no *code-domain* edit gates — there is no `src/` — but its `ruleGates` are not empty: the `routing-sync` gate denies an edit to `.claude/skills-routing.json` until `skill-routing-sync.md` has been read that turn.) Beyond routing, root `settings.json` wires **guard** hooks (`security-guard.sh`, `bash-read-guard.sh`, `read-guard.sh`, `edit-write-guard.sh` — vault-local in `hooks/guards/`, surfaced via `.claude/hooks/` symlinks — they block credential/exfil-shaped commands and modifications to `.claude/hooks`/settings, so cleaning up hook files needs a human-run command) and an advisory **quality** pass (`quality.sh`, PostToolUse on edits — runs the validators on a vault doc, no-ops on consumer code without a node toolchain).
+Skills are routed by [skills-routing.json](./skills-routing.json) (trigger keywords → skill body). When a prompt matches a trigger, invoke the `Skill` tool before reading/editing that domain — do NOT `Read` a `SKILL.md` directly to "preview" it. The routing/metric/session/quality hooks (`detect-bypass.sh`, `log-skill-usage.sh`, `token-guard.sh`, `friction-log.sh`, `skill-gate.sh`, `reset-turn-budget.sh`, `lessons-nudge.sh`, `quality.sh`) ship in the `saleizo-controls` plugin (`plugins/saleizo-controls/hooks/`) and read the consumer's `.claude/skills-routing.json`; `detect-bypass.sh` logs bypasses to `.claude/state/_metrics.jsonl` (gitignored). (Note: `skill-gate.sh` has no *code-domain* edit gates — there is no `src/` — but its `ruleGates` are not empty: the `routing-sync` gate denies an edit to `.claude/skills-routing.json` until `skill-routing-sync.md` has been read that turn.) Beyond routing, root `settings.json` wires **guard** hooks (`security-guard.sh`, `bash-read-guard.sh`, `read-guard.sh`, `edit-write-guard.sh` — repo-local in `hooks/guards/`, surfaced via `.claude/hooks/` symlinks — they block credential/exfil-shaped commands and modifications to `.claude/hooks`/settings, so cleaning up hook files needs a human-run command) and an advisory **quality** pass (`quality.sh`, PostToolUse on edits — runs the validators on a framework doc, no-ops on consumer code without a node toolchain).
 
 ## Lessons promotion path
 
@@ -123,4 +123,4 @@ A qualifying lesson → an entry in [lessons-learned.md](./lessons-learned.md) (
 - Process basics (Implementation/Suspicion protocols, evidence-based verification, question discipline): [rules/domains/framework.md](./rules/domains/framework.md)
 - Domain glossary: [rules/domains/glossary.md](./rules/domains/glossary.md)
 - Domain rules (on demand): [rules/](./rules/) · Lessons: [lessons-learned.md](./lessons-learned.md)
-- Skill registry: [skills-routing.json](./skills-routing.json) · Guard hooks: [hooks/guards/](./hooks/guards/) (vault-local, `.claude/hooks/` symlinks) · Routing/metric hooks: `plugins/saleizo-controls/hooks/` · Runtime state (gitignored): `.claude/state/`
+- Skill registry: [skills-routing.json](./skills-routing.json) · Guard hooks: [hooks/guards/](./hooks/guards/) (repo-local, `.claude/hooks/` symlinks) · Routing/metric hooks: `plugins/saleizo-controls/hooks/` · Runtime state (gitignored): `.claude/state/`

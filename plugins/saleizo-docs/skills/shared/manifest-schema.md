@@ -116,7 +116,7 @@ Rules:
 
 ## 5. Audit report row-types
 
-Exactly seven row-types. Every row carries a recommended disposition (feeding the batched drift-report picker used elsewhere in this vault):
+Exactly seven row-types. Every row carries a recommended disposition (feeding the batched drift-report picker used elsewhere in this repo):
 
 | Row-type | Fires when | Recommended dispositions |
 | --- | --- | --- |

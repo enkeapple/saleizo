@@ -16,7 +16,7 @@ Do NOT skip the check because the search "looks complete" — the three recurrin
 
 ## Why
 
-A scoped or syntactically-broken search that returns 0 is indistinguishable from a correct 0 — until a downstream break proves it wrong. The recurring false-clean modes in this vault:
+A scoped or syntactically-broken search that returns 0 is indistinguishable from a correct 0 — until a downstream break proves it wrong. The recurring false-clean modes in this repo:
 
 - **BRE alternation** — `grep -c "a\|b"` on macOS/BSD grep treats `\|` as a literal pipe, not alternation; the pattern never matches → phantom "absent" reported as verified.
 - **Depth-limited find** — `find . -maxdepth N` structurally cannot reach a target one level deeper; "not found" is a scope artifact, not absence.

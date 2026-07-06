@@ -5,7 +5,7 @@ description: >-
   cold baseline first; a strong model often already obeys a principle / catches
   a correctness defect / keeps a discipline, so the literal skill is a no-op.
   Re-aim GREEN at the failure that actually reproduces (shaping / efficacy /
-  skipped process). Caveat: an in-vault subagent control inherits framework.md,
+  skipped process). Caveat: an in-repo subagent control inherits framework.md,
   so a discipline-RED can read as a false "no failure".
 paths: ['plugins/**/SKILL.md', '.claude/skills/**/SKILL.md']
 ---
@@ -47,7 +47,7 @@ recipe for one fixed readiness-block shape; GREEN = the shape converges across r
 
 RED it with a **clean misread** — an artifact internally consistent but wrong against its source. If the cold reviewer, given only the artifact, approves it, the layer is a no-op: wire the source in, make the remits disjoint, and re-RED.
 
-**Caveat — a contaminated discipline control reads as a false "no failure."** A discipline-RED run inside this vault may "comply" by obeying the force-injected operating manual, not your skill. If you cannot reproduce the discipline failure against a *clean* baseline, do not build the gate — find the shaping / efficacy failure that is reproducible, or write nothing. (The protocol for keeping that baseline clean — suppression clause, clean-room — is owned by [fair-red-baseline](./fair-red-baseline.md), see-also; shaping failures stay cleanly measurable in-repo regardless.)
+**Caveat — a contaminated discipline control reads as a false "no failure."** A discipline-RED run inside this repo may "comply" by obeying the force-injected operating manual, not your skill. If you cannot reproduce the discipline failure against a *clean* baseline, do not build the gate — find the shaping / efficacy failure that is reproducible, or write nothing. (The protocol for keeping that baseline clean — suppression clause, clean-room — is owned by [fair-red-baseline](./fair-red-baseline.md), see-also; shaping failures stay cleanly measurable in-repo regardless.)
 
 ## Edge Cases
 
@@ -60,6 +60,6 @@ RED it with a **clean misread** — an artifact internally consistent but wrong 
 - [ ] Named the target failure class (discipline / shaping / efficacy / process) before writing the skill or phase.
 - [ ] RED-ran the literal version against a cold baseline; if the baseline complied, the literal version was cut or re-aimed — not shipped.
 - [ ] GREEN is calibrated to the reproduced failure (shape convergence / efficacy / step taken), not to the skill's stated purpose.
-- [ ] For a discipline target, did not trust an in-vault Agent-tool "compliance" as the baseline (it may be inherited `framework.md`) — got a clean baseline or pivoted.
+- [ ] For a discipline target, did not trust an in-repo Agent-tool "compliance" as the baseline (it may be inherited `framework.md`) — got a clean baseline or pivoted.
 - [ ] Did not duplicate `writing-skills`' methodology content; cross-linked it instead.
 - [ ] For a two-layer review (self + cold reviewer): the cold layer is fed the SOURCE the artifact derives from (not just the artifact), its checklist is disjoint from the self-review's (author-reachable vs author-blind), and a clean-misread RED confirms it catches a consistent-but-wrong artifact.

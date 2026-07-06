@@ -1,6 +1,6 @@
 # Framework Charter
 
-How to work in this repo, regardless of which skill or rule you touch. This is a **skills vault**, not an app: no `package.json`, no build, no unit-test suite, no `src/`. Verification here is **the skill validators + RED/GREEN subagent runs**, plus **fixture-execution of a hook against crafted stdin** for a hook change — never `pnpm`/Vitest/simulator (that would be a consumer-repo leak). Domain vocabulary lives alongside in [glossary.md](./glossary.md); read it first if a request says "test", "RED/GREEN", "skill vs rule", or names the vault vs a consumer repo.
+How to work in this repo, regardless of which skill or rule you touch. This is a **skills marketplace**, not an app: no `package.json`, no build, no unit-test suite, no `src/`. Verification here is **the skill validators + RED/GREEN subagent runs**, plus **fixture-execution of a hook against crafted stdin** for a hook change — never `pnpm`/Vitest/simulator (that would be a consumer-repo leak). Domain vocabulary lives alongside in [glossary.md](./glossary.md); read it first if a request says "test", "RED/GREEN", "skill vs rule", or names this repo vs a consumer repo.
 
 ## Implementation Protocol
 
@@ -16,7 +16,7 @@ Before any change to a skill, rule, or hook:
 
 ## Suspicion Protocol
 
-Run every phase presuming something is wrong. After each, check this vault's recurring failure modes — run the check, don't assume:
+Run every phase presuming something is wrong. After each, check this repo's recurring failure modes — run the check, don't assume:
 
 1. **Skipped RED** — did you observe a verbatim baseline failure WITHOUT the skill? No failure observed → there is nothing to fix; do not write the skill.
 2. **Project leakage** — does the skill name a stack, path, or command (`pnpm`, `src/`, a route)? An agnostic skill must let the consumer repo fill specifics; mark unavoidable examples illustrative.
@@ -33,7 +33,7 @@ No structural claim about a skill, rule, or hook without a read THIS session. ST
 
 ## Evidence-Based Verification
 
-A change is not done until you run and SHOW the vault's real checks (no "should pass"):
+A change is not done until you run and SHOW this repo's real checks (no "should pass"):
 
 - **Validators** — frontmatter ≤1024, `name` regex, every `references/*.md` and `assets/*.md` link resolves, fences balanced, word count sane. Paste the result.
 - **GREEN subagent run** — re-run the RED scenarios WITH the skill; paste the compliance. Markdown existing is not "done".
