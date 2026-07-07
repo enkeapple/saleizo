@@ -44,7 +44,7 @@ Reasoning that the render "should be" deterministic is not this test. Observe tw
 3. Mutate the fixture source (add/remove/change one element).
 4. Re-run `auditing-docs` → it must report **exactly one** finding: `managed-drift` for a machine/hybrid block, or `stale` for a prose contract.
 
-A contract that fails either half — phantom drift on unchanged input, or no finding after a real change — is not done.
+A contract that fails either half — phantom drift on unchanged input, or no finding after a real change — is not done. Run it: a reasoned "the audit would report clean" is not this test — actually invoke `scaffolding-docs` then `auditing-docs` and observe the two verdicts.
 
 ## Register
 

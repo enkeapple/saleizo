@@ -6,7 +6,7 @@ The decision procedure behind `auditing-docs`. The canonical schema and the row-
 
 Run the checks in this order so a malformed doc never gets regenerated and every disk file is accounted for:
 
-1. **Manifest presence** — no `.claude/docs-manifest.json` → single `missing-manifest` finding, offer `scaffolding-docs`, stop.
+1. **Manifest presence** — no `.claude/docs-manifest.json` → a `missing-manifest` notice (a terminal pre-audit signal, not one of the seven report rows), offer `scaffolding-docs`, stop.
 2. **Marker well-formedness** (every managed doc, before any tier check) — see below.
 3. **Per-entry tier / kind classification** — see below.
 4. **Orphan sweep** — bounded to `docsRoot`.

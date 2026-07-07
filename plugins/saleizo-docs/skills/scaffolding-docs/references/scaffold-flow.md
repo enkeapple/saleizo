@@ -10,7 +10,7 @@ For each built-in contract, read the repo and locate the concrete source its abs
 - exactly one candidate → a clean binding; carry it to the proposal.
 - two or more candidates → an **ambiguous binding**; it MUST go through the gate below.
 
-## 2. Gate ambiguous bindings (interactive-gates Archetype-A)
+## 2. Gate ambiguous bindings (interactive-gates — candidate-source selection)
 
 When a doc-type has more than one candidate source, present a picker so the owner binds exactly one `source`:
 
@@ -54,10 +54,6 @@ For each `kind:"managed"` entry, in this order:
 
 ## 6. Record the tier fields
 
-Field applicability by the contract's `auditTier`:
-
-- **machine** → `blocks[]` only (each block's `rev` = derived-slice hash).
-- **prose** → `sourceRev` only (hash of the source; no `blocks`).
-- **hybrid** → BOTH `blocks[]` AND `sourceRev`.
+Field applicability by the contract's `auditTier` (machine → `blocks[]`, prose → `sourceRev`, hybrid → both) is single-sourced in [../../shared/manifest-schema.md](../../shared/manifest-schema.md) §1 "Field applicability by tier"; SKILL step 6 applies it at generation time.
 
 `rev`/`sourceRev` are content hashes (`sha256:…`), git-independent — staleness works in a shallow clone or with uncommitted sources.
