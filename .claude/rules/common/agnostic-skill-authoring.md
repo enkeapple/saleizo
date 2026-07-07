@@ -36,7 +36,7 @@ Run the project's test command and confirm the suite is green before you refacto
 
 ## Edge Cases
 
-- **When NOT to apply:** editing a *rule*, a *hook*, a routing manifest, or a `CLAUDE.md` — those are harness files internal to one repo, and they legitimately name that repo's real paths and tools. They are not shareable skills. That is why this rule is scoped to `.claude/skills/**` only.
+- **When NOT to apply:** editing a *rule*, a *hook*, a routing manifest, or a `CLAUDE.md` — those are harness files internal to one repo, and they legitimately name that repo's real paths and tools. They are not shareable skills. That is why this rule is scoped to skill files only (`plugins/**/skills/**` here, `.claude/skills/**` in a consumer repo).
 - A **marked-illustrative** example that names a stack is **not** a leak — it is the sanctioned escape hatch from move 3. Don't flag it.
 - A skill's **own structural references** — a relative link to its `references/*.md`, the `Skill` tool, the names of neighbouring skills it hands off to — are part of the skill system, not project coupling. Leave them.
 - A user-invoked or reference-only skill (one not reachable by trigger routing) is held to the same agnostic bar as any other skill — being invoked differently does not license stack leaks.

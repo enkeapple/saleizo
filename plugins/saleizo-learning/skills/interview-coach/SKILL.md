@@ -19,10 +19,10 @@ Before asking anything:
 
 ## The coach loop — per question
 
-1. **Ask one question.** Name its **answer-class** — what a real answer must be about ("a mistake the AI itself made", "a tradeoff you owned", "a number you moved").
+1. **Ask one question.** Name its **question-class** — what a real answer must be about ("a mistake the AI itself made", "a tradeoff you owned", "a number you moved").
 2. **On a weak or off-class answer, TEACH — do not hand the answer.** Name the slip (class asked vs class answered), explain in one or two lines *why the interviewer asks this class* (what it's really probing), and give the **technique/skeleton** for that class (e.g. situation → what the tool produced → how you suspected it → how you confirmed it → what you changed). Keep the explanation low-friction — understanding should be easy.
 3. **Drill from memory (retrieval practice).** Have the user redo the answer themselves. On later reps, withhold the skeleton so they reconstruct it cold (desirable difficulty). The drill retires only after **two clean, on-class** answers — a single clean answer is fluency, not retention. Never accept the off-class answer and never answer it for them.
-4. **Capture.** Log the question and outcome in today's session log; update the weak-spot's count; when an answer lands clean, add it to the answer bank.
+4. **Capture.** Log the question, its class, and the outcome in today's session log — a clean answer, or a slip and which class slipped. Write ONLY to the session log here; all standing-record updates (weak-spot counts, promotions, answer-bank additions) happen once at session end (below), not live — so a count is never bumped twice.
 
 ## The workspace — files under `docs/learning/`
 
@@ -38,10 +38,10 @@ These sections, in order; full format in [`references/workspace-format.md`](./re
 
 ### Session log — `docs/learning/<YYYY-MM-DD>-<topic-slug>.md` (one per session)
 
-1. **Questions drilled** — each question verbatim, its answer-class, on-class/slip outcome, how many reps to clean.
-2. **Slips this session** — what slipped today; each updates a count in the standing record.
+1. **Questions drilled** — each question verbatim, its question-class, on-class/slip outcome, how many reps to clean.
+2. **Slips this session** — what slipped today; each is folded into a standing-record count at session end (not live).
 
-At session end, fold today's log into the standing record — bump weak-spot counts, promote any that hit 3, add newly-clean answers to the bank. Done when the standing-record counts match the session log before the session closes.
+At session end — when the user signals they are stopping, or before your final reply of the turn, whichever comes first — fold today's log into the standing record: bump weak-spot counts from the session log, promote any that hit 3, add newly-clean answers to the bank. This is the single reconciliation point (step 4 wrote only the session log). Done when the standing-record counts match the session log before the session closes.
 
 ## Rationalizations — all rejected
 

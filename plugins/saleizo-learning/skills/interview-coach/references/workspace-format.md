@@ -71,7 +71,7 @@ A record of recurring slips with counts — drives what the next session drills 
 **Entry format:**
 
 - **Title** — a concise name for the slip (e.g. "Blames inputs on AI-mistake questions").
-- **The slip** — *class asked → class answered*: the answer-class the question demanded and the class the user actually gave instead.
+- **The slip** — *class asked → class answered*: the question-class the question demanded and the class the user actually gave instead.
 - **Why it matters** — one line on how this reads to an interviewer (e.g. "lands as dodging / not owning the failure").
 - **Count** — how many sessions the same slip recurred. Increment on each recurrence; this is what drives promotion.
 - **Status** — `open` until the user answers this class clean **twice**, then `retired`.

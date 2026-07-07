@@ -1,7 +1,7 @@
 {
   "name": "saleizo-learning",
   "description": "User-invoked learning skills: translate confusion, expose gaps, build learning plans.",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "skills": [
     "./skills/baseline-prober",
     "./skills/build-retention",

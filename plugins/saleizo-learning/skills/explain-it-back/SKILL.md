@@ -20,6 +20,8 @@ Read their explanation in order and **stop at each gap the moment it appears**, 
 
 After the explanation, diagnose the root concept that hasn't settled — tie the pattern of gaps to what they don't actually hold ("you can name the handshake but the two-key idea isn't there — that's the piece missing"). Diagnose the gap; do not teach the answer.
 
+**If no gap appeared** — the explanation genuinely held, term by term and step by step — say so plainly and stop. A clean explanation is a valid outcome; do NOT manufacture an unsettled piece to justify a hand-off. The diagnostic and the `confusion-translator` hand-off below apply only when at least one real gap was named.
+
 ## Then — point them at the fix (do not teach it)
 
 Close by handing the user the next move. Name the single unsettled piece and route them to the skill that repairs it: "the two-key idea is the gap; invoke `confusion-translator` on *that one piece* to get it translated into plain terms." Recommend the next skill, name the exact piece to feed it, and stop.
@@ -40,5 +42,6 @@ Close by handing the user the next move. Name the single unsettled piece and rou
 - You opened with praise or affirmation of the attempt.
 - You bundled everything into end-feedback instead of stopping at each gap in order.
 - You let a named-but-unexplained term pass because you understood it.
-- You ended without naming what the stumbles reveal hasn't settled.
-- You ended at the diagnostic without pointing the user at `confusion-translator` for the unsettled piece.
+- Gaps appeared, but you ended without naming what the stumbles reveal hasn't settled.
+- A gap was named, but you ended at the diagnostic without pointing the user at `confusion-translator` for the unsettled piece.
+- You invented an "unsettled piece" for an explanation that actually held, just to force a hand-off — a clean explanation is a valid outcome; say so and stop.

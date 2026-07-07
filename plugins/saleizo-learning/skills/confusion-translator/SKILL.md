@@ -10,7 +10,7 @@ The user handed you material they don't understand. Find the single idea that ma
 
 ## What the answer IS — produce these four slots, in order
 
-1. **The keystone phrase.** Name the single idea from the material that makes everything else fall into place once it's understood. One phrase.
+1. **The keystone phrase.** Name the single idea from the material that makes everything else fall into place once it's understood. One phrase. **If the material is genuinely a disjoint list of unrelated facts with no single unifying idea**, say so plainly and translate the hardest single item instead — do NOT invent a false keystone to force the shape.
 2. **Explain only the keystone, in plain life.** Use one everyday analogy (kitchens, backpacks, mail, queues at a shop), with zero technical terms, zero code, zero notation. If a term from the material shows up in your explanation, you've failed this slot; rephrase it as the everyday thing it stands for. The analogy has to stand on its own, so don't echo the keystone phrase from slot 1 back into it, not even as a closing label. Its own words from the material count as a leak.
 3. **Three comprehension questions.** Ask exactly three questions only someone who actually understood could answer: transfer questions only ("what would happen if…", "where else does this same thing show up…"), never recall ("what is the definition of…"). They probe the keystone, not trivia.
 4. **HARD STOP.** End your turn. Don't explain the rest of the material, don't preview it, don't answer your own questions. Wait for the user to attempt all three.
@@ -26,3 +26,4 @@ The user handed you material they don't understand. Find the single idea that ma
 - You explained more than the single keystone in slot 2.
 - You produced a recall question ("define X") instead of a transfer question.
 - You named "the 2-3 key concepts," which is a summary, not a keystone.
+- You called the material a "disjoint list" to dodge the harder work of finding the unifying idea — declare it disjoint only after genuinely checking that no keystone connects it.

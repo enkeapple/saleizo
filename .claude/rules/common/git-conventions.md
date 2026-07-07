@@ -10,7 +10,7 @@ Composing a commit message, naming a branch, or preparing a PR. Intentionally **
 
 ## Canonical Source — Do Not Duplicate
 
-The **Git boundary** (what Claude may and may not do autonomously — never `git commit` / `push` / `reset --hard` / branch ops without explicit instruction in the turn; no AI attribution) lives in [.claude/CLAUDE.md](../../CLAUDE.md) → "Git boundary". That is the single source of truth. This file only adds the *format* conventions CLAUDE.md does not spell out — when the two overlap, CLAUDE.md wins.
+The **Git boundary** (what Claude may and may not do autonomously) lives in [.claude/CLAUDE.md](../../CLAUDE.md) → "Git boundary". That is the single source of truth. This file only adds the *format* conventions CLAUDE.md does not spell out — when the two overlap, CLAUDE.md wins.
 
 ## Implementation
 

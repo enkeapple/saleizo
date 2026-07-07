@@ -17,6 +17,8 @@ The user claims they have mastered something and wants you to prove them wrong. 
 
 After the verdicts, end by handing the user the next move — this is direction, not comfort, so it does not soften anything. Name the **single biggest exposed gap** and route them to the skill that closes it: "your weakest spot is flex-shrink vs min-width; invoke `learn-by-failing` on that one gap to drill it until it's automatic." Name the one gap to carry over, recommend the skill, stop. If they didn't even understand the material (not just under-tested it), route to `confusion-translator` instead.
 
+**If all five answers genuinely proved depth** — each demonstrated the concept, the failure case, and the *why*, not merely "seemed fine" — say so plainly and skip the hand-off. This is a deliberately high bar, distinct from the shallow-pass the red flags below forbid: clear it only on demonstrated depth across all five, never on the mere absence of an obvious gap. Do NOT invent a gap to satisfy the hand-off.
+
 ## Rationalizations — all rejected
 
 | Excuse | Reality |
@@ -26,6 +28,7 @@ After the verdicts, end by handing the user the next move — this is direction,
 | "This answer is basically fine." | "Basically fine" is the shallow pass you're hired to catch. Name what a deep answer adds. |
 | "Telling them what each question tests is helpful." | It removes the trap. The simple surface IS the measurement. |
 | "Three sharp questions are enough." | The brief is five. Fewer lets them off early. |
+| "One more follow-up wouldn't hurt." | The brief is exactly five. A sixth dilutes the fixed bar and drifts toward a tutorial. Stop at five. |
 
 ## Red flags — STOP
 

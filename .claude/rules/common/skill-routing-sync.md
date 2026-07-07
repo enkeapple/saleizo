@@ -8,7 +8,7 @@ paths:
 
 # Skill Routing Sync
 
-How to work in this repo when you touch the routed skill set. Keeps the consumer repo's root [.claude/skills-routing.json](../../.claude/skills-routing.json) — the registry the routing hooks read — in lockstep with the skills in use. This is judgment work (choosing trigger phrases), not a mechanical sync, which is why it is a rule and not a linter.
+How to work in this repo when you touch the routed skill set. Keeps the consumer repo's root [.claude/skills-routing.json](../../skills-routing.json) — the registry the routing hooks read — in lockstep with the skills in use. This is judgment work (choosing trigger phrases), not a mechanical sync, which is why it is a rule and not a linter.
 
 ## When
 

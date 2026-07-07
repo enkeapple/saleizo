@@ -16,7 +16,7 @@ paths: ['plugins/**/SKILL.md', '.claude/skills/**/SKILL.md']
 
 You are authoring a new skill, or adding a phase / section to an existing one, whose remit is one of: a **principle** ("think about deep modules", "consider edge cases"), a **"review / verify / validate" pass**, or a **discipline gate** ("don't dive into code before X"). This is the moment to check the value is real before writing — it is the recurring `skill-value-vs-noop` failure class this rule was promoted from and now owns.
 
-The RED→GREEN methodology this rule applies is owned by `writing-skills` (the inversion test and the No-op failure mode); this rule is the always-on distillate of the *scoping decision*, not a substitute for that skill.
+The RED→GREEN methodology this rule applies is owned by `writing-skills` (the inversion test and the No-op failure mode); this rule is the always-on distillate of the *scoping decision*, not a substitute for that skill. See also its rule-side counterpart [scoping-rule-value](./scoping-rule-value.md) — the same scoping decision for `.claude/rules/**` instead of `SKILL.md` (see-also, deletable; not required to apply this rule).
 
 ## Implementation
 

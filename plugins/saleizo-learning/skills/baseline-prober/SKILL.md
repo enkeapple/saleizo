@@ -15,7 +15,7 @@ A path that starts at the wrong level is the failure this skill prevents, and th
 
 ### After they answer
 
-1. **The calibrated verdict — one label per probe.** For each probe, assign exactly one of: solid / shaky / **confident-but-wrong** (the dangerous one). Name the specific misconception where their confidence outran their knowledge. No cushioning, no "good start".
+1. **The calibrated verdict — one label per probe.** First: **if any probe was left unanswered, re-request the missing one(s) before issuing any verdict** — a verdict on partial data is exactly the miscalibration this skill exists to prevent. Once all are attempted, for each probe assign exactly one of: solid / shaky / **confident-but-wrong** (the dangerous one). Name the specific misconception where their confidence outran their knowledge. No cushioning, no "good start".
 2. **One entry point, keyed to the verdict.** A single concrete starting place that fits what the probes revealed, not a generic beginner path, plus the one thing they should NOT start with given what is already solid. Then hand off: want to be functional fast → invoke `fast-track`; aiming at a concrete outcome by a deadline → invoke `plan-architect` (feed it this verdict as the current level).
 
 ## Rationalizations — all rejected
@@ -34,3 +34,4 @@ A path that starts at the wrong level is the failure this skill prevents, and th
 - You accepted "I'm experienced / I basically know it" and skipped straight to the path.
 - You telegraphed what each probe secretly tests.
 - Your entry point is a generic beginner starting point, not keyed to the verdict.
+- You issued the verdict while a probe was left unanswered — re-request the missing one first.

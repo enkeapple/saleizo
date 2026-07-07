@@ -5,8 +5,8 @@ description: >-
   location, a schema, an extraction recipe, or (via in-repo context) an
   overlapping skill's vocabulary. A baseline pre-fed those performs for the
   wrong reason and cannot show whether the skill beats a capable model.
-paths: 
-  - 'plugins/**/SKILL.md' 
+paths:
+  - 'plugins/**/SKILL.md'
   - 'plugins/**/references/*.md'
 ---
 
