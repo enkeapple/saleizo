@@ -4,6 +4,15 @@ Transient backlog of un-promoted candidate rules — newest at the top of `## En
 
 ## Entries
 
+## 2026-07-07 — Trusted a skill's Layer-1 GREEN as proof its example-asset citations were real; the validator resolves only .md link targets, not prose file:line+quote content
+
+- **Cause-tag**: gate-scope-overtrust
+- **Symptom**: `auditing-conflicts/assets/audit-report-example.md`'s lead finding cited a nonexistent path (`…/skills/chain/grilling/SKILL.md:33`) and a quote absent from the file, yet the skill passed `validate.sh` **Layer-1 GREEN** clean; the fabrication surfaced only on a manual grep of the citation.
+- **Root cause**: Layer-1's `links-resolve` verifies markdown `.md` **link targets** resolve; a prose `Evidence: file:line "quote"` is not a link, so its path existence and quote verbatim-ness are outside the gate. GREEN meant "links resolve," never "citations are real."
+- **Wrong approach**: treated a skill's Layer-1 GREEN as evidence its example asset's `file:line`+quote citations were real and verbatim.
+- **Correct approach**: grepped each cited path for existence and `grep -F`'d each quote for verbatim presence; replaced the fabricated citation with a real one (`interview-playbook.md:19`) confirmed on disk, re-grepped to a verbatim match.
+- **Prevention**: when authoring/auditing a skill's example/demo asset that cites real repo `file:line` + quotes, grep each cited path for existence AND `grep -F` each quote for verbatim presence — never read Layer-1 GREEN as proof citations are real (it checks only `.md` link resolution, not prose-citation content). (Kin: `checker-self-run-false-green`, `broken-grep-false-verification`→search-scope-verification, `parser-format-assumption` — the "a verification signal doesn't mean what you assume" family; here the gate is correct but its SCOPE excludes prose citations. Watch for a unified "sanity-check what the gate actually covers" promotion.)
+
 ## 2026-07-05 — Invoked a plugin skill via the Skill tool; the loaded copy was the stale install cache, lagging the working-tree source I was editing
 
 - **Cause-tag**: stale-loaded-skill-cache
