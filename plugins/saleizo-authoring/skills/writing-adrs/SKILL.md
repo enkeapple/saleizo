@@ -1,6 +1,6 @@
 ---
 name: writing-adrs
-description: Record an architectural decision as an immutable ADR — gated, and superseded (never edited) when it changes — and audit existing ADRs for drift. Use when the user wants to record or document an architectural decision, write an ADR, or check ADRs against the code. Triggers on "write an ADR", "record this decision", "document this decision", "architectural decision record", "запиши решение", "зафиксируй решение", "напиши ADR", "архитектурное решение".
+description: Record an architectural decision as an immutable ADR — gated, and superseded (never edited) when it changes — and audit existing ADRs for drift. Use when the user wants to record or document an architectural decision, write an ADR, or check ADRs against the code. Triggers on "write an ADR", "record this decision", "document this decision", "architectural decision record", "supersede this ADR", "this decision changed", "запиши решение", "зафиксируй решение", "напиши ADR", "архитектурное решение", "это решение изменилось".
 ---
 
 # Writing ADRs
@@ -28,22 +28,22 @@ Fails any one → **do NOT write an ADR.** Say which test it failed and point to
 
 ## Pick the register
 
-Two registers carry the same decision; pick one and say which. Offer the choice as a picker (or, with no picker tool, a numbered markdown list — never silently pick):
+Two registers carry the same decision. The choice is **agent-derivable from this decision's weight** (below), so derive it — do not force a picker (per `interactive-gates`, no picker where the choice is derivable). **State which register you picked and why in one line, and let the reader redirect**; never switch register silently mid-record. The two registers:
 
 - **Narrative** — the lighter form: `Context` + `Decision` + `Related files`, no separate `Options`/`Consequences` sections. The trade-off is **woven into the prose** in one phrase ("chosen over X because…, at the cost of Y"). Default to this for most decisions — conceptual / approach / cross-cutting, or any decision where two full sections would be bloat.
 - **Template** — the heavier form: explicit `Options considered` + `Consequences` slots, for a weighty mechanism-bound decision where a reader genuinely wants the alternatives and costs laid out navigably.
 
-Pick the register by **this decision's weight**, not by the shape the repo's existing ADRs happen to use (convention-matching governs location / numbering / status / sections, not the register). The only difference is **how the trade-off is presented** — woven into prose vs explicit slots. Neither register drops it: *why not the alternatives* and *what it cost* is what makes a record an ADR, not a code comment — and it is immutable history that never goes stale (only code refs rot, and those live in `Related files`). Both obey the readability discipline below; fill the matching shape in [adr-template.md](references/adr-template.md).
+Pick the register by **this decision's weight**, not by the shape the repo's existing ADRs happen to use (convention-matching governs location / numbering / status / sections, not the register). The only difference is **how the trade-off is presented** — woven into prose vs explicit slots. Neither register drops it: *why not the alternatives* and *what it cost* is what makes a record an ADR, not a code comment — and it is immutable history that never goes stale (only code refs rot, and those live in `Related files`). Both obey the readability discipline below; fill the matching shape in [adr-template.md](assets/adr-template.md).
 
 ## Keep it readable (both registers)
 
 - **Be brief — a record, not a walkthrough.** Each section is a few sentences, not a code tour. `Context` and `Decision` ≤ ~120 words each; state *what* was decided and *why*, not a play-by-play of every branch in the code. If you are narrating control flow, you are writing documentation that rots — cut it. The whole ADR should fit on one screen.
-- **`path:line` goes ONLY in `Related files` — never in `Decision` or any prose.** In the body, name code by **file + symbol** in plain text (`handleTokenRefresh` in `baseQuery.ts`) with no line numbers. All line anchors live in one short `Related files` section at the end: the **important** files only (a handful — never a 40-link dump), each as **file → symbol**, with at most one short `path:line` for the single anchor that pinpoints the decision — never a range. A `path:line` in the Decision prose is the anti-pattern that turns a record into a code-map; it rots on the next commit. Any reference you write is one you opened this session — an unopened `path:line` is fabricated.
+- **`path:line` goes ONLY in `Related files` — never in `Decision` or any prose.** In the body, name code by **file + symbol** in plain text (illustratively `handleTokenRefresh` in `baseQuery.ts` — names are examples, not this repo's) with no line numbers. All line anchors live in one short `Related files` section at the end: the **important** files only (a handful — never a 40-link dump), each as **file → symbol**, with at most one short `path:line` for the single anchor that pinpoints the decision — never a range. A `path:line` in the Decision prose is the anti-pattern that turns a record into a code-map; it rots on the next commit. Any reference you write is one you opened this session — an unopened `path:line` is fabricated.
 - **No embedded rules.** An ADR records the decision and its consequences, *not* a "developers MUST…" checklist. Durable practices belong in the repo's conventions location (a rule, a lint check, a `CONTRIBUTING` note) — the ADR **links** to it, it does not inline it. A long "Required practices" list inside an ADR is a rules doc smuggled into a record.
 
 ## Operations
 
-- **Author** — apply the Gate; pick the register; fill the matching shape in [adr-template.md](references/adr-template.md); then update the index ([index-and-supersession.md](references/index-and-supersession.md)).
+- **Author** — apply the Gate; pick the register; fill the matching shape in [adr-template.md](assets/adr-template.md); then update the index ([index-and-supersession.md](references/index-and-supersession.md)).
 - **Supersede** (a decision changed) — **never edit the body of an Accepted ADR.** Write a NEW ADR marked `Supersedes ADR-NNN`; change only the old ADR's **status line** to `Superseded by ADR-MMM`; sync both annotations in the index. Full mechanics: [index-and-supersession.md](references/index-and-supersession.md).
 - **Drift audit** (sync) — scan Accepted ADRs whose decision no longer holds in code; **flag** for supersession, never auto-rewrite: [drift-audit.md](references/drift-audit.md).
 
@@ -73,6 +73,6 @@ Pick the register by **this decision's weight**, not by the shape the repo's exi
 
 ## References
 
-- [adr-template.md](references/adr-template.md) — the narrative and template shapes with required slots.
+- [adr-template.md](assets/adr-template.md) — the narrative and template shapes with required slots.
 - [index-and-supersession.md](references/index-and-supersession.md) — index format and the supersede mechanics.
 - [drift-audit.md](references/drift-audit.md) — the sync/drift procedure.

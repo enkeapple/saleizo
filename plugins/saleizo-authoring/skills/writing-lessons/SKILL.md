@@ -32,6 +32,12 @@ Turns that pass the bar look like:
 
 These genuine-failure classes are MUST-capture — do not let the bar talk you out of them.
 
+| Excuse to skip capture | Reality |
+| --- | --- |
+| "It's obvious, I'll remember it next time." | You won't, and a fresh session won't have been there. If it passed the (A)+(B) bar it recurs — capture it now. |
+| "I'll capture it after I finish the task." | Deferring loses it; the turn ends and the context is gone. Capture the same turn, via this skill. |
+| "It's not worth a whole entry." | A qualifying failure (hallucinated symbol, wrong assumption, test passing for the wrong reason) is worth one entry — that is exactly the MUST-capture set, not a judgment call. |
+
 ## When NOT to use
 
 Most turns produce no lesson — that is normal, not a skipped step. Do not capture when:
@@ -56,7 +62,7 @@ The log holds only un-promoted candidates. Before appending, derive the cause-ta
 
 - **Covered, and the rule handles this instance** → SKIP — do not add an entry; the rule already carries the guidance.
 - **Tag is in the ledger but the rule is too narrow for this variant** → SCALE the rule now via `writing-rules`; do NOT add a backlog entry (a promoted tag never re-enters `## Entries`).
-- **Not covered** → add/increment an entry in `## Entries` (below).
+- **Not covered** → add another entry carrying the matching cause-tag in `## Entries` (below). Recurrence is the *count of entries sharing a tag*, so a repeat is a new entry with the same tag — there is no per-entry counter to bump.
 
 ## Capture an entry
 
@@ -77,7 +83,7 @@ Any tag with **count ≥ 3** that is NOT in the `## Promoted clusters` ledger is
 
 ## Promotion path: lesson → rule
 
-When the scan flags a cause-tag at the threshold with no ledger line, it is a pattern, not a one-off. Do not decide by gut: follow the full procedure in [references/promotion.md](./references/promotion.md) — it dispatches an independent reviewer ([assets/promotion-reviewer-prompt.md](./assets/promotion-reviewer-prompt.md)) and, on a **Promote** verdict, drives authoring the rule via `writing-rules`, deleting the contributing entry bodies, and recording the ledger line, all in one commit.
+When the scan flags a cause-tag at the threshold with no ledger line, it is a pattern, not a one-off. Do not decide by gut: follow the full procedure in [references/promotion.md](./references/promotion.md) — it dispatches an independent reviewer ([agents/promotion-reviewer.md](./agents/promotion-reviewer.md)) and, on a **Promote** verdict, drives authoring the rule via `writing-rules`, deleting the contributing entry bodies, and recording the ledger line, all in one commit.
 
 ## Always change behavior now
 
@@ -86,7 +92,7 @@ Capturing a lesson that does not change what you do next is filler. Apply the Pr
 ## Red Flags — STOP
 
 - Writing an entry with no **Cause-tag**, or inventing a new tag for a cause that already has one.
-- Deleting an entry body OUTSIDE a confirmed-promotion change (the only standalone deletion allowed was the one-time backlog cleanup).
+- Deleting an entry body OUTSIDE a confirmed-promotion change — entry bodies are removed only inside a confirmed promotion, never as a standalone edit.
 - An entry that reads like a changelog ("today I fixed…") with no Prevention.
 - A cause-tag at count ≥ 3 with nothing promoted and no ledger line.
 - "Promote it" leaving the rule inside the lessons file instead of `.claude/rules/`.

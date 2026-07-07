@@ -228,11 +228,11 @@
         "enforce (this )?convention",
         "stop doing",
         "promote.* (to a )?rule",
-        "написать правил",
-        "добавить правил",
-        "создать (правил|рул)",
-        "закрепить правил",
-        "оформить правил"
+        "напиш.* правил",
+        "добав.* правил",
+        "созда.* (правил|рул)",
+        "закреп.* (правил|конвенц)",
+        "оформ.* правил"
       ]
     },
     "writing-hooks": {
@@ -250,7 +250,10 @@
         "написать хук",
         "добавить хук",
         "создать хук",
-        "блокировать инструмент"
+        "блокировать инструмент",
+        "log tool usage",
+        "telemetry hook",
+        "логировать хук"
       ]
     },
     "writing-lessons": {
@@ -479,9 +482,12 @@
         "document (this|the|a|an) (architectural )?decision",
         "architectural decision record",
         "log (this|the) decision",
+        "supersede.* ADR",
+        "this decision changed",
         "audit (the )?ADRs",
         "ADR drift",
         "написать ADR",
+        "это решение изменил",
         "запиши решени",
         "зафиксировать решени",
         "зафиксируй решени",

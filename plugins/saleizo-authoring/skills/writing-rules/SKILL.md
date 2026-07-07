@@ -4,7 +4,8 @@ description: >-
   Use when writing or editing a project rule under .claude/rules/ — capturing a
   convention, or promoting a recurring lesson into a durable rule. Triggers on:
   "write a rule", "add a rule",
-  "enforce this convention", "stop doing X", "turn this into a rule".
+  "enforce this convention", "stop doing X", "turn this into a rule",
+  "напиши правило", "добавь правило", "закрепи конвенцию", "оформи это как правило".
 ---
 
 # Writing Rules
@@ -50,7 +51,7 @@ State an exception as its own line ("Allowed only when the package ships documen
 
 ## One rule, one topic — complex domains become a folder
 
-Each file covers one concern; a rule needing three unrelated `## When`s should be split. Cross-link siblings with relative links (`[error-handling](./error-handling.md)`) instead of duplicating them.
+Each file covers one concern; a rule needing three unrelated `## When`s should be split. Cross-link siblings with a relative link to the sibling's path (e.g. a `./error-handling.md` link) instead of duplicating them.
 
 When a concern is genuinely large (an "API layer", an "auth/session layer"), it is a **domain folder** `rules/<domain>/` of focused sibling rules. **The split line is the `paths`:** each sub-aspect that loads on a different set of files gets its own file, so editing one pulls in only the relevant sub-rule. If two would always load together on the same `paths`, they are one rule — merge them. Example (illustrative — your stack/paths may differ):
 
@@ -70,8 +71,8 @@ Shared concepts (the auth token, cache tags) are cross-linked once, never duplic
 Three passes catching **different** defect classes; keep them disjoint.
 
 1. **Self-review (every time, cheap).** Check the rule's *form* against the Review Checklist below — what you can verify from the text itself.
-2. **Independent cold reviewer** (for a rule that will be widely loaded or promoted from a lesson). Dispatch a fresh subagent with zero shared context, given the existing rules directory, via [assets/rule-reviewer-prompt.md](./assets/rule-reviewer-prompt.md). Its remit is the **author-blind** class you cannot judge from inside your own context: duplication against the existing set (cross-link, don't fork) and scoping/applicability (would the `paths` nag; would two cold readers apply it two ways) — NOT a re-run of the form checklist.
-3. **Empirical RED/GREEN.** Static review confirms the rule is well-*formed*, not that it *works* — a rule too vague to steer is a no-op that still costs load. Pick a concrete target case the rule governs (can't name one? the rule has no demand — reconsider it), then dispatch RED (no rule) and GREEN (rule injected) on that case via [assets/rule-efficacy-test-prompt.md](./assets/rule-efficacy-test-prompt.md). RED must show the mistake (else it's a no-op here — cut it or find a real case); GREEN must comply on every Review-Checklist item (else sharpen the Implementation with a stronger imperative or a ✅/❌ closer to the case, and re-run). Skip only for a pure-policy rule with no single target case (e.g. an always-on charter) — and say so.
+2. **Independent cold reviewer** (for a rule that will be widely loaded or promoted from a lesson). Dispatch a fresh subagent with zero shared context, given the existing rules directory, via [agents/reviewer.md](./agents/reviewer.md). Its remit is the **author-blind** class you cannot judge from inside your own context: duplication against the existing set (cross-link, don't fork) and scoping/applicability (would the `paths` nag; would two cold readers apply it two ways) — NOT a re-run of the form checklist.
+3. **Empirical RED/GREEN.** Static review confirms the rule is well-*formed*, not that it *works* — a rule too vague to steer is a no-op that still costs load. Pick a concrete target case the rule governs (can't name one? the rule has no demand — reconsider it), then dispatch RED (no rule) and GREEN (rule injected) on that case via [agents/efficacy-tester.md](./agents/efficacy-tester.md). RED must show the mistake (else it's a no-op here — cut it or find a real case); GREEN must comply on every Review-Checklist item (else sharpen the Implementation with a stronger imperative or a ✅/❌ closer to the case, and re-run). Skip only for a pure-policy rule with no single target case (e.g. an always-on charter) — and say so.
 
 ## Review Checklist
 
@@ -80,6 +81,13 @@ Three passes catching **different** defect classes; keep them disjoint.
 - Implementation is imperative with a real ✅/❌ example, and any exception is its own line.
 - Covers one topic; overlaps with an existing rule are cross-linked, not duplicated.
 - Empirically RED/GREEN-tested that it steers a cold agent — or a pure-policy skip is stated.
+
+## Rationalizations
+
+| Excuse | Reality |
+| --- | --- |
+| "It reads fine — it's a valid rule." | Reading ≠ steering. A rule too vague to change behavior passes static review and still costs load; only RED/GREEN on a cold agent proves it works. |
+| "Static self-review is enough, skip the cold run." | Self-review checks *form*, not *efficacy*. A no-op rule is well-formed. Run RED (no rule) + GREEN (rule) on a concrete target, or say why it's a pure-policy skip. |
 
 ## Red Flags — STOP
 

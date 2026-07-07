@@ -4,7 +4,8 @@ description: >-
   Use when authoring or editing a Claude Code hook — a PreToolUse/PostToolUse/
   Stop/UserPromptSubmit gate or logger wired in settings.json — test-first.
   Triggers on: "write a hook", "add a hook", "PreToolUse hook", "PostToolUse
-  hook", "gate this tool", "блокировать инструмент", "написать хук", "добавить хук".
+  hook", "gate this tool", "log tool usage", "telemetry hook", "блокировать
+  инструмент", "написать хук", "добавить хук", "логировать хук".
 allowed-tools: Read, Write, Edit, Grep, Glob, Bash, Skill
 ---
 
@@ -55,16 +56,18 @@ WARN is NOT a third exit code: it is `exit 0` + a stderr message (advisory, non-
 
 Guard every parse; every path ends at `exit 0` unless a real, matched condition fires. The three own-error exits — missing dep (`jq`), unreadable stdin, empty target field — are the opening guards of [`assets/hook-template.sh`](./assets/hook-template.sh); copy them rather than re-deriving. A logger's fail-open is the same shape, with "do nothing" instead of "allow".
 
-## Shared helpers — don't hand-roll what the lib already gives you
+## Shared helpers — don't hand-roll what a shared lib already gives you
 
-Source the repo's shared hook lib (guard `[ -r ]` first, fail-open on absent) and reach for two helpers instead of re-deriving their logic inline:
+**If the repo ships a shared hook lib**, source it (guard `[ -r ]` first, fail-open on absent) and reuse its field-extraction and atomic-JSON-update helpers instead of re-deriving that logic inline — the same two operations recur in every hook and hand-rolling them re-introduces the parse/write bugs the lib already solved. The concrete function names are the consumer repo's to define; the two roles to look for (names _illustrative — your repo may differ_):
 
-- **`hook_field <json> <jq-filter>`** — extracts one field from the stdin JSON string via `jq -r`; empty on absent `jq`/garbage input, never errors. Use this for every stdin-field extraction instead of a bare `echo "$INPUT" | jq -r '...'`.
-- **`hook_json_update <file> [jq-args...] <filter>`** — atomic in-place read-modify-write of a JSON state file (last positional arg is the jq filter, the rest pass through to jq); `mv` only on jq success, so the file is untouched on failure; returns jq's exit status. Use this for every in-place JSON state update instead of a hand-rolled `jq ... > f.tmp && mv f.tmp f`.
+- **a stdin-field extractor** (illustratively `hook_field <json> <jq-filter>`) — pulls one field from the stdin JSON via `jq -r`, empty on absent `jq`/garbage input, never errors. Reach for it for every stdin-field extraction instead of a bare `echo "$INPUT" | jq -r '...'`.
+- **an atomic JSON-state updater** (illustratively `hook_json_update <file> [jq-args...] <filter>`) — read-modify-write of a JSON state file that `mv`s only on jq success, so the file is untouched on failure. Reach for it for every in-place state update instead of a hand-rolled `jq ... > f.tmp && mv f.tmp f`.
+
+No shared lib in the repo → inline the two operations with the same fail-open discipline (empty/untouched on bad input).
 
 ## Block 3 — Test-first: the fixture loop
 
-RED a crafted stdin, run the script, assert the decision — per contract form. Full worked oracle: [`assets/fixture-example.md`](./assets/fixture-example.md).
+RED a crafted stdin, run the script, assert the decision — per contract form. Full worked oracle: [`references/fixture-example.md`](./references/fixture-example.md).
 
 ```bash
 # Form A (exit-code): assert the code
@@ -89,7 +92,7 @@ Three moves, all required; a hook that exists but is unwired (or mis-matched) si
 
 ### Authoring-time fixtures vs the persisted CI suite
 
-The fixture loop above is authoring-time scaffolding — run it to prove the decision logic, then discard it. Separately, hooks are deterministic code with a **persisted regression suite** the CI runs: each hook has a `tests/<hook>.sh.cases` file (declarative cases) executed by the repo's hook-fixture runner (`scripts/run-hook-fixtures.sh`). When you add or change a hook's decision logic, update its `.cases` file in the same change so the committed suite stays green — an edited hook with a stale suite is the leaked hand-off this note prevents.
+The fixture loop above is authoring-time scaffolding — run it to prove the decision logic, then discard it. Separately, **if the repo commits a persisted hook regression suite** the CI runs (in this repo, a per-hook declarative cases file executed by a hook-fixture runner — illustratively `tests/<hook>.sh.cases` + `scripts/run-hook-fixtures.sh`; _your repo's filenames may differ_), then when you add or change a hook's decision logic, update that hook's committed cases in the same change so the suite stays green — an edited hook with a stale suite is the leaked hand-off this note prevents.
 
 ## VALIDATE
 

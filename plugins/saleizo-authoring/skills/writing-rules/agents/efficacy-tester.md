@@ -8,6 +8,8 @@ Use this **after** the rule is drafted and passes static self-review, to prove t
 
 **Pick the target case first:** a real file or task in this repo where the mistake the rule prevents would naturally occur. No such case → the rule guards nothing; reconsider it before testing.
 
+**Hold the model constant across both runs.** RED and GREEN are one controlled experiment whose ONLY intended variable is the injected rule — so run both halves on the **same** model, pinned to the weakest harness the rule must serve (a representative consumer floor), NOT the most-capable tier and NOT diversified across the two halves. A strong model complies cold and reports a false no-op RED; a RED on one tier and a GREEN on another confounds the verdict (the change could be the model, not the rule). This is the opposite of a work-product review's reviewer-diversity lever — do not cross them.
+
 ## RED run — cold agent, no rule
 
 ```markdown

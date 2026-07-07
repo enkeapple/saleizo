@@ -42,6 +42,8 @@ If you collapse them into one fixture you cannot tell a not-yet-implemented guar
 
 ## Form B (JSON-stdout) oracle
 
+This oracle exercises a **Form B** hook — one that prints a `permissionDecision` JSON to stdout (the commented JSON-stdout variant in `hook-template.sh`), NOT the Form A exit-code script copied in Setup above. Swap `/tmp/hook.sh` for your Form B script first; a Form A script emits no stdout JSON, so `jq` would yield `null` by accident rather than because a deny was decided.
+
 ```bash
 echo '{"tool_name":"Read","tool_input":{"file_path":"/proj/.env"}}' | /tmp/hook.sh \
   | jq -r '.hookSpecificOutput.permissionDecision'

@@ -2,10 +2,16 @@
 # <NAME> hook — <event> (matcher: <matcher>). Form A (exit-code): 0 = allow, 2 = block.
 # Fail-open is an invariant: any own-error / missing dep / unparseable input → exit 0.
 
-# --- shared preamble: source the repo's hook lib if present, fail-open if missing ---
+# --- preamble: reuse the repo's shared hook lib if it ships one, else inline the helper ---
 HOOK_LIB="${BASH_SOURCE[0]%/*}/lib/common.sh"      # illustrative path — your repo may differ
-[ -r "$HOOK_LIB" ] || exit 0                        # unreadable/missing lib → allow (fail-open)
-. "$HOOK_LIB"
+if [ -r "$HOOK_LIB" ]; then
+  . "$HOOK_LIB"                                     # reuse its field-extraction / state helpers
+else
+  # no shared lib → inline the field extractor with the same fail-open contract
+  # (empty on absent jq / garbage input, never errors). Do NOT `exit 0` here:
+  # a missing lib must not silently turn the whole guard into a no-op.
+  hook_field() { printf '%s' "$1" | jq -r "$2" 2>/dev/null; }
+fi
 
 # --- fail-open guards: never disrupt real work because of THIS hook's own failure ---
 command -v jq >/dev/null 2>&1 || exit 0            # missing dependency → allow

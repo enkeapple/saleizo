@@ -43,7 +43,7 @@ paths:
 
 ## Filled example
 
-A concrete rule at the level of detail expected. Note the scoped `paths`, the `## When`, the ✅/❌ pair, the explicit exception, and the checklist.
+A concrete rule at the level of detail expected (illustrative — the `@`-package/`index.ts`/TypeScript specifics are one stack's; your repo may differ). Note the scoped `paths`, the `## When`, the ✅/❌ pair, the explicit exception, and the checklist.
 
 ````markdown
 ---

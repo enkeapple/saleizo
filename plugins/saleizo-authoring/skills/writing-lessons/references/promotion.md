@@ -2,7 +2,7 @@
 
 The procedure reached only when the promotion-debt scan flags a cause-tag at the threshold (count ≥ 3) with no `## Promoted clusters` ledger line. The high-frequency capture path lives in `SKILL.md`; this is the branch only some runs reach.
 
-When the same cause-tag reaches the threshold, it is a pattern, not a one-off. Do not decide promotion by gut — dispatch an independent reviewer that judges whether it generalizes and at what level it belongs, using [../assets/promotion-reviewer-prompt.md](../assets/promotion-reviewer-prompt.md). It returns one of: Promote (with target rule file + actionable rule text), Keep in lessons (too situational / already covered), or Re-tag (not a real cluster).
+When the same cause-tag reaches the threshold, it is a pattern, not a one-off. Do not decide promotion by gut — dispatch an independent reviewer that judges whether it generalizes and at what level it belongs, using [../agents/promotion-reviewer.md](../agents/promotion-reviewer.md). It returns one of: Promote (with target rule file + actionable rule text), Keep in lessons (too situational / already covered), or Re-tag (not a real cluster).
 
 If the reviewer says **Promote**, apply its output:
 
