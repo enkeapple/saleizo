@@ -31,7 +31,7 @@ Pairs with `bootstrapping-glossary`, which creates the foundational docs this sk
 ## Process
 
 1. **Enumerate every concrete claim.** Walk the doc and list each verifiable assertion: every path, route/constant, type/enum, command, and ownership-table cell. The unflagged majority matters as much as anything that "looks" stale.
-2. **Verify each against current code.** `grep`/`read` for the real symbol/path/command — do not stop at the one obvious drift. Record the result per claim. Also flag **placeholder-key drift** against [references/placeholder-keys.md](../shared/placeholder-keys.md): an unresolved `<key>` token left in a generated glossary/charter, or a registry example-noun in a generator-owned slot, is drift; cautionary prose naming a noun is not.
+2. **Verify each against current code.** `grep`/`read` for the real symbol/path/command — do not stop at the one obvious drift. Record the result per claim. Also flag **placeholder-key drift** against [placeholder-keys.md](../shared/placeholder-keys.md): an unresolved `<key>` token left in a generated glossary/charter, or a registry example-noun in a generator-owned slot, is drift; cautionary prose naming a noun is not.
 3. **Classify each claim:**
    - **Confirmed** — matches the code.
    - **Stale doc** — code is correct, the doc is out of date (renamed route, moved path, changed command).
@@ -45,7 +45,15 @@ Produce a report before editing (see [assets/audit-report-example.md](./assets/a
 
 1. **Claims checked** — table: claim → what the code shows → status (Confirmed / Stale doc / Code drift / Hallucination).
 2. **Summary** — counts per status.
-3. **Decisions needed** — each Code-drift item as a "revert code, or change the rule?" choice for the user.
+3. **Decisions needed** — each Code-drift item with a **recommended disposition** ("revert code" or "change the rule"), so the closing picker can batch them.
+
+## Required decision after the report
+
+End with **one** picker (archetype C-drift; markdown-list fallback), never one picker per finding — which is why the report records a recommended disposition per finding:
+
+- `Apply recommended` → apply each finding's recommended disposition (stale-doc/hallucination fixed surgically; code-drift only as recommended).
+- `Adjust per-finding` → walk findings one by one.
+- `Stop` → take no action now.
 
 ## Apply the corrections
 

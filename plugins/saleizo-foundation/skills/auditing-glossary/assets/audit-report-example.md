@@ -25,7 +25,12 @@ A concrete reference for the report shape. Plain text, produced before editing. 
 - Hallucination: 1 (documentation.document-types.* — never existed / removed)
 
 ## Decisions needed
-- Code drift — company-doc ownerId: revert the code to honor "company docs are per-organisation, not per-user", OR change the rule to allow per-user ownership? (external-ish: affects the ownership model — pick deliberately)
+- Code drift — company-doc ownerId: revert the code to honor "company docs are per-organisation, not per-user", OR change the rule to allow per-user ownership? (external-ish: affects the ownership model — pick deliberately) — recommend: revert code.
+
+## Decision (archetype C-drift — one batched picker)
+- `Apply recommended` → stale-doc + hallucination fixed surgically; code-drift per the recommendation above (revert code).
+- `Adjust per-finding` → walk the findings one by one.
+- `Stop` → take no action now.
 
 ## Planned edits (after decision)
 - Stale doc: knowledge-base row route → Routes.UPSERT_INSTRUCTION.

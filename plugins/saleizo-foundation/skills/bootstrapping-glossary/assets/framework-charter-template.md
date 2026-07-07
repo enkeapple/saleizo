@@ -15,7 +15,7 @@ Before any implementation:
 
 1. Read the full request. Identify the domain concepts and the layers touched.
    <!-- If the repo has a glossary, add: "If the request mentions <ambiguous terms>, read the glossary FIRST and name the domain." -->
-2. Scan every layer the change touches (<list this repo's layers, e.g. screen → hook → api → store → navigation>). Classify each: NONE / PARTIAL / FULL.
+2. Scan every layer the change touches (<layers> — e.g. screen → hook → api → store → navigation). Classify each: NONE / PARTIAL / FULL.
 3. Design contracts AS CODE, not prose — for every contract the change touches, write the concrete type / endpoint shape / state delta / param list. If you can't write it as code yet, the task isn't understood: grep/read until you can.
 4. Think through behaviour: 1 happy path + the edge cases (empty / error / in-flight; for mutations: idempotency, partial success).
 5. Only then write code, in dependency order. For PARTIAL, implement only the missing layers.

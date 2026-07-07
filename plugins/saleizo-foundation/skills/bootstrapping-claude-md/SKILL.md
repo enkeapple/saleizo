@@ -40,7 +40,7 @@ Before writing, collect what only the human can tell you — one question at a t
 - **Where rules/skills/commands live** and any **session-handoff** preference.
 - **Behavioral baseline (opt-in)** — whether the team adopts a stack-agnostic conduct set (the recommended default four: Think Before Coding, Simplicity First, Surgical Changes, Goal-Driven Execution), a variant of it, or none. Recommend the default; if declined, emit no baseline section. The canonical default set is in [references/behavioral-baseline.md](./references/behavioral-baseline.md).
 
-**Resolve placeholder keys (hybrid).** The templates use the keys in [references/placeholder-keys.md](../shared/placeholder-keys.md); resolve each by that file's HYBRID rule — auto only when exactly one disk fact maps with no judgment, else the key stays a `<key>` and becomes an intake question. Never infer a command silently.
+**Resolve placeholder keys (hybrid).** The templates use the keys in [placeholder-keys.md](../shared/placeholder-keys.md); resolve each by that file's HYBRID rule — auto only when exactly one disk fact maps with no judgment, else the key stays a `<key>` and becomes an intake question. Never infer a command silently.
 
 Discover the rest (stack pins, folder layout, existing rules) by reading the repo.
 

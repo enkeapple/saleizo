@@ -30,7 +30,7 @@ Mirrors `auditing-glossary` (same discipline, applied to the foundational rules)
 ## Process
 
 1. **Enumerate every concrete claim across BOTH files.** List each: command (tables + checklist verification rows), file/folder path & cross-link, stack/version claim, routed skill or slash command, and any named protocol.
-2. **Verify each against the repo this session.** The repo's manifest (`package.json`/`Cargo.toml`/`go.mod`/…)/Makefile/CI for commands; the filesystem for paths/folders; the lockfile for versions; the skill/command registry for routing targets. Do not stop at the obvious one — the unrunnable checklist row is usually the one you'd skim. Then apply, to every generated slot in both files, the five **manual-governance drift classes** in [references/drift-classes.md](./references/drift-classes.md) and the **placeholder-key** detection contract in [references/placeholder-keys.md](../shared/placeholder-keys.md). Each reference carries its own falsifiable signals — read them per signal, don't eyeball.
+2. **Verify each against the repo this session.** The repo's manifest (`package.json`/`Cargo.toml`/`go.mod`/…)/Makefile/CI for commands; the filesystem for paths/folders; the lockfile for versions; the skill/command registry for routing targets. Do not stop at the obvious one — the unrunnable checklist row is usually the one you'd skim. Then apply, to every generated slot in both files, the five **manual-governance drift classes** in [references/drift-classes.md](./references/drift-classes.md) and the **placeholder-key** detection contract in [placeholder-keys.md](../shared/placeholder-keys.md). Each reference carries its own falsifiable signals — read them per signal, don't eyeball.
 3. **Run the cross-file consistency pass.** The root and the manual must agree: same pipeline name/vocabulary, same Role/position, same commands, no contradiction. The root stays a thin index — governance that is duplicated in both files is drift waiting to happen; it should live in the manual and be pointed to.
 4. **Classify each finding:** Confirmed / Stale doc (repo right, doc outdated) / Code drift (doc states an intended rule the repo violated — fix may be the *code*) / Broken (command/path/skill that resolves to nothing) / Inconsistent (the two files disagree).
 5. **Decide direction before editing:** Stale/Broken → fix the doc. Inconsistent → pick the single source (usually the manual) and make the other point to it, don't duplicate. Code drift → surface as a decision, don't silently rewrite the doc to bless it.
@@ -42,7 +42,15 @@ Produce a report before editing (see [assets/audit-report-example.md](./assets/a
 1. **Claims checked** — table: claim → file → what the repo shows → status.
 2. **Cross-file consistency** — pipeline / Role / commands / pointers agree? list mismatches.
 3. **Summary** — counts per status.
-4. **Decisions needed** — each Code-drift / ambiguous-source item as a choice.
+4. **Decisions needed** — each Code-drift / ambiguous-source item with a **recommended disposition** (the audit's suggested fix), so the closing picker can batch them.
+
+## Required decision after the report
+
+End with **one** picker (archetype C-drift; markdown-list fallback), never one picker per finding — which is why the report records a recommended disposition per finding:
+
+- `Apply recommended` → apply each finding's recommended disposition (stale/broken fixed surgically; code-drift only as recommended).
+- `Adjust per-finding` → walk findings one by one.
+- `Stop` → take no action now.
 
 ## Apply the corrections
 

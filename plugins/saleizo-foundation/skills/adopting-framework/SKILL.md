@@ -47,7 +47,7 @@ Skills are discovered through the installed plugins, not through per-skill symli
 
 ## The ordered procedure
 
-Run these in order; each step verifies before the next begins.
+Run these in order. Step 1 (installs) and Step 5 (the gate) carry explicit verification; Steps 2–4 produce artifacts the Step-5 gate verifies as a batch — with one inline exception: Step 3's routing file is confirmed valid JSON before Step 4 consumes it.
 
 ### Step 1 — Verify installs
 
@@ -88,7 +88,7 @@ At minimum, register the `saleizo-core` skills the consumer wants routed and met
 }
 ```
 
-The `saleizo-controls` hooks read this file from `${CLAUDE_PROJECT_DIR}/.claude/skills-routing.json` and write telemetry to `.claude/state/`.
+The `saleizo-controls` hooks read this file from `${CLAUDE_PROJECT_DIR}/.claude/skills-routing.json` and write telemetry to `.claude/state/`. Before continuing, confirm the file is valid JSON (e.g. `jq . .claude/skills-routing.json`) — Step 4's CLAUDE.md points at it, so a malformed file breaks the next step.
 
 ### Step 4 — Bootstrap the CLAUDE.md files
 

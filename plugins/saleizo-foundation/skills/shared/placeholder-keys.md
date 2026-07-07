@@ -4,9 +4,10 @@ The canonical keys a generated CLAUDE.md / glossary.md / framework.md uses for s
 nouns. The `bootstrapping-*` skills resolve each key per consumer repo; the `auditing-*` skills
 flag a leftover key or a baked noun. Keys are written `<key>` in templates.
 
-This registry is carried self-contained by each generator/auditor skill (a copy lives in this
-skill's own `references/`) so the skill stays droppable into any repo with no external dependency.
-The four copies are kept in sync; the `auditing-*` skills themselves catch drift between them.
+This registry is a **single shared file** (`plugins/saleizo-foundation/skills/shared/placeholder-keys.md`),
+referenced by every generator/auditor skill in this plugin via a relative `../shared/…` link — one
+source of truth, no copies to keep in sync. The `auditing-*` skills use it to flag a leftover `<key>`
+or a baked stack-noun in a *generated* CLAUDE.md / glossary / charter; they do not diff copies of it.
 
 ## Keys
 

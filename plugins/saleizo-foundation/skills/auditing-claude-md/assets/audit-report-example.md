@@ -30,8 +30,13 @@ A concrete reference for the report shape. Produced before editing. Every status
 - Inconsistent: 1 (pipeline vocabulary across the two files)
 
 ## Decisions needed
-- Code drift — console.* in prod: revert the logging to honor the rule, OR change the rule? (recommend revert)
-- Pipeline mismatch: confirm the manual's 5-stage vocabulary is the source of truth (root becomes a pointer).
+- Code drift — console.* in prod: revert the logging to honor the rule, OR change the rule? (recommend: revert)
+- Pipeline mismatch: confirm the manual's 5-stage vocabulary is the source of truth (recommend: root becomes a pointer).
+
+## Decision (archetype C-drift — one batched picker)
+- `Apply recommended` → broken/stale fixed surgically; code-drift reverted; pipeline consolidated to the manual (root → pointer).
+- `Adjust per-finding` → walk the findings one by one.
+- `Stop` → take no action now.
 
 ## Planned edits (after decisions)
 - Broken: drop `pnpm test` rows (or add the script); remove the rules/forms/ pointer.

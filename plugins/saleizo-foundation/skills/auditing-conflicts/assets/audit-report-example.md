@@ -8,13 +8,13 @@ A neutral reference for the shape `auditing-conflicts` produces: findings groupe
 
 ```text
 F-001 · Class 7 · Severity Low
-Title:    "Prefer multiple-choice" reads as the picker, but the rule reserves the picker for gates
-Evidence: plugins/saleizo-core/skills/chain/grilling/SKILL.md:33 "Ask ONE question. Prefer multiple-choice."
-          .claude/rules/common/interactive-gates.md:23 "Do NOT add a picker where the choice is ... already conversational (a one-question recommended-answer interview)."
-Why:      "multiple-choice" (content framing) and "picker" (the tool, gates only) are not distinguished,
+Title:    grilling's "multiple-choice" interview framing reads as the picker, but the rule reserves the picker for gates
+Evidence: plugins/saleizo-core/skills/grilling/references/interview-playbook.md:19 "Prefers a small **multiple-choice** set over open-ended where possible."
+          .claude/rules/common/interactive-gates.md:22 "Do NOT add a picker where the choice is **agent-derivable** (e.g. routing an input to its entry phase) or **already conversational** (a one-question recommended-answer interview)."
+Why:      "multiple-choice" (interview content framing) and "picker" (the gate tool) are not distinguished,
           so a reader applies the picker tool to a conversational interview question — inconsistent UX.
-Disposition: amend grilling:33 to split "multiple-choice framing (prose)" from "the picker tool (gates only,
-             per interactive-gates)" → writing-skills (behavioral lane, test-first)
+Disposition: amend interview-playbook.md:19 to split "multiple-choice framing (prose)" from "the picker tool
+             (gates only, per interactive-gates)" → writing-skills (behavioral lane, test-first)
 ```
 
 ### Class 6 — duplicate canonical-source

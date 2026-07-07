@@ -33,7 +33,7 @@ Each template carries the full required anatomy and a filled example; write each
 Before writing a line:
 
 - **For the glossary:** grep the overlapping noun-roots and the domains that share them; open each owning module for the real boundaries, the real route/type/API names, and the actual incident that proves they collide. Capture the conventions the code already uses — never invent them.
-- **For the charter:** find the repo's real verification commands (manifest scripts / Makefile / CI), the established patterns to mirror, and the real failure modes this codebase has hit — the charter cites *these*, not generic advice. Resolve the template's stack-specific slots via the keys in [references/placeholder-keys.md](../shared/placeholder-keys.md): auto off disk only when exactly one fact maps with no judgment, else raise an intake question.
+- **For the charter:** find the repo's real verification commands (manifest scripts / Makefile / CI), the established patterns to mirror, and the real failure modes this codebase has hit — the charter cites *these*, not generic advice. Resolve the template's stack-specific slots via the keys in [placeholder-keys.md](../shared/placeholder-keys.md): auto off disk only when exactly one fact maps with no judgment, else raise an intake question.
 
 ## Red Flags — STOP
 
