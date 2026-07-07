@@ -26,12 +26,12 @@ Pressure-test a decision, plan, or idea through **five fixed role-lenses**, each
 | **The Outsider** | an expert from an unrelated field with zero domain context; asks the naive questions insiders skip |
 | **The Executor** | the pragmatic operator — the concrete next steps, in order |
 
-Left alone the model omits the Expansionist and the Outsider and lets the count drift; this fixed set closes that. What each role must *refuse* to do — and why it earns its seat — is in [running-a-council.md](references/running-a-council.md); the exact prompt each gets is in [council-prompts.md](assets/council-prompts.md).
+Left alone the model omits the Expansionist and the Outsider and lets the count drift; this fixed set closes that. What each role must *refuse* to do — and why it earns its seat — is in [running-a-council.md](references/running-a-council.md); the exact prompt each gets is in [council-prompts.md](agents/council-prompts.md).
 
 ## Process
 
 1. **Frame the problem once.** Write a tight brief: the decision/idea, the real constraints (time, money, people, context), and what a good outcome looks like. The *same* brief goes to every role — no role gets context another lacks.
-2. **Dispatch all five role subagents at once.** Issue the five calls in a *single batch* (one turn) so they run concurrently — one per role, each in its own context, each given ONLY the brief plus its role prompt from [council-prompts.md](assets/council-prompts.md). Use one general reasoning subagent type for all five (illustrative: `general-purpose`); tell them apart by a role-named label per dispatch (e.g. "Council: Contrarian"). Vary the model across roles where the harness allows. **Wait for all five to return** before step 3. (Playbook — batching, isolation, model diversity: [running-a-council.md](references/running-a-council.md).)
+2. **Dispatch all five role subagents at once.** Issue the five calls in a *single batch* (one turn) so they run concurrently — one per role, each in its own context, each given ONLY the brief plus its role prompt from [council-prompts.md](agents/council-prompts.md). Use one general reasoning subagent type for all five (illustrative: `general-purpose`); tell them apart by a role-named label per dispatch (e.g. "Council: Contrarian"). Vary the model across roles where the harness allows. **Wait for all five to return** before step 3. (Playbook — batching, isolation, model diversity: [running-a-council.md](references/running-a-council.md).)
 3. **Only then, dispatch the chairman** — a sixth, separate dispatch, after all five have returned — with the brief plus all five verdicts verbatim, using the chairman prompt. It does NOT re-poll the roles or add a voice; it synthesizes what came back.
 4. **Present** the five role cards, then the chairman's verdict.
 
@@ -62,4 +62,4 @@ The **chairman** returns, in order:
 ## References
 
 - [running-a-council.md](references/running-a-council.md) — dispatch playbook: why these five, what each must refuse, batching, isolation, model diversity, and the shared-context anti-pattern.
-- [council-prompts.md](assets/council-prompts.md) — the five role prompts and the chairman prompt, injected verbatim into each dispatched subagent.
+- [council-prompts.md](agents/council-prompts.md) — the five role prompts and the chairman prompt, injected verbatim into each dispatched subagent.

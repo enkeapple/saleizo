@@ -1,15 +1,13 @@
 ---
 name: auditing-code-quality
 description: >-
-  Use when the user asks for a refactoring audit or code-quality review of a
-  given area — "audit this code", "what should I refactor here", "review this
-  module for quality", "give me a refactor report" — and wants a prioritized
-  written report of findings before any change is made. Produces the report and
-  STOPS; execution is handed to the test-first chain. Distinct from
-  improve-codebase-architecture, which uses the narrow deep-module / seam lens;
-  this one is the broad code-quality lens (duplication, oversized units,
-  boundary leaks, complexity, brittle tests, naming, dead code).
+  Produce one prioritized, written code-quality / refactoring report for a named
+  area — findings scored and sorted, directions only — then STOP and hand
+  execution to the test-first chain. The broad code-quality lens (duplication,
+  oversized units, boundary leaks, complexity, brittle tests, naming, dead code);
+  distinct from improve-codebase-architecture's narrow deep-module / seam lens.
 disable-model-invocation: true
+allowed-tools: Read, Grep, Glob
 ---
 
 # Auditing Code Quality
@@ -39,7 +37,7 @@ Score each finding `Impact × Reach`, then map to severity. Fixed thresholds kee
 
 - **Impact** — 1 = cosmetic; 2 = maintainability drag; 3 = correctness or regression risk.
 - **Reach** — 1 = single local site; 2 = one module; 3 = cross-module / many call sites.
-- **Severity** — `HIGH` if Impact×Reach ≥ 6; `MEDIUM` if 3–5; `LOW` if ≤ 2.
+- **Severity** — `HIGH` if Impact×Reach ≥ 6; `MEDIUM` if 3–4; `LOW` if ≤ 2. (The reachable products of two factors in {1,2,3} are {1,2,3,4,6,9}.)
 
 ## Report contract (REQUIRED shape — every section, every run)
 

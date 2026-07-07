@@ -1,6 +1,6 @@
 # Running a Council — dispatch playbook
 
-Read-for-guidance depth behind [SKILL.md](../SKILL.md). The core recipe (frame → dispatch five at once → chairman after → present) lives in SKILL.md and is complete on its own; this file explains *why* the panel is these five and *how* to run the dispatch well. The exact injectable text is the single source in [council-prompts.md](../assets/council-prompts.md) — this file does not restate it.
+Read-for-guidance depth behind [SKILL.md](../SKILL.md). The core recipe (frame → dispatch five at once → chairman after → present) lives in SKILL.md and is complete on its own; this file explains *why* the panel is these five and *how* to run the dispatch well. The exact injectable text is the single source in [council-prompts.md](../agents/council-prompts.md) — this file does not restate it.
 
 ## Why these five, and what each must refuse
 
@@ -19,6 +19,7 @@ The panel is fixed at five because a free-forming agent, asked for "different pe
 - **Role by label, not by agent type.** All five use the same general reasoning subagent type; distinguish them with a role-named label on each dispatch (e.g. "Council: Contrarian"). The role comes from the injected prompt.
 - **Model diversity where available.** If the harness offers a choice of models, vary the model across the five roles — different models surface different blind spots, and diverse independent judges beat five copies of one. (This is the review-diversity lever, distinct from a controlled RED/GREEN pair where the model is held constant.)
 - **Chairman after, and separate.** Dispatch the chairman only once all five have returned, as its own call carrying all five verdicts verbatim. Writing the synthesis inline in the orchestrator's context re-imports the convergence the council exists to avoid.
+- **Run the chairman on the most-capable tier available, distinct from any single role's model.** The synthesis is the highest-judgment step — it produces the decisive verdict across genuine disagreement — so it is the final/high-stakes-review case: top capability *and* an independent model (illustrative: the roles on cheaper/varied tiers, the chairman on the strongest). This is the review-diversity lever, not a RED/GREEN constancy pair; do not pin it to a role's tier for "consistency."
 
 ## The failure this prevents (worked contrast)
 

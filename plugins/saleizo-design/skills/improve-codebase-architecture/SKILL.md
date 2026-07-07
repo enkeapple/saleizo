@@ -12,6 +12,8 @@ disable-model-invocation: true
 
 Surface architectural friction and propose **deepening opportunities** — refactors that turn shallow modules into deep ones. The aim is testability and AI-navigability.
 
+This is the narrow **deep-module / seam** lens. For the broad code-quality lens — duplication, oversized units, complexity, brittle tests, naming, dead code — use `auditing-code-quality` instead, which produces a prioritized written report rather than a visual deepening artifact.
+
 This skill is _informed_ by the project's domain model and built on a shared design vocabulary:
 
 - Run the `codebase-design` skill for the architecture vocabulary — **module**, **interface**, **depth**, **seam**, **adapter**, **leverage**, **locality** — and its principles; that skill holds their definitions and is the single source of truth. Use these terms exactly in every suggestion; never drift into "component," "service," "API," or "boundary."
@@ -35,7 +37,7 @@ Apply the **deletion test** to anything you suspect is shallow: would deleting i
 
 ### 2. Present candidates visually
 
-The deliverable is **always a written, self-contained visual artifact** — never a prose or markdown bullet list in the chat. The diagrams carry the weight; a chat list is the exact failure this skill exists to prevent, and "I'm in a hurry", "just read them aloud", "markdown is fine", or "skip the report" are the pressure to resist, not an exception that converts the deliverable into chat prose. The recommended, illustrative format is a self-contained HTML file (Tailwind + Mermaid via CDN) written to the OS temp directory so nothing lands in the repo. A consumer repo may substitute another medium **only if it stays visual, self-contained, and written to a file** — substitution swaps the format, it never downgrades it to a chat list. See [html-report.md](assets/html-report.md) for the full scaffold, diagram patterns, and styling guidance.
+The deliverable is **always a written, self-contained visual artifact** — never a prose or markdown bullet list in the chat. The diagrams carry the weight; a chat list is the exact failure this skill exists to prevent, and "I'm in a hurry", "just read them aloud", "markdown is fine", or "skip the report" are the pressure to resist, not an exception that converts the deliverable into chat prose. The recommended, illustrative format is a self-contained HTML file (Tailwind + Mermaid via CDN) written to the OS temp directory so nothing lands in the repo. A consumer repo may substitute another medium **only if it stays visual, self-contained, and written to a file** — substitution swaps the format, it never downgrades it to a chat list. See [html-report.md](references/html-report.md) for the full scaffold, diagram patterns, and styling guidance.
 
 If the user wants to present findings at a review, produce the visual artifact and read talking points *from* it — do not replace it with a chat list. If the user insists on chat prose *after* being told the report is one temp file with zero repo footprint, that is an explicit, informed override of the skill — name what it costs ("dropping the visual report loses the before/after diagrams that carry the deepening case") and do not slide into it silently as though the first request settled it.
 

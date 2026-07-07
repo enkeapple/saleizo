@@ -1,7 +1,7 @@
 {
   "name": "saleizo-design",
   "description": "Deep-module design vocabulary, architecture review, and code-quality review.",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "skills": [
     "./skills/codebase-design",
     "./skills/improve-codebase-architecture",
