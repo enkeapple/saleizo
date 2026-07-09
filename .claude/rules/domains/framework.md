@@ -12,7 +12,13 @@ Before any change to a skill, rule, or hook:
 4. **Walk the behaviour**: the happy path plus how the skill holds under pressure (the loophole a subagent will try, the edge the rule must name).
 5. **Only then write**, in dependency order: contract/frontmatter → body → references → routing. For PARTIAL, touch only the missing layers.
 
-**Iron Law (AUTHOR):** no skill or skill edit without a failing test first. Run the baseline subagent scenarios and watch them fail (RED) *before* writing. Wrote it first? Delete it, start over. No exception for "simple edits". Abbreviate the phases for a trivial fix; never skip them.
+**Iron Law (AUTHOR) — tiered by edit-type.** Classify every edit by a mechanical **reversion test** — *"if I revert this edit, does a subagent given the same task behave differently?"* — and apply the matching evidence bar. The blanket "no exception even for a typo" is retired: it forced a fabricated RED or a silent bypass on edits with no behavioral hypothesis (recorded in [ADR-0001](../../../docs/adr/0001-tier-the-iron-law-and-add-adherence-testing.md)).
+
+- **Behavioral** (a new skill; a body change to a recipe, prohibition, or decision point — reverting it changes what a subagent does) → **full RED/GREEN**: run the baseline subagent scenarios and watch them fail (RED) *before* writing, then re-run WITH the change and confirm compliance (GREEN). Wrote it first? Delete it, start over. No exception here.
+- **Descriptive** (frontmatter `description`, routing triggers, reference prose that does not change the recipe, word-count/structure cleanup) → **one cited real prior failure** — a transcript excerpt, a `lessons-learned.md` entry, or an owner correction — inline in the commit body. Cheaper and more honest than a staged RED a capable model would pass under either wording.
+- **Mechanical** (typo, dead link, fence balance, formatting) → **validators only**, no evidence bar.
+
+**Honest-downgrade clause:** an edit with no citable prior failure is filed one tier *down* with that absence stated in the commit (e.g. "no cited failure — descriptive"), **never silently** — a silent downgrade re-creates the production-bypass one tier lower. Authoring rigor is only verifiable against production adherence, so the tiering is paired with **Law #2 — adherence testing** (a recurring `skill-comply` + `reviewing-telemetry` run against production samples with a tracked bypass baseline); its unattended form ships a kill switch and first passes a "name a real 30-day undetected defect" gate.
 
 ## Suspicion Protocol
 
