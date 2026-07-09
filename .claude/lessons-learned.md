@@ -4,6 +4,15 @@ Transient backlog of un-promoted candidate rules — newest at the top of `## En
 
 ## Entries
 
+## 2026-07-08 — Two sibling rules' boundary discriminator lived only in an Edge Cases bullet while both triggers+checklists double-claimed the same construct; a cold agent couldn't route
+
+- **Cause-tag**: boundary-discriminator-placement
+- **Symptom**: `simplicity.md` and `no-over-engineering.md` both fired on "config object / options bag for a single call site" — in their `## When` trigger AND their `## Review Checklist`. The discriminator (present-tense plainest-construct vs speculative-future structure) existed only in a `simplicity` Edge Cases bullet. A cold Haiku RED agent asked which rule OWNS a config-object-for-one-value diff returned "genuine dual-ownership, both checklists flag it, cannot cleanly assign one owner."
+- **Root cause**: a cross-link buried in Edge Cases satisfies `scoping-rule-value` gate 2 (cross-link, don't fork) on paper, but a cold agent routes off the parts it scans at trigger/review time — the `## When` line and the `## Review Checklist` line — not the Edge Cases prose. Ownership stated only in Edge Cases is invisible where the routing decision is actually made.
+- **Wrong approach**: treated the existing Edge Cases see-also as sufficient boundary demarcation because the two rules were cross-linked (gate 2 "passes"), without checking that the discriminating token was double-claimed in both scanned sections.
+- **Correct approach**: ceded "config object / options bag" entirely to `no-over-engineering`; narrowed `simplicity`'s When + Implementation + Review-Checklist to the present-tense construct it owns and named the owner inline in those scanned lines ("a config object / options bag for one value is no-over-engineering's finding, not this rule's"); added a reciprocal boundary Edge Case in `no-over-engineering`. Identical GREEN run (same Haiku model, only on-disk rules changed) then assigned a single unambiguous owner.
+- **Prevention**: when two sibling rules share a construct token, name the owner in the `## When` and `## Review Checklist` lines a cold agent scans at trigger time — a cross-link that lives only in Edge Cases routes nothing. Verify with a RED/GREEN routing test: hand a cold agent both rules + the disputed construct and ask which one OWNS it; RED = dual-ownership/ambiguous, GREEN = single owner. (Kin: `cross-skill-content-coupling`, `unverified-subagent-finding` — the rule-set-coherence family; distinct here because the fix is discriminator VISIBILITY in scanned sections, not de-coupling or verifying a finding.)
+
 ## 2026-07-07 — Trusted a skill's Layer-1 GREEN as proof its example-asset citations were real; the validator resolves only .md link targets, not prose file:line+quote content
 
 - **Cause-tag**: gate-scope-overtrust

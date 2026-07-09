@@ -39,6 +39,7 @@ AI agents do not scan the codebase before writing; a shared utility or wrapper t
 - **The existing one is wrong or inadequate** — reuse is not dogma: if the existing implementation is buggy or mis-fit, fixing/extending (or deliberately replacing) it beats forking a parallel copy that leaves two to maintain. State which you chose and why in one line.
 - A direct raw-library call is fine when the project has **no** wrapper for that capability — the abstraction-bypass face fires only when a wrapper actually exists.
 - **Tune `paths` per project.** The default glob matches common source extensions; in a repo with a single source root, narrow it (e.g. `src/**`) so the rule loads only on real source edits, not config or generated files.
+- **Export-floor value.** On a strong in-context agent, search-before-writing is often already default (a near-no-op); this rule's load is earned in weaker / non-agentic consumer harnesses where net-new code without recon is the reflex — the export-floor carve-out of [scoping-rule-value](../common/scoping-rule-value.md). Not required to apply this rule.
 - See also the `pre-implementation-protocol` skill — at its readiness gate a contract tagged NEW that duplicates an existing one is a No-go; this rule is the during-execution sibling. Not required to apply this rule.
 - See also [model-selection](../common/model-selection.md) — when the codebase is large, the search for an existing implementation is best dispatched to a cheap-tier subagent rather than run on the implementer's model. Not required to apply this rule.
 
