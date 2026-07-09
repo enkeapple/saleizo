@@ -51,7 +51,7 @@ Each phase is its own skill and ends at an explicit approval gate — nothing au
 ## Philosophy
 
 - **Gates over momentum.** Every phase stops for explicit approval; the chain never races ahead of agreement.
-- **Test-first, no exceptions.** No skill — and no skill edit — without a failing subagent run first.
+- **Test-first, tiered by edit-type.** A behavioral skill or skill edit needs a failing subagent run (RED) first; a descriptive edit cites a real prior failure; a mechanical fix runs validators only.
 - **Agnostic by default.** The chain bakes in no stack or paths; the consumer repo supplies them.
 - **Surface the bottleneck.** A leaky hand-off or an over-rigid step is the bug, and it becomes the next lesson and rule.
 
