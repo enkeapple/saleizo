@@ -26,18 +26,21 @@ command -v jq >/dev/null 2>&1 || { echo "metrics-report: jq is required" >&2; ex
 
 echo "# Metrics report"
 echo
+echo "_Fixture/test sessions (session id matching \`fixture\`) are excluded from the routing + friction counts below._"
+echo
 
 echo "## Skill routing"
 if (( ${#METRICS_FILES[@]} > 0 )); then
   jq -rs '
-    map(select(.type == "skill_event"))
+    map(select(.type == "skill_event" and ((.session // "" | tostring | test("fixture")) | not)))
     | group_by(.event)
     | map({event: (.[0].event // "unknown"), count: length})
     | sort_by(-.count)[]
     | "- \(.event): \(.count)"
   ' "${METRICS_FILES[@]}" 2>/dev/null || echo "- (could not parse metrics day-files)"
   jq -rs '
-    (map(select(.event=="bypass")) | length) as $b
+    map(select((.session // "" | tostring | test("fixture")) | not))
+    | (map(select(.event=="bypass")) | length) as $b
     | (map(select(.event=="used_correctly")) | length) as $u
     | if ($b + $u) > 0
       then "\nBypass rate: \($b)/\($b + $u) = \((100 * $b / ($b + $u)) | floor)%"
@@ -51,7 +54,7 @@ echo
 echo "## Friction (deterministic is_error, by class)"
 if (( ${#METRICS_FILES[@]} > 0 )); then
   jq -rs '
-    (map(select(.type == "friction"))) as $f
+    (map(select(.type == "friction" and ((.session // "" | tostring | test("fixture")) | not)))) as $f
     | if ($f | length) == 0 then "- none logged yet"
       else ($f | group_by(.class) | map("- \(.[0].class // "?"): \(map(.count // 0) | add)") | .[]) end
   ' "${METRICS_FILES[@]}" 2>/dev/null || echo "- (could not parse friction events)"

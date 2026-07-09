@@ -36,6 +36,23 @@ rm -f "$STATE_DIR/turn-lessons-nudged.flag"
 # Fail open: per-turn state was already reset above; non-JSON stdin just skips caching.
 printf '%s' "$INPUT" | jq -e . >/dev/null 2>&1 || exit 0
 PROMPT=$(hook_field "$INPUT" '.prompt // .user_prompt // ""')
+
+# Not every UserPromptSubmit payload is a free-text user prompt subject to trigger-based bypass
+# detection. Skip two kinds, which otherwise inflated the bypass metric ~10x:
+#   (a) harness-injected messages (e.g. <task-notification>, emitted when a background task
+#       completes) — cached verbatim, they echo the finished subagent's domain vocabulary and get
+#       matched as phantom multi-skill bypasses;
+#   (b) explicit slash-command invocations (/grill, /sdd, /saleizo-commands:*, …) — the user IS
+#       invoking a skill/alias, not free-texting a request that should have routed to one, so a
+#       trigger match on them is a false bypass.
+# For both: skip caching + corpus and clear any stale cached prompt so downstream consumers match
+# nothing this turn.
+if [[ "$PROMPT" =~ ^[[:space:]]*'<task-notification>' ]] || [[ "$PROMPT" =~ ^[[:space:]]*/ ]]; then
+  : > "$STATE_DIR/last-prompt.txt"
+  rm -f "$STATE_DIR/pending-prompt.json"
+  exit 0
+fi
+
 printf '%s' "$PROMPT" > "$STATE_DIR/last-prompt.txt"
 
 # Open the prompt-corpus record (finalized at Stop by log-skill-usage). Monotone session-turn
