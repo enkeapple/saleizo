@@ -8,7 +8,7 @@ Authoring or changing a skill runs through **RED → GREEN → REFACTOR → VALI
 
 **Hard rules:**
 
-- **No skill (or skill edit) without a failing test first.** Run the baseline subagent scenarios and watch them fail (RED) before writing. Wrote it first? Delete it, start over.
+- **No behavioral skill (or skill edit) without a failing test first — tiered by edit-type.** Classify each edit by the reversion test ("revert this — does a subagent behave differently?"): behavioral → full RED→GREEN (watch the baseline fail before writing; wrote it first? delete, start over); descriptive → one cited real prior failure inline; mechanical → validators only. Full classifier in [.claude/rules/domains/framework.md](./.claude/rules/domains/framework.md) → Iron Law.
 - **Agnostic by default.** A skill never hard-depends on one project's stack, paths, or commands — the consumer repo fills specifics.
 - **Capture a qualifying lesson the same turn.** Only when it passes the (A)+(B) bar — a concrete reusable check AND a recurring/non-obvious class (most turns produce none); `writing-lessons` owns the bar. Recurring (3×) → `writing-rules`.
 - **Verify before "done".** Validators pass AND a GREEN subagent run confirms the behavior — code/markdown existing is not "done".
@@ -70,6 +70,8 @@ When a user prompt contains a registered trigger and the corresponding skill is 
 | Cross-cutting process & policy (markdown style, skill-routing sync, git conventions, …) | [.claude/rules/common/](./.claude/rules/common/) |
 
 Rules load on demand, not auto-injected. Bootstrap them in a consumer repo with `bootstrapping-glossary`; keep them true with `auditing-glossary`.
+
+Architectural decisions about the framework itself are recorded as immutable ADRs — see [README → Architecture Decision Records](./README.md#architecture-decision-records).
 
 ## Engineering system
 
