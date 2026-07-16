@@ -44,6 +44,10 @@ Swap `saleizo-core` for any other plugin name to install it. Each plugin is self
 - **Agnostic by default.** A skill never hard-codes one project's stack, paths, or commands — the consumer repo fills the specifics.
 - **Derived, not hand-curated.** Catalogs and indexes are generated from frontmatter on disk, so they can be audited for drift instead of trusted.
 
+## Architecture Decision Records
+
+Cross-cutting or hard-to-reverse decisions about the framework itself are recorded as immutable ADRs under [`docs/adr/`](docs/adr/README.md) — each captures *why* a choice was made and is superseded (never edited) when it changes. Start at the [ADR index](docs/adr/README.md).
+
 ## Contributing
 
 Author or change a skill through `writing-skills` (RED → GREEN → REFACTOR → VALIDATE). A change is done only when the validators pass (frontmatter ≤1024, name regex, links resolve, fences balanced, word count) **and** an independent subagent run confirms the behavior. Regenerate this index and the per-plugin catalogs with `bootstrapping-readme`; check them for drift with `auditing-readme`.

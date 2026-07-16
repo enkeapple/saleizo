@@ -1,2 +1,4 @@
 {"name":"happy-prompt","stdin":{"session_id":"fixturetest","prompt":"write a spec"},"expect_exit":0}
+{"name":"task-notification skipped (harness message, not cached as a user prompt)","stdin":{"session_id":"fixturetest","prompt":"<task-notification> <task-id>abc</task-id> finished writing a spec"},"expect_exit":0,"expect_stdout_empty":true}
+{"name":"slash-command skipped (explicit invocation, not a free-text bypass)","stdin":{"session_id":"fixturetest","prompt":"/grill should I add caveman review"},"expect_exit":0,"expect_stdout_empty":true}
 {"name":"garbage-fail-open","stdin_raw":"not json","expect_exit":0}

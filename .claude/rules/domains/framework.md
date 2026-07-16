@@ -1,18 +1,24 @@
 # Framework Charter
 
-How to work in this repo, regardless of which skill or rule you touch. This is a **skills marketplace**, not an app: no `package.json`, no build, no unit-test suite, no `src/`. Verification here is **the skill validators + RED/GREEN subagent runs**, plus **fixture-execution of a hook against crafted stdin** for a hook change — never `pnpm`/Vitest/simulator (that would be a consumer-repo leak). Domain vocabulary lives alongside in [glossary.md](./glossary.md); read it first if a request says "test", "RED/GREEN", "skill vs rule", or names this repo vs a consumer repo.
+How to work in this repo, regardless of which skill or rule you touch. This is a **skills marketplace**, not an app: no `package.json`, no build, no unit-test suite, no `src/`. Verification here is **the skill validators + RED/GREEN subagent runs**, plus **fixture-execution of a hook against crafted stdin** for a hook change — never `pnpm`/Vitest/simulator (that would be a consumer-repo leak). Domain vocabulary lives alongside in `glossary`; read it first if a request says "test", "RED/GREEN", "skill vs rule", or names this repo vs a consumer repo.
 
 ## Implementation Protocol
 
 Before any change to a skill, rule, or hook:
 
 1. **Read the full request**; restate the change in one line. If it touches a skill, identify the operating mode (AUTHOR / AUDIT / APPLY).
-2. **Scan every layer the change touches** and classify each NONE / PARTIAL / FULL. The layers of a skill change are: `SKILL.md` frontmatter → `SKILL.md` body → `references/*.md` / `assets/*.md` → the root `skills-routing.json` (triggers). A new/renamed/deleted skill or a trigger change is NOT done until routing matches disk (see [skill-routing-sync.md](../common/skill-routing-sync.md)).
+2. **Scan every layer the change touches** and classify each NONE / PARTIAL / FULL. The layers of a skill change are: `SKILL.md` frontmatter → `SKILL.md` body → `references/*.md` / `assets/*.md` → the root `skills-routing.json` (triggers). A new/renamed/deleted skill or a trigger change is NOT done until routing matches disk (see `skill-routing-sync`).
 3. **Write the contract as the artifact, not prose** — for a skill that means the actual `name:`/`description:` frontmatter and the precise prohibition or recipe; for a rule, the `## When` triggers and the canonical table. If you can't write it concretely yet, the task isn't understood — read more.
 4. **Walk the behaviour**: the happy path plus how the skill holds under pressure (the loophole a subagent will try, the edge the rule must name).
 5. **Only then write**, in dependency order: contract/frontmatter → body → references → routing. For PARTIAL, touch only the missing layers.
 
-**Iron Law (AUTHOR):** no skill or skill edit without a failing test first. Run the baseline subagent scenarios and watch them fail (RED) *before* writing. Wrote it first? Delete it, start over. No exception for "simple edits". Abbreviate the phases for a trivial fix; never skip them.
+**Iron Law (AUTHOR) — tiered by edit-type.** Classify every edit by a mechanical **reversion test** — *"if I revert this edit, does a subagent given the same task behave differently?"* — and apply the matching evidence bar. The blanket "no exception even for a typo" is retired: it forced a fabricated RED or a silent bypass on edits with no behavioral hypothesis (recorded in [ADR-0001](../../../docs/adr/0001-tier-the-iron-law-and-add-adherence-testing.md)).
+
+- **Behavioral** (a new skill; a body change to a recipe, prohibition, or decision point — reverting it changes what a subagent does) → **full RED/GREEN**: run the baseline subagent scenarios and watch them fail (RED) *before* writing, then re-run WITH the change and confirm compliance (GREEN). Wrote it first? Delete it, start over. No exception here.
+- **Descriptive** (frontmatter `description`, routing triggers, reference prose that does not change the recipe, word-count/structure cleanup) → **one cited real prior failure** — a transcript excerpt, a `lessons-learned.md` entry, or an owner correction — inline in the commit body. Cheaper and more honest than a staged RED a capable model would pass under either wording.
+- **Mechanical** (typo, dead link, fence balance, formatting) → **validators only**, no evidence bar.
+
+**Honest-downgrade clause:** an edit with no citable prior failure is filed one tier *down* with that absence stated in the commit (e.g. "no cited failure — descriptive"), **never silently** — a silent downgrade re-creates the production-bypass one tier lower. Authoring rigor is only verifiable against production adherence, so the tiering is paired with **Law #2 — adherence testing** (a recurring `skill-comply` + `reviewing-telemetry` run against production samples with a tracked bypass baseline); its unattended form ships a kill switch and first passes a "name a real 30-day undetected defect" gate.
 
 ## Suspicion Protocol
 

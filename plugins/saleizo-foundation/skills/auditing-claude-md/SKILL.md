@@ -35,14 +35,34 @@ Mirrors `auditing-glossary` (same discipline, applied to the foundational rules)
 4. **Classify each finding:** Confirmed / Stale doc (repo right, doc outdated) / Code drift (doc states an intended rule the repo violated — fix may be the *code*) / Broken (command/path/skill that resolves to nothing) / Inconsistent (the two files disagree).
 5. **Decide direction before editing:** Stale/Broken → fix the doc. Inconsistent → pick the single source (usually the manual) and make the other point to it, don't duplicate. Code drift → surface as a decision, don't silently rewrite the doc to bless it.
 
-## Report format
+## The report — REQUIRED fixed shape
 
-Produce a report before editing (see [assets/audit-report-example.md](./assets/audit-report-example.md)):
+Emit **exactly these five sections, in this order**, before any edit — same headings, same order, every run. Do not rename a heading, add or drop a section, add a table column, or render the Summary as a table. This fixed shape is the point: two runs over the same drift must produce the same structure. A filled reference: [assets/audit-report-example.md](./assets/audit-report-example.md).
 
-1. **Claims checked** — table: claim → file → what the repo shows → status.
-2. **Cross-file consistency** — pipeline / Role / commands / pointers agree? list mismatches.
-3. **Summary** — counts per status.
-4. **Decisions needed** — each Code-drift / ambiguous-source item with a **recommended disposition** (the audit's suggested fix), so the closing picker can batch them.
+```text
+# CLAUDE.md Audit
+
+## Claims checked
+| Claim | File | Repo shows (this session) | Status |
+| --- | --- | --- | --- |
+| <claim> | <root | manual> | <what the repo shows> | <Confirmed | Stale doc | Broken | Code drift | Inconsistent> |
+
+## Cross-file consistency
+- <pipeline | Role | commands | pointers>: <agree | MISMATCH — the two files disagree, consolidate to …>
+(all agree → the single line: "Root and manual agree — no cross-file mismatch.")
+
+## Summary
+- Confirmed: <n> · Stale doc: <n> · Broken: <n> · Code drift: <n> · Inconsistent: <n>
+
+## Decisions needed
+- <each Code-drift / Inconsistent / ambiguous-source finding> — recommended: <disposition>
+(none → the single line: "No decisions needed — every finding is a surgical fix.")
+
+## Decision
+<the archetype C-drift picker — the three options in "Required decision after the report" below>
+```
+
+The **Claims checked** table has exactly those four columns in that order (no index column). The **Summary** is the one bullet line above, never a table. The **Decision** section is the C-drift picker verbatim, never folded into a prose trailer.
 
 ## Required decision after the report
 
@@ -64,6 +84,7 @@ End with **one** picker (archetype C-drift; markdown-list fallback), never one p
 - "I read it, looks fine" — no per-claim verification = the audit didn't happen.
 - Auditing one file and ignoring the other, or skipping the cross-file consistency pass.
 - Fixing a drifted command by duplicating governance into the root instead of pointing to the manual.
+- The report deviates from the REQUIRED fixed shape — a renamed heading, an extra column, the Summary as a table, a dropped Cross-file consistency section, or the Decision merged into a prose trailer. The shape is fixed; match it every run.
 - A **manual-governance drift signal** fires and you let it pass — eyeballing the lessons / design-docs / baseline wording instead of running the falsifiable signals in [references/drift-classes.md](./references/drift-classes.md).
 
 ## Rationalizations

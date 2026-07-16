@@ -36,15 +36,32 @@ Audit only the managed blocks — scaffold prose (intro, Quickstart, Installatio
 3. **Compare every criterion** (see Report) — do not stop at the first drift; check all five across every row.
 4. **Classify** each as Confirmed / Drift / Malformed.
 
-## Report
+## The report — REQUIRED fixed shape
 
-Produce a report before editing (see [assets/audit-report-example.md](./assets/audit-report-example.md)):
+Emit **exactly these three sections, in this order**, before any edit — same headings, same order, every run. Under **Findings**, one `###` sub-block per managed block audited (single-repo → one; marketplace → one per per-plugin skills/hooks block plus the root plugin-index). Do not rename a heading, add or drop a section, add a table column, or render the Summary as a table. This fixed shape is the point: two runs over the same drift must produce the same structure. A filled reference: [assets/audit-report-example.md](./assets/audit-report-example.md).
 
-1. **Findings** — table: criterion → what disk shows → status, over the five criteria (per block):
-   1. markers well-formed; 2. every entry appears exactly once (each SKILL.md in a skills catalog; each `hooks.json`-wired hook in a hooks catalog; each marketplace.json plugin in the index); 3. grouping + ordering match disk (by category for skills, by event for hooks); 4. each description matches the derived one; 5. each row link resolves and the row is the bold-link bullet shape `- **[name](link)** — …` (no table, no kind column).
-   - Plus, per per-plugin README: the block kinds present match the plugin's composition (no empty skills block where a hooks block is due), and the H1 is the derived Title-Case form.
-2. **Summary** — counts per status.
-3. **Recommended disposition** — for any drift, **regenerate the block** (rerun `bootstrapping-readme`); the block is fully derived, so re-deriving resolves every drift at once.
+```text
+# README Catalog Audit — <single-repo | marketplace>
+
+## Findings
+
+### <root skills | plugins/<name> skills | plugins/<name> hooks | root plugin-index>
+| Criterion | Disk shows (this session) | Status |
+| --- | --- | --- |
+| 1 markers well-formed | <…> | <Confirmed | Drift | Malformed> |
+| 2 every entry appears exactly once | <…> | <Confirmed | Drift> |
+| 3 grouping + ordering match disk | <…> | <Confirmed | Drift> |
+| 4 descriptions match the derived one | <…> | <Confirmed | Drift> |
+| 5 row link resolves + bold-link bullet shape | <…> | <Confirmed | Drift> |
+
+## Summary
+- Blocks audited: <n> · Confirmed: <n> · Drift: <n> · Malformed: <n>
+
+## Recommended disposition
+- <block> — <Confirmed → no action | Drift/Malformed → regenerate the block via bootstrapping-readme>
+```
+
+The **Findings** table has exactly those three columns in that order, with the five criteria as rows 1–5 in that order (a malformed-markers row-1 blocks rows 2–5 for that block; report it and stop that block). The **Summary** is the one bullet line above, never a table. A drift is always resolved by **regenerating** the derived block, never a hand-patched row.
 
 ## Apply the correction
 
@@ -58,3 +75,4 @@ Produce a report before editing (see [assets/audit-report-example.md](./assets/a
 - Hand-patching one row instead of regenerating the derived block.
 - Editing prose outside the markers.
 - In a marketplace, auditing only the root README and skipping the per-plugin blocks, or looking only for `skills:` markers and missing a plugin's hooks block.
+- The report deviates from the REQUIRED fixed shape — a renamed heading, an extra column, the Summary as a table, or the five criteria not rendered as rows 1–5 in order. The shape is fixed; match it every run.

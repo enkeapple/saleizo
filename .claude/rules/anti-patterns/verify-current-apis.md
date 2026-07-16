@@ -40,7 +40,7 @@ A model's training data lags real library releases, so an API recalled from memo
 - **When NOT to apply** — a trivial, stable language built-in you are certain of (`len()`, `str.split()`, basic operators, control flow). The rule targets *version-sensitive library/framework/stdlib* surface, not every line; over-checking every primitive is noise.
 - **No docs reachable** — do not block the work: write the call and label it `(unverified — needs doc check)` rather than guessing silently or stalling.
 - A strong model often reaches for the doc check unprompted; this rule's job is to make the check **mandatory and recorded**, so it is not skipped under time pressure.
-- This rule is distinct from [framework.md](../domains/framework.md)'s Zero-hallucination Rule: that one governs the currency of claims about *this repo's own* skills/rules/hooks (verified by `Read`/`Grep`), while this one governs *external* library/SDK API currency (verified against docs/context7). Different mechanism, different target.
+- This rule is distinct from `framework`'s Zero-hallucination Rule: that one governs the currency of claims about *this repo's own* skills/rules/hooks (verified by `Read`/`Grep`), while this one governs *external* library/SDK API currency (verified against docs/context7). Different mechanism, different target.
 - See also the `writing-lessons` skill — the post-hoc capture for when a stale API does bite. Not required to apply this rule.
 
 ## Review Checklist

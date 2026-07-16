@@ -37,8 +37,29 @@ The detection contract — the 9 conflict classes, their layer, fix lane, and de
 1. **Inventory** (the **working tree**, not HEAD — conflicts must be caught pre-commit). Read every `SKILL.md`, every `.claude/rules/**/*.md`, both `CLAUDE.md`, and `.claude/skills-routing.json`. Build the dictionary of real names = skill directory names ∪ routing keys.
 2. **Mechanical layer** — run the [references/mechanical-checks.md](./references/mechanical-checks.md) recipes. Emit (a) precise findings for classes **1, 6, 8, 9** with `file:line` evidence, and (b) a **shortlist** of candidate artifact-pairs for the judgment layer (only pairs with a structural signal — never all pairs). `log` the shortlist size and the dropped-pair count so under-coverage is visible.
 3. **Judgment layer** — fan out one `Task` subagent **per shortlisted candidate**, each on a **different model + fresh context** (per `model-selection.md`: a reviewer that inherits the author's model inherits its blind spots). Each subagent receives the **full bodies** of the two artifacts and returns a finding in the locked shape for classes **2, 3, 4, 5, 7**.
-4. **Report** — group findings by class then severity, in the locked finding shape. Emit an explicit `Class N: no conflicts found` line for every clean class — never a silently omitted class.
+4. **Report** — emit the **REQUIRED fixed shape** below: findings grouped by class then severity, each in the locked finding shape, with an explicit `Class N: no conflicts found` line for every clean class — never a silently omitted class.
 5. **Disposition** — present exactly **one** C-drift batched picker (below). The audit itself still edits nothing.
+
+## The report — REQUIRED fixed shape
+
+Emit **exactly these three sections, in this order** — same headings, same order, every run. Under **Findings**, one line per class **1–9 in order** (class names per [references/conflict-catalog.md](./references/conflict-catalog.md)), each carrying its `F-NNN` findings in the locked finding shape or the explicit `no conflicts found` line. Do not rename a heading, reorder classes, drop a clean class, or report a finding in prose instead of the locked shape. This fixed shape is the point: two runs over the same repo must produce the same structure. A filled reference: [assets/audit-report-example.md](./assets/audit-report-example.md).
+
+```text
+# Cross-Artifact Conflict Audit — <repo>
+
+## Findings   (classes 1–9 in order; findings within a class sorted by severity)
+Class 1 (trigger collision): <F-NNN lines in the locked finding shape, or "no conflicts found">
+Class 2 (…): <…>
+… every class 1–9 present, each with its findings or "no conflicts found"
+
+## Summary
+- Findings: <n> (High <n> · Medium <n> · Low <n> · Info <n>) · Shortlisted pairs: <n> · Dropped pairs: <n>
+
+## Decision
+<the archetype C-drift picker — the three options in "Required decision after the report" below>
+```
+
+The **Summary** is the one bullet line above, never a table. The **Decision** section is the C-drift picker verbatim, never folded into a prose trailer.
 
 ### Disagreement rule (mechanical vs judgment)
 
@@ -70,7 +91,7 @@ End with **one** picker (archetype C-drift; markdown-list fallback), never one p
 - Reaching to "just fix the overlap while I'm here" — the audit is read-only; report it.
 - Marking the intentional overlap a hard conflict — annotate it down to `Info`, keep it visible.
 - Scanning only the first orphan / first colliding pair — sweep the whole repo, every pair on the shortlist.
-- Reporting in prose instead of the locked finding shape.
+- Reporting in prose instead of the locked finding shape, or deviating from the REQUIRED fixed report shape — a renamed heading, reordered/omitted class, or the Summary as a table. The shape is fixed; match it every run.
 - Re-checking a drift-class issue here instead of delegating it as a disposition string.
 
 ## Rationalizations

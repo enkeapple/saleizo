@@ -11,13 +11,26 @@ A skill exists to wrangle determinism out of a stochastic system, in service of 
 **test-first**: you watch an agent fail without the skill, then comply with it. **Bold terms** are
 defined there too.
 
-## The Iron Law
+## The Iron Law — tiered by edit-type
 
-**No skill, and no skill edit, without a failing test first.** The "test" is a subagent pressure
-run, not a unit test (see [`testing.md`](./references/testing.md)): run
-the scenario WITHOUT the skill and watch it fail (**RED**) before you write. Wrote it first? Delete
-it. Start over. No exception for "simple additions", "just a section", or "it's only docs" —
-**editing a skill doc IS editing code.**
+**No *behavioral* skill or skill edit without a failing test first.** The "test" is a subagent
+pressure run, not a unit test (see [`testing.md`](./references/testing.md)). Classify every change
+by a **reversion test** — *"if I revert this edit, does a subagent given the same task behave
+differently?"* — and apply the matching bar:
+
+- **Behavioral** (a new skill; a body change to a recipe, prohibition, or decision point — reverting
+  it changes what a subagent does) → run the scenario WITHOUT the skill and watch it fail (**RED**)
+  before you write, then comply WITH it (**GREEN**). Wrote it first? Delete it. Start over. No
+  exception here.
+- **Descriptive** (frontmatter `description`, triggers, reference prose that does not change the
+  recipe, word-count/structure) → cite one real prior failure (a transcript, a captured lesson, an
+  owner correction) instead of staging a run a capable model would pass under either wording.
+- **Mechanical** (typo, dead link, fence balance, formatting) → validators only.
+
+**Editing a skill doc IS editing code** — but a mechanical fix has no behaviour to falsify, so a
+staged RED there is theatre. An edit with no citable prior failure is filed one tier *down* with
+that absence stated, **never silently** — a silent downgrade smuggles a behavioural change through
+as "just docs".
 
 ## Step 0 — classify the mode
 
@@ -49,9 +62,12 @@ it. Start over. No exception for "simple additions", "just a section", or "it's 
 
 ## edit
 
-The Iron Law holds for edits. Establish a diff-scoped **RED** on the behaviour you are changing
-(a scenario the current skill fails or under-specifies), make the minimal change, re-run for
-**GREEN**, then run the gate.
+The Iron Law holds for edits, tiered by the reversion test above. For a **behavioral** edit,
+establish a diff-scoped **RED** on the behaviour you are changing (a scenario the current skill
+fails or under-specifies), make the minimal change, re-run for **GREEN**, then run the gate. A
+**descriptive** edit cites one real prior failure instead; a **mechanical** edit runs validators
+only. Classify honestly — a behavioural change filed as "just docs" to skip RED is the downgrade the
+Iron Law forbids.
 
 ## split / merge / rename (a shape change — re-RED **and** sync routing)
 
@@ -95,8 +111,8 @@ its own conditional.
 
 | Excuse | Reality |
 | --- | --- |
-| "It's just a doc edit, no test needed." | Editing a skill doc IS editing code. RED first. |
-| "Too simple to test." | Simple skills mislead silently. The baseline run is cheap. |
+| "It's just a doc edit, no test needed." | Editing a skill doc IS editing code. Classify by the reversion test: behavioral doc edit → RED first; descriptive → cite a real prior failure; only a typo/link is validators-only. "Doc = no test" is not the exemption. |
+| "Too simple to test." | If reverting it changes what a subagent does, it's behavioral — RED it. Only a fix that truly can't change behaviour (typo/link) is mechanical. "Too simple" is a classification, not an exemption. |
 | "It reads fine — it's valid." | Reading ≠ running. Layer 2 runs it; a static read is not a verdict. |
 | "The baseline complied, so the skill works." | If it complied WITHOUT the skill, the skill proves nothing — re-aim at a real failure. |
 | "I'll keep the draft as reference while I test." | Delete means delete. A kept draft is a write-first skill. |
@@ -107,7 +123,7 @@ its own conditional.
 
 ## Red Flags — STOP
 
-- Skill (or edit) written before a RED was observed.
+- A *behavioral* skill or edit written before a RED was observed, OR a behavioral change filed one tier down ("just docs" / "too simple") to skip RED — the silent downgrade the Iron Law forbids.
 - Declaring done on a static read, with no Layer-2 subagent run.
 - Declaring validated on your own GREEN run, with no independent Layer-2 dispatch — the author's GREEN is not the gate.
 - Persisting a `test-cases.md` inside the skill (e.g. under `references/`) — cases are ephemeral gate scaffolding, not skill content; stage them in a temp file and delete after the gate.

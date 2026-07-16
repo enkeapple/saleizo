@@ -45,11 +45,11 @@ A pure pass-through adds a layer to read, name, step through in a debugger, and 
 
 ## Edge Cases
 
-- **A wrapper that adds real behavior is not needless** — validation, argument/response mapping, retries, error handling, logging, or type narrowing all earn the layer. When the project centralizes such behavior in its own client/service, calling *through* it is required — see [reuse-before-reimplement](./reuse-before-reimplement.md) (see-also, not required to apply this rule).
+- **A wrapper that adds real behavior is not needless** — validation, argument/response mapping, retries, error handling, logging, or type narrowing all earn the layer. When the project centralizes such behavior in its own client/service, calling *through* it is required — see `reuse-before-reimplement` (see-also, not required to apply this rule).
 - **An adapter / anti-corruption boundary with a real reason** — decoupling code from a vendor's type or signature — earns its place even with a single method today; state the reason in one line. The test is "does it add a boundary", not "does it have more than one method".
 - **`this`-binding matters** — when a bare method reference would lose its receiver, bind it (`obj.method.bind(obj)`); that is not the target. Prefer the bound reference over a `(...a) => obj.method(...a)` arrow that only re-splats.
 - **Not the linter's job:** an unused variable or an unreferenced import is linter territory, not this rule. This rule targets a *live* pass-through that adds no value, not dead code.
-- **Distinct from its siblings:** [simplicity](./simplicity.md) targets the fewest/plainest constructs for the stated problem; this rule targets one specific shape — a callable that only forwards. [reuse-before-reimplement](./reuse-before-reimplement.md) targets forking code that already exists. [concise-functions](./concise-functions.md) governs the opposite move — splitting one over-loaded function into single-purpose ones; when such a split leaves a pure forwarding wrapper, that wrapper is *this* rule's target (concise-functions defers it here). All cross-links are see-also; none is required to apply this rule.
+- **Distinct from its siblings:** `simplicity` targets the fewest/plainest constructs for the stated problem; this rule targets one specific shape — a callable that only forwards. `reuse-before-reimplement` targets forking code that already exists. `concise-functions` governs the opposite move — splitting one over-loaded function into single-purpose ones; when such a split leaves a pure forwarding wrapper, that wrapper is *this* rule's target (concise-functions defers it here). All cross-links are see-also; none is required to apply this rule.
 
 ## Review Checklist
 

@@ -39,13 +39,30 @@ Pairs with `bootstrapping-glossary`, which creates the foundational docs this sk
    - **Hallucination** — the claim greps to nothing in either; it never existed or both moved.
 4. **Decide direction before editing** (the source-of-truth call): for *stale doc* and *hallucination*, fix the doc. For *code drift*, do NOT silently rewrite the rule to bless the divergence — surface it as a decision: revert the code to the rule, or change the rule deliberately?
 
-## Report format
+## The report — REQUIRED fixed shape
 
-Produce a report before editing (see [assets/audit-report-example.md](./assets/audit-report-example.md)):
+Emit **exactly these four sections, in this order**, before any edit — same headings, same order, every run. Do not rename a heading, add or drop a section, add a column, or render the Summary as a table. This fixed shape is the point: two runs over the same drift must produce the same structure. A filled reference: [assets/audit-report-example.md](./assets/audit-report-example.md).
 
-1. **Claims checked** — table: claim → what the code shows → status (Confirmed / Stale doc / Code drift / Hallucination).
-2. **Summary** — counts per status.
-3. **Decisions needed** — each Code-drift item with a **recommended disposition** ("revert code" or "change the rule"), so the closing picker can batch them.
+```text
+# Domain-Rules Audit — <doc filename>
+
+## Claims checked
+| Claim (doc says) | Code shows (grep/read this session) | Status |
+| --- | --- | --- |
+| <claim> | <what the code actually shows> | <Confirmed | Stale doc | Code drift | Hallucination> |
+
+## Summary
+- Confirmed: <n> · Stale doc: <n> · Code drift: <n> · Hallucination: <n>
+
+## Decisions needed
+- <each Code-drift / ambiguous-source finding> — recommended: <revert code | change the rule>
+(none → the single line: "No decisions needed — every finding is a surgical doc fix.")
+
+## Decision
+<the archetype C-drift picker — the three options in "Required decision after the report" below>
+```
+
+The **Claims checked** table has exactly those three columns in that order (no index column). The **Summary** is the one bullet line above, never a table. The **Decision** section is the C-drift picker verbatim, never folded into a prose trailer.
 
 ## Required decision after the report
 
@@ -70,6 +87,7 @@ Symptoms you can catch yourself in (the table below is the *excuse* behind each)
 - Your edit changes a claim you never enumerated in step 1 — you checked only the flagged cell.
 - The diff rewrites whole paragraphs to correct a single wrong cell.
 - A rule now matches drifted code and you never surfaced the revert-or-change choice.
+- The report deviates from the REQUIRED fixed shape — a renamed heading, an extra column, the Summary as a table, or the Decision merged into a prose trailer. The shape is fixed; match it every run.
 
 ## Rationalizations
 

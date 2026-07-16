@@ -8,7 +8,7 @@ Rule precedence: user instructions in chat > this file > `.claude/rules/*` > def
 
 These survive context pressure and are model-agnostic. If the rest of this file is summarized away, these do not.
 
-1. **Iron Law — no skill or skill edit without a failing test first.** Run the baseline subagent scenarios and watch them fail (RED) before writing. Wrote it first? Delete it, start over. No exception for "simple edits". This is the discipline the whole repo exists to practice.
+1. **Iron Law — no behavioral skill or skill edit without a failing test first, tiered by edit-type.** Classify by the reversion test ("revert this edit — does a subagent given the same task behave differently?"): **behavioral** → full RED (watch the baseline fail before writing) then GREEN, wrote it first? delete, start over; **descriptive** → one cited real prior failure inline in the commit; **mechanical** → validators only. No citable failure → downgrade one tier *with the absence stated*, never silently. This is the discipline the whole repo exists to practice. Full classifier + Law #2 (adherence testing) in [framework.md](./rules/domains/framework.md) → Iron Law.
 2. **Agnostic by default.** A skill never hard-depends on one project's stack, paths, or commands. Examples needing a stack are marked illustrative; the consumer repo fills specifics. Project leakage into an agnostic skill is a defect.
 3. **Read-before-assert.** No "X has/exports/returns Y" about a skill, rule, or hook without a `Read`/`Grep`/`Glob` THIS session. Memory is not evidence; label unverified claims `(unverified — need to read X)`. Editing a skill or rule doc IS editing code.
 4. **Validate before "done".** A skill change is not done until its validators pass (frontmatter ≤1024, name regex, reference links resolve, fences balanced, word count sane) AND a GREEN subagent run confirms the behavior. Markdown existing is not done.
@@ -57,7 +57,7 @@ Not complete until each row is `[x]` or `[N/A]`-with-reason, evidence pasted:
 
 | # | Item | Done when |
 | --- | --- | --- |
-| 1 | RED observed | The baseline run failed as expected (or `[N/A]` — control showed no failure); for an **export-bound** skill (value is for weaker/non-agentic consumer harnesses), a green in-repo RED across tiers is NOT an `[N/A]`-cut — RED against a representative export floor, or ship on the policy basis and record which (see-also `rules/common/fair-red-baseline.md`, `rules/common/scoping-skill-value.md`, `rules/common/scoping-rule-value.md`) |
+| 1 | RED observed (by tier) | **Behavioral** edit: the baseline run failed as expected (or `[N/A]` — control showed no failure); for an **export-bound** skill (value is for weaker/non-agentic consumer harnesses), a green in-repo RED across tiers is NOT an `[N/A]`-cut — RED against a representative export floor, or ship on the policy basis and record which (see-also `rules/common/fair-red-baseline.md`, `rules/common/scoping-skill-value.md`, `rules/common/scoping-rule-value.md`). **Descriptive** edit → `[N/A — descriptive]` + one cited real prior failure in the commit; **Mechanical** edit → `[N/A — mechanical]`, validators only. Classify via the reversion test ([framework.md](./rules/domains/framework.md) → Iron Law) |
 | 2 | GREEN + independent Layer-2 verdict | (a) your own with-skill run complies on the same scenarios AND (b) a fresh validation subagent ran the cases staged for the gate (a temporary file, deleted after the run — not a persisted `test-cases.md`), inverted each case, and returned PASS with verbatim evidence — your GREEN run does NOT satisfy (b) |
 | 3 | Form matches failure | Discipline → prohibition+table+red-flags; shaping → positive recipe |
 | 4 | Validators pass | Frontmatter ≤1024, name regex, links resolve, fences balanced, word count — output pasted |
@@ -123,4 +123,5 @@ A qualifying lesson → an entry in [lessons-learned.md](./lessons-learned.md) (
 - Process basics (Implementation/Suspicion protocols, evidence-based verification, question discipline): [rules/domains/framework.md](./rules/domains/framework.md)
 - Domain glossary: [rules/domains/glossary.md](./rules/domains/glossary.md)
 - Domain rules (on demand): [rules/](./rules/) · Lessons: [lessons-learned.md](./lessons-learned.md)
+- Architecture decisions (ADRs): [README → Architecture Decision Records](../README.md#architecture-decision-records)
 - Skill registry: [skills-routing.json](./skills-routing.json) · Guard hooks: [hooks/guards/](./hooks/guards/) (repo-local, `.claude/hooks/` symlinks) · Routing/metric hooks: `plugins/saleizo-controls/hooks/` · Runtime state (gitignored): `.claude/state/`

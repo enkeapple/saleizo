@@ -1,10 +1,11 @@
 # Audit Report — example (illustrative)
 
-A filled `auditing-hooks` report over a repo with all five drift classes present, showing the locked finding shape, the per-class clean line, the recommended disposition per finding, and the single C-drift picker. Paths are _(illustrative — your repo's layout may differ)_.
-
-## Findings
+A filled `auditing-hooks` report in the REQUIRED fixed shape over a repo with all five drift classes present — the locked finding shape, the per-class clean line, the out-of-scope parking, a one-line Summary, and the single C-drift picker. Paths are _(illustrative — your repo's layout may differ)_.
 
 ```text
+# Hook Wiring Audit — kit marketplace
+
+## Findings   (D1–D5 in order; each finding in the locked finding shape)
 [D1 Orphan script] Medium
   what:     hook-z.sh exists on disk but no wiring command names it
   evidence: plugins/kit/hooks/hook-z.sh  ↔  (absent from .claude/settings.json + plugins/kit/hooks/hooks.json)
@@ -29,36 +30,19 @@ A filled `auditing-hooks` report over a repo with all five drift classes present
   what:     a wired Stop hook has no fixture beside it
   evidence: plugins/kit/hooks/hook-x.sh (wired)  ↔  no plugins/kit/hooks/tests/hook-x.sh.cases
   recommend: mechanical — add a fixture stub via writing-hooks (crafted stdin -> asserted decision)
-```
 
 ## Clean classes
-
-```text
-(none in this example — all five classes have an instance)
-```
-
-In a typical clean-ish repo most lines read e.g. `D3 Broken symlink indirection: no drift found` — every class with no instance gets exactly one such line; none is omitted.
+(none in this example — all five classes have an instance; a clean class reads e.g. "D3 Broken symlink indirection: no drift found", one line per clean class, none omitted)
 
 ## Out of scope (noted, not findings)
-
-Observed while reading, but NOT raised as drift — these belong to hook *logic* (`writing-hooks` / code review), not structural correspondence:
-
-- `guard-a.sh` matches `*force*` as a substring (over-broad) — logic, not wiring.
-- `hook-edit-guard.sh` has no deny branch / `hook-x.sh` is a no-op vs its comment — logic, not wiring.
+- guard-a.sh matches *force* as a substring (over-broad) — hook logic, not wiring → writing-hooks / code review.
+- hook-edit-guard.sh has no deny branch / hook-x.sh is a no-op vs its comment — logic, not wiring.
 
 ## Summary
+- Findings: 5 (High 3 · Medium 2 · Low 0) · Clean classes: 0 · Out-of-scope notes: 2
 
-- 5 findings: D2/D3/D4 High, D1/D5 Medium. 0 clean classes.
-- 2 observations parked as out-of-scope (hook-script logic → `writing-hooks`).
-
-## Disposition
-
-One C-drift batched picker (markdown-list fallback shown):
-
-```text
-1. Apply recommended → run each finding's recommended fix in its lane
-   (D1/D2/D3 mechanical edits sequential, stop-on-first-failure; D5 fixture stub via writing-hooks;
-    D4 left for owner — matcher choice).
-2. Adjust per-finding → walk the 5 findings one by one.
-3. Stop → take no action now.
+## Decision
+- `Apply recommended` → run each finding's fix in its lane (D1/D2/D3 mechanical, sequential, stop-on-first-failure; D5 fixture stub via writing-hooks; D4 owner — matcher choice).
+- `Adjust per-finding` → walk the 5 findings one by one.
+- `Stop` → take no action now.
 ```
