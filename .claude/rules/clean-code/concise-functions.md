@@ -66,9 +66,9 @@ async function handleOrder(raw: unknown) {
 - **Not about length.** A long function that performs one cohesive task (a single state-machine transition, a single parsing pass over a fixed grammar) is fine as-is — do not split by line count alone.
 - **Performance hot paths** may inline steps deliberately to avoid call overhead or preserve locality; note the reason in a comment rather than splitting reflexively.
 - **When NOT to apply:** trivial one-line wrappers, generated code, and test setup/fixture functions that intentionally sequence several calls for readability, not because they own several responsibilities.
-- **Do not over-correct into pointless indirection** — splitting is warranted by genuinely distinct responsibilities, not by a line-count trigger; a one-line function that only forwards to another is a smell, not a fix — see-also [no-needless-indirection](./no-needless-indirection.md).
+- **Do not over-correct into pointless indirection** — splitting is warranted by genuinely distinct responsibilities, not by a line-count trigger; a one-line function that only forwards to another is a smell, not a fix — see-also `no-needless-indirection`.
 - A function with several sequential steps toward ONE outcome (e.g. building up a single return value) is one responsibility, not several.
-- **Efficacy basis.** Unlike a pure-policy sibling (e.g. [clear-names](./clear-names.md)'s export-floor half), this RED-steers even a capable model on the incremental-growth case — adding an Nth concern to a function you are already inside — and on the orchestrator-purity check; it is not clean-authoring no-op, so it needs no export-floor carve-out.
+- **Efficacy basis.** Unlike a pure-policy sibling (e.g. `clear-names`'s export-floor half), this RED-steers even a capable model on the incremental-growth case — adding an Nth concern to a function you are already inside — and on the orchestrator-purity check; it is not clean-authoring no-op, so it needs no export-floor carve-out.
 
 ## Review Checklist
 

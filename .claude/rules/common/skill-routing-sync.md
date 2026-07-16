@@ -2,8 +2,7 @@
 description: 'When a routed skill is added, renamed, deleted, or has its triggers changed, update the consumer repo root .claude/skills-routing.json in the same change so the routing hooks stay in sync. Loads only when the routing file or skill source is touched.'
 paths:
   - '.claude/skills-routing.json'
-  - 'plugins/**/skills/**/*.md'
-  - '.claude/skills/**/*.md'
+  - '**/skills/**/*.md'
 ---
 
 # Skill Routing Sync

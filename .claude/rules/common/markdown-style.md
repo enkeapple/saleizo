@@ -20,7 +20,7 @@ These files are read by Claude Code, GitHub, and Obsidian. We standardise on the
 
 - **ATX headings** (`#`, `##`, `###`): one `#` H1 per file as the title, sections at `##`, sub-points at `###`. Blank line **before and after** every heading.
 - **Fenced code with a language**: ` ```ts `, ` ```tsx `, ` ```bash `, ` ```json `; use ` ```text ` for directory trees, ASCII diagrams, and plain output. Never a bare ` ``` ` opening fence. Blank line before and after the block. A fence opened with _N_ backticks closes only on a line of _N_-or-more backticks — so to show a fenced block **as example content**, wrap it in a longer fence (four backticks ` ````text ` around inner three-backtick blocks); the inner fences are then literal text and keep no language of their own.
-- **Standard links and images**: `[text](relative/path.md)` and `![alt](path.png)`. Use relative paths between rule files.
+- **Standard links and images**: `[text](relative/path.md)` and `![alt](path.png)`. But reference another **rule** by its bare backtick name (`` `search-scope-verification` `` = its filename stem), **not** a path link — Claude resolves the name by globbing `.claude/rules/**/<name>.md`, and a bare name survives copying the rule alone into a consumer repo where a relative path would dangle. Reserve relative-path links for non-rule targets (`CLAUDE.md`, `lessons-learned.md`, ADRs, images).
 - **GFM tables**: leading/trailing pipes, one header separator row. Put a space on each side of every pipe and every delimiter cell — `| --- | --- |`, never the unspaced `|---|---|`. The **dash count is free**: a new table uses a plain `---` per cell; an existing wider row (`| -------- | --------- |`) stays as-is — only the spacing is required. Don't *add* new hand-alignment, but don't *collapse* an existing aligned row either.
 - **Lists**: `- ` unordered, `1. ` ordered, `- [ ]` / `- [x]` task lists. Blank line before and after the list.
 - **Emphasis & misc**: `**bold**`, `_italic_`, `` `inline code` ``, `> blockquote`, `---` horizontal rule.
@@ -64,6 +64,6 @@ Alignment colons follow the same spacing: `| :--- | :---: | ---: |`, never `|:--
 - [ ] Frontmatter is first, has a `description`, and `paths: ['**/*.md']`; no trailing whitespace in it.
 - [ ] One `#` H1; blank line before and after every heading and every fenced block / list / table.
 - [ ] No bare ` ``` ` opening fence — every code block declares a language (` ```text ` for trees/output).
-- [ ] Links are standard `[text](path)` / `![alt](path)`, not wikilinks `[[…]]` / embeds `![[…]]`.
+- [ ] Links are standard `[text](path)` / `![alt](path)`, not wikilinks `[[…]]` / embeds `![[…]]`; a reference to another **rule** is a bare backtick name (its filename stem), not a path link.
 - [ ] Tables use a **spaced** delimiter row `| --- | --- |` (grep for the unspaced form: `grep -rnE '\|-{2,}\|' --include='*.md' .` — `-r` recurses without relying on shell `globstar`; fenced ❌-example blocks, including the one in this rule, are expected hits to skip).
 - [ ] No Obsidian-only extensions: callouts `> [!…]`, inline `#tag`, `^block-id`, `%% … %%`, `==highlight==`, `$math$`, Mermaid/Dataview.

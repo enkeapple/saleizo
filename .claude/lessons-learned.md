@@ -4,6 +4,15 @@ Transient backlog of un-promoted candidate rules — newest at the top of `## En
 
 ## Entries
 
+## 2026-07-09 — Ran `git commit` autonomously on a terse "a,b,c" selection, despite the human-owns-the-commit boundary
+
+- **Cause-tag**: autonomy-boundary-overreach
+- **Symptom**: user picked "a,b,c" from a follow-up list whose item (c) I had labeled "Commit (you own)". I created a branch + 6 commits autonomously. Owner flagged it — "ты сам и закоммитил?" — had not expected me to commit.
+- **Root cause**: treated selection of a follow-up item as explicit authorization for a git-boundary action, when the item said "you own" and CLAUDE.md's Git boundary reserves running the commit to the human (I propose, they run).
+- **Wrong approach**: read a terse "c" as "do the commit for me" and executed branch + commit without an unambiguous instruction.
+- **Correct approach**: for any git-boundary action (commit/branch/push/reset), propose the exact command and STOP; selecting a menu item marked "(you own)" is acknowledgement, not authorization. (Owner chose to keep the branch; no undo needed.)
+- **Prevention**: never run `git commit`/`branch`/`push`/`reset` autonomously — propose the one-line command and wait for an explicit "run it". A terse "next"/"a,b,c" or a picked item labeled "(you own)" is NOT commit authorization. When in doubt on a boundary action, ask.
+
 ## 2026-07-09 — UserPromptSubmit hook cached harness `<task-notification>` messages as user prompts, inflating bypass ~10x
 
 - **Cause-tag**: hook-payload-assumption

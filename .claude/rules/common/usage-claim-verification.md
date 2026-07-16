@@ -40,8 +40,8 @@ Before naming a usage/behavior conclusion in an audit or report, do all three th
 ## Edge Cases
 
 - **When NOT to apply:** an exploratory glance at a metric that you do NOT report as a verified finding; this rule governs only conclusions asserted as fact.
-- Distinct from [search-scope-verification](./search-scope-verification.md) (see-also): that rule governs a search-tool mechanics bug producing a false "0 results = absent". Here the tooling works — the defect is treating an aggregate/theoretical proxy as the verified fact. Both can fire on one audit; apply each to its own claim.
-- **Pure-policy rule** — this is a charter-class distillate promoted from three reproduced incidents; its evidence is those reproductions, so it carries no single cold RED/GREEN target case (a strong in-repo agent already verifies and self-contaminates the control — the gate-4 skip in [scoping-rule-value](./scoping-rule-value.md)).
+- Distinct from `search-scope-verification` (see-also): that rule governs a search-tool mechanics bug producing a false "0 results = absent". Here the tooling works — the defect is treating an aggregate/theoretical proxy as the verified fact. Both can fire on one audit; apply each to its own claim.
+- **Pure-policy rule** — this is a charter-class distillate promoted from three reproduced incidents; its evidence is those reproductions, so it carries no single cold RED/GREEN target case (a strong in-repo agent already verifies and self-contaminates the control — the gate-4 skip in `scoping-rule-value`).
 
 ## Review Checklist
 

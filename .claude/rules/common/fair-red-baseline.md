@@ -6,8 +6,8 @@ description: >-
   overlapping skill's vocabulary. A baseline pre-fed those performs for the
   wrong reason and cannot show whether the skill beats a capable model.
 paths:
-  - 'plugins/**/SKILL.md'
-  - 'plugins/**/references/*.md'
+  - '**/SKILL.md'
+  - '**/references/*.md'
 ---
 
 # Fair RED Baseline Construction
@@ -16,7 +16,7 @@ paths:
 
 STOP and apply this **before running a RED baseline subagent** for a skill whose value is one of: a **taxonomy / classification set** ("detect these conflict classes"), a **data-location / retrieval recipe** ("the corpus is at X, the schema is Y"), or a **domain vocabulary / methodology** this repo already owns a skill for. Do NOT skip because the baseline prompt "looks minimal" — contamination hides in framing, not only in explicit lists.
 
-This governs how the baseline **prompt is built**. The separate question of whether to ship the skill given a clean (or absent) RED failure is owned by [scoping-skill-value](./scoping-skill-value.md) (see-also — not required to apply this rule).
+This governs how the baseline **prompt is built**. The separate question of whether to ship the skill given a clean (or absent) RED failure is owned by `scoping-skill-value` (see-also — not required to apply this rule).
 
 ## Why
 
@@ -61,4 +61,4 @@ Baseline prompt: "Check this repo for internal inconsistencies before a release.
 - [ ] The baseline prompt does NOT name the data location, corpus path, schema, or extraction recipe.
 - [ ] If dispatched inside this repo and the skill overlaps an existing one: a suppression clause is present AND the output was scanned for residual vocabulary (none found).
 - [ ] Any contaminated baseline was discarded and re-run clean before the RED result was recorded.
-- [ ] If the clean baseline showed no failure, the literal skill was cut or re-aimed — not shipped as-is (the build / no-build call; see-also [scoping-skill-value](./scoping-skill-value.md)).
+- [ ] If the clean baseline showed no failure, the literal skill was cut or re-aimed — not shipped as-is (the build / no-build call; see-also `scoping-skill-value`).

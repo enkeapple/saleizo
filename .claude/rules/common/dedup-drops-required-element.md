@@ -7,9 +7,8 @@ description: >-
   confirm with an independent Layer-2 on a different model/context — self-review
   misses the drop it just made.
 paths:
-  - 'plugins/**/SKILL.md'
-  - 'plugins/**/references/*.md'
-  - '.claude/skills/**/*.md'
+  - '**/SKILL.md'
+  - '**/references/*.md'
 ---
 
 # Dedup Drop — Classify Every Removed Chunk
@@ -65,7 +64,7 @@ trigger + action only (mechanics still single-sourced).
 - **Whole-skill deletion** is out of scope — that is a routing / orphan-reference question, not chunk classification.
 - **Disjoint Checklist vs Red-Flags** — a completion gate ("am I done?") may legitimately live in BOTH lists; disjointness applies only to mirror-inverse items that add no new information. Never drop a completion-gate Checklist row just because its inverse survives in Red Flags.
 - **SSoT-pointer replacement** — the fix for a dropped point-of-use identity is NOT to revert the single source: keep the names/identity the consumer needs inline, with the full definitions behind the pointer.
-- **Empirical basis** — this rule was promoted from three reproduced incidents rather than a synthetic cold RED/GREEN; the reproductions are the evidence it steers behavior (see also [scoping-rule-value](./scoping-rule-value.md) for the cluster-promotion carve-out — not required to apply this rule).
+- **Empirical basis** — this rule was promoted from three reproduced incidents rather than a synthetic cold RED/GREEN; the reproductions are the evidence it steers behavior (see also `scoping-rule-value` for the cluster-promotion carve-out — not required to apply this rule).
 
 ## Review Checklist
 

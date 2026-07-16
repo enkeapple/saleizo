@@ -20,8 +20,10 @@ Rules load on demand and independently — the loader pulls the one whose `paths
 
 The decision test, applied to every link in the body: **delete the link. Can the reader still apply the rule?**
 
-- **Yes** → it is a see-also / canonical-source pointer. Allowed. (e.g. "See also [markdown-style](./markdown-style.md) for fence conventions.")
+- **Yes** → it is a see-also / canonical-source pointer. Allowed. (e.g. "See also `markdown-style` for fence conventions.")
 - **No** → it is load-bearing. Forbidden — inline the borrowed instruction, or this rule is a fragment.
+
+**Form of a see-also pointer:** reference another rule by its bare backtick name (its filename stem, e.g. `markdown-style`), never a relative-path link — Claude resolves the name by globbing `.claude/rules/**/<name>.md`, and a bare name does not dangle when the rule is copied alone into a consumer repo. Reserve relative-path links for non-rule targets (`CLAUDE.md`, `lessons-learned.md`, an ADR).
 
 ```text
 # ❌ WRONG — load-bearing: the instruction lives in another rule; delete the link and nothing remains
