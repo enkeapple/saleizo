@@ -23,11 +23,7 @@ A concrete reference for the report shape. Produced before editing. Every status
 - Commands: the `pnpm test` row appears in both — fix in both.
 
 ## Summary
-- Confirmed: 4
-- Stale doc: 2 (Reanimated version, Role)
-- Broken: 2 (`pnpm test`, rules/forms/ path)
-- Code drift: 1 (console.* in prod contradicts the rule)
-- Inconsistent: 1 (pipeline vocabulary across the two files)
+- Confirmed: 4 · Stale doc: 2 · Broken: 2 · Code drift: 1 · Inconsistent: 1
 
 ## Decisions needed
 - Code drift — console.* in prod: revert the logging to honor the rule, OR change the rule? (recommend: revert)

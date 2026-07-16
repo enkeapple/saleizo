@@ -103,6 +103,25 @@ Confirm the domain rules, both CLAUDE.md files, and `.claude/skills-routing.json
 
 If no `_metrics.jsonl` line appears, `saleizo-controls` is not wired correctly — re-check that it is both installed and enabled.
 
+Report the result in this **REQUIRED fixed shape** — same headings, same order, every run, so two adoptions of two repos read the same:
+
+```text
+# Framework Adoption — verify result
+
+## Artifacts
+- domain rules (glossary.md, framework.md): <present | MISSING>
+- root CLAUDE.md + .claude/CLAUDE.md: <present | MISSING>
+- .claude/skills-routing.json: <valid JSON | MISSING | invalid JSON>
+- internal links resolve: <yes | no — list the broken ones>
+
+## Live proof
+- trigger "<phrase>" fired its skill: <yes | no>
+- new .claude/state/_metrics.jsonl line: <yes | no>
+
+## Verdict
+<ADOPTED — every item above green | INCOMPLETE — name the failing item(s) and the next step>
+```
+
 ## Dev loop — editing a plugin skill
 
 Because discovery flows through the installed plugin (a cached copy), editing a skill in the plugin's source directory does **not** automatically update what the consumer repo sees. To pick up a WIP edit:
@@ -124,3 +143,4 @@ Bootstrap complete → the repo is ready to run the SDD chain. Enter at `resolvi
 - Creating `.claude/skills/<name>` entries for plugin-provided skills — plugin skills are discovered through the installed plugin, not via per-skill symlinks.
 - Running `bootstrapping-claude-md` before `bootstrapping-glossary` (the CLAUDE.md points at rules the glossary creates).
 - Skipping the verify step — a bootstrap that produced no firing trigger and no metrics entry is not done.
+- Reporting the verify result in free-form prose instead of the REQUIRED fixed shape (Artifacts / Live proof / Verdict). The shape is fixed; match it every run.

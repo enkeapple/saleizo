@@ -19,10 +19,7 @@ A concrete reference for the report shape. Plain text, produced before editing. 
 | i18n key documentation.document-types.* | greps to nothing | Hallucination |
 
 ## Summary
-- Confirmed: 6
-- Stale doc: 1 (UPSERT_DOCUMENT → UPSERT_INSTRUCTION)
-- Code drift: 1 (per-user field on company docs contradicts the rule)
-- Hallucination: 1 (documentation.document-types.* — never existed / removed)
+- Confirmed: 6 · Stale doc: 1 · Code drift: 1 · Hallucination: 1
 
 ## Decisions needed
 - Code drift — company-doc ownerId: revert the code to honor "company docs are per-organisation, not per-user", OR change the rule to allow per-user ownership? (external-ish: affects the ownership model — pick deliberately) — recommend: revert code.

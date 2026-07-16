@@ -49,8 +49,33 @@ The unit of every finding here is a **correspondence** (script ↔ wiring ↔ sy
    - every fixture/test file beside the scripts.
 2. **Mechanical layer** — classes **D1, D2, D3, D5** (orphan script, dangling wiring, broken symlink, fixture gap): deterministic set-difference / existence / resolve checks. Emit a precise finding with `file:line` evidence for each instance.
 3. **Judgment layer** — class **D4** (event/matcher mismatch): does the event + matcher a script is wired under match what the script's body reads/does? Light read, owner-action fix — never auto-edit a matcher.
-4. **Report** — group findings by class then severity, in the locked finding shape. Emit an explicit `D{n}: no drift found` line for **every** clean class — never a silently omitted class.
+4. **Report** — emit the **REQUIRED fixed shape** below: findings in the locked finding shape, an explicit `D{n} …: no drift found` line for **every** clean class — never a silently omitted class.
 5. **Disposition** — present exactly **one** C-drift batched picker (below). The audit itself still edits nothing.
+
+## The report — REQUIRED fixed shape
+
+Emit **exactly these five sections, in this order** — same headings, same order, every run. Findings are grouped D1→D5, each in the locked finding shape; every class with no instance gets one `no drift found` line under **Clean classes**. Do not rename a heading, drop a section, reorder classes, or report a finding in prose instead of the locked shape. This fixed shape is the point: two runs over the same repo must produce the same structure. A filled reference: [assets/audit-report-example.md](./assets/audit-report-example.md).
+
+```text
+# Hook Wiring Audit — <repo>
+
+## Findings   (D1–D5 in order; each finding in the locked finding shape)
+<[D<n> <class>] blocks for every class with an instance; "none" if no drift anywhere>
+
+## Clean classes
+<one "D<n> <class name>: no drift found" line per class with no instance>
+
+## Out of scope (noted, not findings)
+<hook-logic observations parked for writing-hooks / code review; "none" if empty>
+
+## Summary
+- Findings: <n> (High <n> · Medium <n> · Low <n>) · Clean classes: <n> · Out-of-scope notes: <n>
+
+## Decision
+<the archetype C-drift picker — the three options in "Required decision after the report" below>
+```
+
+The **Summary** is the one bullet line above, never a table. The **Decision** section is the C-drift picker verbatim, never folded into a prose trailer.
 
 ## Required decision after the report
 
@@ -71,7 +96,7 @@ End with **one** picker (archetype C-drift; markdown-list fallback), never one p
 - **Executing** a fixture to judge it, instead of only checking it exists.
 - Reporting only the obvious dangling/missing script and skipping the orphan, broken symlink, or fixture-gap sweep.
 - Omitting a clean class instead of emitting its `D{n}: no drift found` line.
-- Reporting in prose instead of the locked finding shape, or ending without the single C-drift picker.
+- Reporting in prose instead of the locked finding shape, or deviating from the REQUIRED fixed report shape — a renamed heading, dropped section, reordered class, or the Summary as a table — or ending without the single C-drift picker. The shape is fixed; match it every run.
 - Editing a script, wiring entry, or symlink **during** the audit — it is read-only; fixes happen only after the picker.
 
 ## Rationalizations
