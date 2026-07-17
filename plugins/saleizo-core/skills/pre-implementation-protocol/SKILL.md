@@ -31,7 +31,7 @@ Emit the Readiness block with these five slots, in this order:
 1. **Plan & spec** — the path(s) to the plan and the spec it consumes; one line confirming the plan is approved.
 2. **Contracts** — the exact signatures, types, and data shapes the *first* task consumes and produces, copied from the spec. Tag **every** symbol with exactly one of three: `EXISTS` (located in the repo by a read/grep — cite the path), `NEW` (the plan creates it), or `UNVERIFIED` (the spec references it but you have not located it yet — resolve by a read before coding it). The tag set is exhaustive: an untagged symbol means the slot is unfinished. Example (illustrative): `validateCoupon(c: Coupon, now: Date): Result<void, CouponError>` — `Result` EXISTS (`src/shared/result.ts`), `CouponError` NEW, `Coupon` UNVERIFIED.
 3. **Verification** — the exact test / build / lint commands, taken from the repo's own config (not invented), plus one line on the baseline: the suite is green right now, *or* the pre-existing failures are named and isolated so your first RED is attributable to you.
-4. **Execution** — name the chosen flow (`inline-driven-development` solo, or `subagent-driven-development` for mostly-independent tasks); task-by-task, test-first, commit after each green.
+4. **Execution** — name the chosen flow (the `interactive-gates` archetype **B** set): `test-driven-development` directly for an approved single-behavior / trivial plan (nothing to orchestrate — no inline/subagent wrapper), `inline-driven-development` solo for coupled tasks, or `subagent-driven-development` for mostly-independent tasks; task-by-task, test-first, commit after each green.
 5. **Go / No-go** — `GO` only if none of these No-go conditions fire; otherwise name the blocker(s): the plan is not approved (slot 1), the baseline is neither green nor isolated (slot 3), the first task *consumes* an `UNVERIFIED` contract (slot 2), or the plan leaves a truncated task / missing type / undefined field. An `UNVERIFIED` contract the first task only *produces* is not a blocker — resolve it at its first read.
 
 ```text
@@ -39,7 +39,7 @@ Readiness — PATH A:
 1. Plan/spec: <plan path> (approved) ← <spec path>
 2. Contracts (task 1): <signature> — <EXISTS path | NEW | UNVERIFIED>
 3. Verification: <exact commands>; baseline: <green | failures isolated: ...>
-4. Execution: <chosen flow: inline-/subagent-driven-development>; task-by-task, test-first, commit per green
+4. Execution: <chosen flow: test-driven-development (single-behavior/trivial plan) | inline-/subagent-driven-development>; task-by-task, test-first, commit per green
 5. Go/No-go: <GO, or blocker(s): not-approved | baseline | UNVERIFIED consumed | plan gap>
 ```
 
@@ -65,7 +65,7 @@ After the block, hand off.
 ## Hand-off
 
 - **Upstream:** the plan comes from `writing-plans` (which produces it from a `writing-specs` spec).
-- **Downstream — REQUIRED SUB-SKILL:** execute via the chosen flow — `inline-driven-development` (solo, in-session) or `subagent-driven-development` (fresh subagent per task); a no-plan single-behavior change goes straight to `test-driven-development`. Each writes code test-first, one task at a time, RED → GREEN → REFACTOR per behavior. This skill produces the readiness block; the execution flow writes the code.
+- **Downstream — REQUIRED SUB-SKILL:** execute via the chosen flow — `inline-driven-development` (solo, in-session) or `subagent-driven-development` (fresh subagent per task); a no-plan single-behavior change *or an approved single-behavior / trivial plan* goes straight to `test-driven-development`. Each writes code test-first, one task at a time, RED → GREEN → REFACTOR per behavior. This skill produces the readiness block; the execution flow writes the code.
 - **Gate presentation:** present the readiness verdict as archetype **C-readiness** (a picker; markdown-list fallback) — `Proceed` (begin implementation) vs `Not ready` (list gaps, return to the plan) — before handing to the execution flow.
 
 ## Slot checklist
