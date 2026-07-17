@@ -4,6 +4,24 @@ Transient backlog of un-promoted candidate rules — newest at the top of `## En
 
 ## Entries
 
+## 2026-07-17 — Hook fixture false-greened because the runner inherited an exported env var from the dev's shell
+
+- **Cause-tag**: fixture-env-contamination
+- **Symptom**: authoring `notify.sh` (opt-in via `SALEIZO_NOTIFY`), the `opt-in-off` fixture flipped between vacuous-PASS and spurious-FAIL. `SALEIZO_NOTIFY=1` was exported in the session shell and leaked into every fixture, silently activating the opt-in gate.
+- **Root cause**: `run-hook-fixtures.sh` layered per-case env as `env KEY=VAL bash hook` — `env` ADDS to but does not SCRUB the caller's environment, so any var exported in the dev's shell reaches the hook. Separately, the opt-in-off case asserted only exit-0 + empty-stdout, which a backgrounded side-effect satisfies even with the gate deleted (unobservable signal).
+- **Wrong approach**: trusted a per-case `env` layer for isolation and asserted a gate path via exit-0 + empty-stdout.
+- **Correct approach**: ran hooks in a scrubbed env — `env -i PATH="$PATH" HOME="$HOME" <per-case> bash hook`; asserted the gate via an observable seam (a debug dry-run to stderr + `expect_stderr_empty`).
+- **Prevention**: a fixture runner for env-driven code MUST scrub ambient env (`env -i` + an explicit allowlist), never rely on `env KEY=VAL` layering over an inherited environment; and assert a gate/opt-in path via a POSITIVE observable signal (stderr/stdout), never exit-0 + empty-stdout that a backgrounded/redirected side-effect satisfies vacuously. Kin: `untested-empty-branch` and `checker-self-run-false-green` (false-green from an unexercised/unobservable path) — this adds the ambient-env-leak mechanism.
+
+## 2026-07-17 — Reported a hooks-count as a verified audit fact from a lossy `grep|sed` pipeline over hooks.json
+
+- **Cause-tag**: structured-file-count-via-grep
+- **Symptom**: during a README audit I stated the `saleizo-controls` hooks block was "missing 2 hooks / 4 of 6 events" as a verified finding, derived from `grep -oE … hooks.json | …`. A later direct `Read` of `hooks.json` showed the truth was worse: **7 events, 11 unique scripts, 13 rows** — `notify.sh` is wired under PreToolUse(AskUserQuestion), Notification, and Stop, and the whole `Notification` event plus two `notify` occurrences were absent from my grep output. The audit undercounted the most-severe (catalog-omits-real-entries) drift.
+- **Root cause**: counted entries in a structured JSON manifest with an ad-hoc `grep -oE`/`sed` pipeline instead of parsing the file; the summarized stdout was lossy (repeated `notify.sh` lines and the `Notification` key did not survive to what I read — this repo's RTK output proxy over shell stdout is a suspected, not confirmed, contributor). A count from a text-summary of JSON is not evidence.
+- **Wrong approach**: trusted a one-liner's printed lines as a complete enumeration of a JSON object's keys/values and reported the count as verified.
+- **Correct approach**: re-derived from a direct `Read` of `hooks.json` (and a Python parse), which gave 7/11/13; the regeneration subagent, which parsed the file rather than my summary, had already produced the correct block.
+- **Prevention**: for any "N of M entries / complete / missing X" claim over a **structured file** (`*.json`, `*.yaml`, frontmatter), enumerate by parsing it — `Read` the file, or `jq`/`python -c`/`yq` over it — never an `grep|sed` line-summary, whose output can be lossy (and is proxied here by RTK). Treat a count-claim's source: if it is a text pipeline over structured data, re-derive by parsing before asserting. See-also `search-scope-verification` (false-absence from search mechanics) and `usage-claim-verification` (conclusions from aggregates) — same false-verification family, different mechanism.
+
 ## 2026-07-09 — Ran `git commit` autonomously on a terse "a,b,c" selection, despite the human-owns-the-commit boundary
 
 - **Cause-tag**: autonomy-boundary-overreach
@@ -130,15 +148,6 @@ Transient backlog of un-promoted candidate rules — newest at the top of `## En
 - **Correct approach**: amended spec Risk + ADR-0002 to scope the suite repo-only (correct — this repo authors/edits these hooks; consumers install read-only and never edit them).
 - **Prevention**: when a persisted test/CI artifact is tied to plugin-shipped code, trace EACH piece across the boundary (does `plugin.json`/the plugin dir carry the runner + workflow, not only the data?) before claiming a consumer benefits; else scope it repo-only explicitly. Kin: `dev-source-vs-consumer-routing`, `skill-path-source-vs-symlink` (dev-tree reality ≠ consumer reach) — watch for a unified promotion if the family recurs.
 
-## 2026-06-27 — RED'd two external superpowers ports in-repo (sonnet+haiku); both no-op, nearly flat-cut an export-bound discipline skill
-
-- **Cause-tag**: export-baseline-mismatch
-- **Symptom**: asked to port obra/superpowers `dispatching-parallel-agents`, then `systematic-debugging`, into this repo. RED both in-repo: parallel-dispatch was done by sonnet unprompted (independence test + one-message fan-out + integrate); systematic-debugging held across 3 scenarios × 2 tiers (sonnet AND haiku) under explicit "just make it pass / shipping now" pressure — both traced symptom→root across layers, refused the band-aid, and reproduced the source's own techniques (condition-based-waiting, root-cause-tracing) with no skill. I was about to report a flat "don't build / cut."
-- **Root cause**: judged an EXPORT-bound discipline skill by the in-repo agentic baseline. A tool-equipped Claude Code agent recons/traces/self-checks by default at EVERY tier (haiku included), so even a cheap-tier green RED under-values a discipline skill whose real consumers are weaker / non-agentic harnesses. Testing haiku felt like it covered the export concern, but haiku-in-repo is still tool-equipped; the true export floor (sub-haiku / non-agentic) went untested.
-- **Wrong approach**: nearly translated "no-op in-repo across sonnet+haiku" into "no-op, don't build" — the exact trap the two 2026-06-25 `export-baseline-mismatch` entries already document, now recurring for an external skill PORT rather than rule authoring.
-- **Correct approach**: reframed to "no-op against the agentic in-repo fleet; for an export-bound discipline skill that is 'no-op here / possibly valuable for weaker/non-agentic export targets,' not a flat cut" — same ship-on-policy basis as `scoping-skill-value`/`scoping-rule-value`. Surfaced the long-horizon piece (anti-thrashing "stop after 3+ failed fixes") a single-shot RED structurally cannot cover as the only part with an un-refuted failure.
-- **Prevention**: before cutting/declining an EXPORT-bound discipline skill (incl. an external port) on an in-repo RED, remember a tool-equipped Claude Code agent recons/verifies at EVERY tier (haiku included) — so a green in-repo RED is "no-op here / valuable there," never a cut. RED against a representative export FLOOR (weaker / non-agentic harness) or decide on the export-policy basis like `scoping-skill-value`. Source reputation is not evidence of value; an in-repo no-op is not evidence of worthlessness for the export target.
-
 ## 2026-06-26 — Rules-audit synth agent's dedup recommendations conflicted with rule-self-containment; one validity flag was a false positive
 
 - **Cause-tag**: unverified-subagent-finding
@@ -156,24 +165,6 @@ Transient backlog of un-promoted candidate rules — newest at the top of `## En
 - **Wrong approach**: planned to "fix" the MED truncated-trigger findings directly — which would have broken the intentional declension-agnostic prefix matching.
 - **Correct approach**: read `detect-bypass.sh` (matcher is `grep -iE` over the whole prompt → prefixes are correct), read `validation-checklist.md` (no symlink check), re-read `skill-routing-sync.md` (routing need only reflect declared triggers); applied only the genuine defects.
 - **Prevention**: before acting on any fan-out audit finding, re-verify its claim THIS session — read the runtime that defines the behavior (the hook's matcher) and grep the cited file; a finding that cites `file:line` is still a claim, not proof. Expect a real false-positive rate from sonnet audits. (Kin to `incomplete-schema-verification`: a subagent's verification output is a lead to confirm, not ground truth.)
-
-## 2026-06-25 — Authored scoping-rule-value; its in-repo RED reproduced no failure (strong agent already complies) and was self-contaminated by the rule on disk
-
-- **Cause-tag**: export-baseline-mismatch
-- **Symptom**: authoring `scoping-rule-value.md` (rule-side sibling of `scoping-skill-value`), I RED-tested it on cold subagents in this repo. First target case (a duplicate "reuse" rule): the cold agent grepped-before-forking and refused on its own. Re-aimed to a vague no-op rule ("descriptive names"): cold Opus/Sonnet agents recognised the no-op and declined unprompted. So the rule's gates 1/2/4 reproduced no failure on the strong in-repo agent — and worse, both cold explorers read `scoping-rule-value.md` straight off disk and applied it, so the control was contaminated too.
-- **Root cause**: same class as the `reuse-before-reimplement` incident below — judged an EXPORT-bound scoping/discipline rule by the wrong baseline (the strong, tool-equipped in-repo Claude Code agent), which recons and self-no-op-checks by default at every tier; that says nothing about the weaker / non-agentic consumer harnesses the rule exists for. Compounded by the on-disk rule contaminating its own RED.
-- **Wrong approach**: nearly read "clean RED in-repo" as "no-op, cut it", repeating the trap the `export-baseline-mismatch` entry already documents.
-- **Correct approach**: kept the rule on the same policy basis as its sibling `scoping-skill-value` (always-on distillate for weak/non-agentic targets + manual `.claude/rules/**` edits bypassing the skill); added an explicit Edge-Case caveat in the rule recording the strong-model no-op + contaminated control + gate-4-skip; owner confirmed the ship decision.
-- **Prevention**: an in-repo RED of an EXPORT-bound scoping/anti-pattern rule is not a cut signal — expect a false no-op (strong agent already complies) AND a self-contaminated control (the rule, once on disk, is read by cold explorers). Justify such a rule on the weaker-consumer-harness / policy basis and skip gate 4 explicitly, exactly as `scoping-skill-value` and the `reuse-before-reimplement` entry already do. (Kin: `skill-value-vs-noop`→scoping-skill-value, `contaminated-red-baseline`→fair-red-baseline — both already promoted; this is the rule-authoring instance of the same export-baseline class.)
-
-## 2026-06-25 — RED'd an export-bound rule against the strong in-repo agent; nearly cut a rule valuable only for weaker/non-agentic targets
-
-- **Cause-tag**: export-baseline-mismatch
-- **Symptom**: triaging the "10 AI anti-patterns" into rules, I RED-tested `reuse-before-reimplement` against cold subagents in this repo — Opus, then a clean Haiku, then BOTH Haiku and Sonnet on a real RN repo (`crewing-mobile`) — and all 5 reconned-before-coding and reused a buried helper (`getCompactRelativeTime` in a large `Dates.ts`) with no rule. I concluded "no-op, don't ship" and deleted the file. Owner corrected: the rules are to be COPIED into other projects (weaker models / non-agentic harnesses) where recon is NOT the default.
-- **Root cause**: judged an EXPORT-bound artifact by the wrong baseline — the strong, tool-equipped Claude Code agent running in THIS repo. A Claude Code agent with grep/Explore recons and verifies by default across ALL tiers (Haiku included), even in a large real codebase, so a reuse/recon-discipline rule is a no-op FOR IT — which says nothing about the export targets the rule actually exists for.
-- **Wrong approach**: applied the in-repo no-op test to an artifact whose value lives in a different execution environment, and treated 5 green in-repo REDs as a verdict to delete the rule.
-- **Correct approach**: restored the rule as a minimal portable reuse rule (value = export to weak/non-agentic targets) and split the cost concern into `model-selection.md` (dispatch the reuse-search to a cheap tier). The honest verdict was "no-op HERE, valuable THERE", not "no-op, cut".
-- **Prevention**: when authoring or triaging a rule/skill destined for EXPORT to other repos, RED it against a representative TARGET environment (the target's model tier AND a realistic repo/harness), not the strong in-repo agent — and remember a tool-equipped Claude Code agent recons/verifies by default at every tier, so a green in-repo RED systematically UNDER-values an export-bound discipline rule. A "no-op in this repo" verdict on an export artifact is a "no-op here / valuable there" note, never a cut decision. (Kin to `contaminated-red-baseline`/`skill-value-vs-noop`: the baseline must represent the real test conditions — here the conditions are the export target, not this repo.)
 
 ## 2026-06-24 — Happy-path-only hook fixtures false-greened a corpus-finalize branch that crashed on every real Stop
 
@@ -340,7 +331,7 @@ Transient backlog of un-promoted candidate rules — newest at the top of `## En
 ## Promoted clusters
 
 - unverified-usage-assumption → rules/common/usage-claim-verification.md (2026-07-09)
-- export-baseline-mismatch → KEPT in lessons, not promoted (independent review 2026-06-27): real, generalizable class but already covered by `rules/common/fair-red-baseline.md` §"Context inheritance" + `rules/common/scoping-skill-value.md` §Caveat + `rules/common/scoping-rule-value.md` Edge Case; a new rule would duplicate them (too thin a delta). Entries kept as archived backlog.
+- export-baseline-mismatch → KEPT in lessons, not promoted (independent review 2026-06-27): real, generalizable class but already covered by `rules/common/fair-red-baseline.md` §"Context inheritance" + `rules/common/scoping-skill-value.md` §Caveat + `rules/common/scoping-rule-value.md` Edge Case; a new rule would duplicate them (too thin a delta). Entry bodies deleted 2026-07-17 (covered — git keeps them via `git log -S 'export-baseline-mismatch'`).
 - dedup-drops-required-element → rules/common/dedup-drops-required-element.md (2026-06-26)
 - contaminated-red-baseline → rules/common/fair-red-baseline.md (2026-06-24)
 - broken-grep-false-verification → rules/common/search-scope-verification.md (2026-06-23)
