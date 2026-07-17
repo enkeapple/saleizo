@@ -34,6 +34,7 @@ No build / dev / test pipeline — this is a skills marketplace, not an app. Ver
 | Turn an approved design into a concrete spec | `writing-specs` |
 | Turn a spec into a task-by-task implementation plan | `writing-plans` |
 | Run the readiness check before executing a plan (or before coding with no plan) | `pre-implementation-protocol` |
+| Investigate a bug / failure to a confirmed root cause (standalone; hands the fix to `test-driven-development`) | `systematic-debugging` |
 | Implement test-first (RED→GREEN→REFACTOR) | `test-driven-development` |
 | Execute an approved plan solo, in-session (coupled tasks or a small plan) | `inline-driven-development` |
 | Execute an approved plan via a fresh subagent per task (independent tasks) | `subagent-driven-development` |
@@ -44,12 +45,16 @@ No build / dev / test pipeline — this is a skills marketplace, not an app. Ver
 | Create / audit the README skills catalog | `bootstrapping-readme` / `auditing-readme` |
 | Find conflicts/contradictions across skills, rules, and routing | `auditing-conflicts` |
 | Audit hook scripts against their wiring (orphan / dangling / broken-symlink / event-matcher / fixture-gap drift) | `auditing-hooks` |
+| Review routing/telemetry health — bypasses, friction, hand-off leaks — into a triage digest | `reviewing-telemetry` |
+| Audit what consumes the context window (CLAUDE.md, rules, skills, MCP, hooks) into a budget snapshot | `context-budget` |
+| Adherence-test production skill compliance against the routed triggers | `skill-comply` |
 | Capture a lesson; promote a recurring one to a rule | `writing-lessons` → `writing-rules` |
 | Author or change any skill (test-first) | `writing-skills` |
 | Author or change a Claude Code hook (test-first) | `writing-hooks` |
 | Record an architectural decision as an immutable ADR (gate it, maintain the index, supersede — never edit) | `writing-adrs` |
 | Design a deep module / find a seam (shared deep-module vocabulary) | `codebase-design` |
 | Architecture review — surface deepening opportunities (user-invoked, not trigger-routed) | `improve-codebase-architecture` |
+| Pressure-test a decision from five independent role-lenses and synthesize a verdict | `decision-council` |
 | De-slop an existing chunk of prose (remove the AI tells) | `tightening-prose` |
 | Rewrite a draft into publication-ready prose (article / blog / post register) | `humanizing-prose` |
 | Turn a release diff into user-facing store release notes (Google Play / App Store) | `drafting-release-notes` |
@@ -68,6 +73,9 @@ When a user prompt contains a registered trigger and the corresponding skill is 
 | --- | --- |
 | Domain rules (glossary, framework charter) | [.claude/rules/domains/](./.claude/rules/domains/) |
 | Cross-cutting process & policy (markdown style, skill-routing sync, git conventions, …) | [.claude/rules/common/](./.claude/rules/common/) |
+| Code-quality conventions (clear names, concise functions, no over-engineering, reuse-first, …) | [.claude/rules/clean-code/](./.claude/rules/clean-code/) |
+| Anti-patterns to refuse (error-handling, type-escape-hatch, debugging residue, security baseline, …) | [.claude/rules/anti-patterns/](./.claude/rules/anti-patterns/) |
+| Repo-local consumer config (e.g. the `resolving-requirements` ticket source) | [.claude/rules/flbco/](./.claude/rules/flbco/) |
 
 Rules load on demand, not auto-injected. Bootstrap them in a consumer repo with `bootstrapping-glossary`; keep them true with `auditing-glossary`.
 
