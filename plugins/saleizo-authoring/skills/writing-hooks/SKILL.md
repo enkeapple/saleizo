@@ -13,14 +13,14 @@ allowed-tools: Read, Write, Edit, Grep, Glob, Bash, Skill
 
 A hook is **deterministic executable code** wired to a harness event — not an instruction the model interprets. So unlike a skill, you do not pressure-test it with a subagent: you **run it against crafted stdin and assert the decision**. Predictability is still the virtue, and here you get it for free *if* you pin two things a capable author otherwise gets subtly wrong: **which decision contract** the hook speaks, and **fail-open** as an invariant rather than a judgment call.
 
-This skill is the hook-specific specialization of `writing-skills` — the RED→GREEN→VALIDATE loop is the same; the "test" is a fixture run.
+This skill is the hook-specific specialization of `writing-skills` — the RED→GREEN→VALIDATE loop is the same, and so is its **edit-type tiering**: the fixture-first Iron Law binds a **behavioral** change (the decision logic, the matched pattern/event, the contract the hook speaks); a **mechanical** edit that cannot change the decision (a typo in a stderr string, a comment, formatting) is validators-only, no new fixture. The "test" is a fixture run.
 
 ## The two non-negotiables (discipline core)
 
 Everything else here is a recipe. These two are not negotiable:
 
 1. **Fail-open is an invariant, not a tradeoff.** On its OWN error — missing dependency (`jq`), unparseable stdin, an empty target field — a hook MUST NOT disrupt real work: a **guard allows** (`exit 0`), a **logger silently does nothing**. A guard that blocks because *its own* `jq` was missing is a worse failure than the gap it guarded: it breaks every unrelated tool call. Never "fail-closed for safety" — that is the one rationalization that turns a guard into an outage.
-2. **No hook without a failing fixture first (the Iron Law, hook form).** Write the fixture, run it, watch it give the wrong/absent decision BEFORE you write the logic. Wrote the logic first? Delete it, start from the fixture.
+2. **No behavioral hook change without a failing fixture first (the Iron Law, hook form).** For any edit that can change the decision, write the fixture, run it, watch it give the wrong/absent decision BEFORE you write the logic. Wrote the logic first? Delete it, start from the fixture. (A mechanical edit that cannot change the decision is exempt — see the tiering above.)
 
 | Rationalization | Reality |
 | --- | --- |
