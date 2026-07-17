@@ -27,9 +27,10 @@ The marketplace plugins ship the skills, the enforcement hooks, and the agnostic
 
 ## Required plugins
 
-At minimum two plugins must be installed **and enabled** before bootstrapping:
+At minimum three plugins must be installed **and enabled** before bootstrapping:
 
-- **`saleizo-core`** — the SDD chain, skill-authoring, and setup skills (including this one).
+- **`saleizo-core`** — the gated SDD chain plus `systematic-debugging` and `handoff`.
+- **`saleizo-foundation`** — the adopt/bootstrap/audit skills, **including this one** (`adopting-framework`) and the `bootstrapping-glossary` / `bootstrapping-claude-md` skills Steps 2 and 4 invoke. If you are running this skill it is already installed, but the routing you create should register the foundation skills the consumer wants routed.
 - **`saleizo-controls`** — the routing-bypass detection, telemetry, token-budget, and quality hooks. Without `saleizo-controls` installed and enabled, **no routing telemetry or enforcement gates fire** — the `skills-routing.json` you create in step 3 exists but nothing reads it.
 
 Install via the marketplace if either is absent:
