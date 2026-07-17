@@ -38,11 +38,11 @@ Produce, in order:
 
 ## Disposition gate — STOP before editing
 
-**Even when the task says "fix" (or "audit and fix"), the audit runs first and this gate fires** — "fix" authorizes the work, not skipping the report. After the report, present **one batched choice** and wait for it — do not edit before the user picks:
+**Even when the task says "fix" (or "audit and fix"), the audit runs first and this gate fires** — "fix" authorizes the work, not skipping the report. After the report, present **one batched choice** (the `interactive-gates` **C-drift** archetype — the same post-audit disposition gate the SDD auditors use) and wait for it — do not edit before the user picks:
 
-- **Apply all** → apply every recommended fix.
-- **Pick per finding** → walk the findings one at a time.
-- **Skip** → report only, change nothing.
+- **Apply recommended** → apply the per-finding recommended fixes.
+- **Adjust per-finding** → walk the findings one at a time.
+- **Stop** → take no action now, report only.
 
 (Use the host's option-picker if one exists; otherwise a numbered markdown list and ask for a number.) The audit itself edits nothing — applying fixes is the step the user authorizes here.
 
