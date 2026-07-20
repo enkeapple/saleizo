@@ -28,6 +28,24 @@
         "начни работу над"
       ]
     },
+    "writing-requirements": {
+      "kind": "ref",
+      "plugin": "saleizo-core",
+      "name": "writing-requirements",
+      "triggers": [
+        "write (the )?requirements",
+        "requirements doc(ument)?",
+        "draft (a )?user stor",
+        "user stor(y|ies)",
+        "acceptance criteria",
+        "turn .* into requirements",
+        "feature request",
+        "напиши.* требовани",
+        "user story",
+        "критерии приёмки",
+        "требования к фиче"
+      ]
+    },
     "sdd-lifecycle": {
       "kind": "ref",
       "plugin": "saleizo-core",

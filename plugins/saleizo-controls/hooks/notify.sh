@@ -17,7 +17,8 @@
 #
 # Contract: advisory, ALWAYS exit 0, sound played in the background (never blocks the tool call).
 # Config (env, all optional): SALEIZO_NOTIFY (enable), SALEIZO_NOTIFY_INPUT / SALEIZO_NOTIFY_DONE
-# (sound file paths; default to macOS system sounds), SALEIZO_NOTIFY_DEBUG (dry-run: print the
+# (sound file paths; default to macOS system sounds), SALEIZO_NOTIFY_PLAYER (pin the player,
+# skip autodetect -- makes a fixture host-independent), SALEIZO_NOTIFY_DEBUG (dry-run: print the
 # chosen player command to stderr instead of playing -- the fixture test seam).
 set -uo pipefail
 
@@ -60,11 +61,15 @@ case "$EVENT" in
 esac
 
 # Detect an available sound player; none -> silent fail-open.
-PLAYER=""
-for p in afplay paplay aplay; do
-  if command -v "$p" >/dev/null 2>&1; then PLAYER="$p"; break; fi
-done
-if [ -z "$PLAYER" ] && command -v powershell.exe >/dev/null 2>&1; then PLAYER="powershell.exe"; fi
+# SALEIZO_NOTIFY_PLAYER pins the player explicitly (skips autodetect) so a fixture is deterministic
+# on any host -- a Linux CI runner has none of afplay/paplay/aplay, which would otherwise short-circuit.
+PLAYER="${SALEIZO_NOTIFY_PLAYER:-}"
+if [ -z "$PLAYER" ]; then
+  for p in afplay paplay aplay; do
+    if command -v "$p" >/dev/null 2>&1; then PLAYER="$p"; break; fi
+  done
+  if [ -z "$PLAYER" ] && command -v powershell.exe >/dev/null 2>&1; then PLAYER="powershell.exe"; fi
+fi
 [ -n "$PLAYER" ] || exit 0
 
 case "$PLAYER" in

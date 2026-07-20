@@ -4,6 +4,15 @@ Transient backlog of un-promoted candidate rules — newest at the top of `## En
 
 ## Entries
 
+## 2026-07-18 — A later phase's RED baseline was confounded by earlier same-session edits already in the artifact
+
+- **Cause-tag**: confounded-red-control
+- **Symptom**: in a multi-phase AUTHOR run on the CLAUDE.md templates (Phase 1: STRICT/FILL + Key-files; Phase 2: anti-contamination), the Phase 2 contamination RED (subagent handed a sibling driver-app manual and told "keep consistent") did NOT reproduce symbol-bleed — the model correctly re-scoped to the new app. I nearly concluded "contamination is a non-risk, a capable model re-scopes." But Phase 1's edits were already in the templates the RED read (Key-files [FILL]="read THIS repo", checklist "don't invent a gate"), so the non-reproduction may be caused by Phase 1, not by contamination being safe — the RED could not attribute cause. A test that passed partly for the wrong reason.
+- **Root cause**: ran phase N's baseline against the cumulative artifact (phases 1..N-1 edits applied), so the "control" differed from the true pre-change baseline by more than the one variable phase N introduces. Classic confounded control — same failure family as a contaminated RED, different mechanism (prior same-session edits, not prompt pre-loading or an inherited manual).
+- **Wrong approach**: treating a clean RED on the already-hardened artifact as evidence about the new variable's necessity, and attributing the result to model capability.
+- **Correct approach**: kept the Phase 2 change as an honestly-downgraded *descriptive* edit (cited the real flibco contamination as prior failure) rather than claiming a behavioral RED/GREEN — the guard is cheap export-floor insurance, and I stated the baseline was cumulative so the RED cannot attribute cause.
+- **Prevention**: when RED-ing phase N of a sequential same-session change, isolate the variable — run the baseline against the pre-phase-N state (revert earlier edits, or use a copy of the artifact from before them), OR explicitly state the baseline is cumulative and the RED cannot attribute cause (then downgrade the claim honestly). Never read a clean RED on an already-edited artifact as evidence the new variable is unnecessary. See-also `fair-red-baseline` (prompt-level contamination) and `scoping-skill-value` (inherited-manual control) — same confounded-control family, this adds the prior-same-session-edit mechanism.
+
 ## 2026-07-17 — Hook fixture false-greened because the runner inherited an exported env var from the dev's shell
 
 - **Cause-tag**: fixture-env-contamination
@@ -330,6 +339,7 @@ Transient backlog of un-promoted candidate rules — newest at the top of `## En
 
 ## Promoted clusters
 
+- relative-link-read-location → rules/common/link-resolution-verification.md (2026-07-18, owner-directed on 1 reproduced incident — verification family, distinct mechanism from search-scope/usage-claim)
 - unverified-usage-assumption → rules/common/usage-claim-verification.md (2026-07-09)
 - export-baseline-mismatch → KEPT in lessons, not promoted (independent review 2026-06-27): real, generalizable class but already covered by `rules/common/fair-red-baseline.md` §"Context inheritance" + `rules/common/scoping-skill-value.md` §Caveat + `rules/common/scoping-rule-value.md` Edge Case; a new rule would duplicate them (too thin a delta). Entry bodies deleted 2026-07-17 (covered — git keeps them via `git log -S 'export-baseline-mismatch'`).
 - dedup-drops-required-element → rules/common/dedup-drops-required-element.md (2026-06-26)

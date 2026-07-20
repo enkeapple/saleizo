@@ -2,32 +2,38 @@
 
 The entry point. Mirror this section order exactly — it is the structure proven in real repos. Scannable, link-heavy: the root routes, the operating manual governs. Every command, path, and skill name is the real one, verified by reading the repo.
 
+## How to fill this template — STRICT vs FILL
+
+Same tags as the operating-manual template (read that one's "How to fill" note for the full rule):
+
+- **[SECTION: file]** — an invariant block: **copy the entire contents of `assets/sections/<file>.md` verbatim** (transclude the file, do not retype). The root uses one: the `**Hard rules:**` block from `assets/sections/hard-rules.md`, byte-identical across every repo.
+- **[FILL]** — replace the `<slots>` with facts verified by reading THIS repo this session; never invent a command, path, skill, or hook.
+- **[COND]** — include verbatim only if the repo has the named feature; else drop the whole block.
+
+**FILL prose is plain project description, not a manifesto.** `## What this project is` (and any FILL narrative) reads like a careful engineer's README: calm, complete, declarative sentences, one idea each — no performative refrains ("Name the domain, walk the phases, paste the evidence"), no slogans ("ship 10% done"), no imperative tics ("read them, do not infer"), no mid-sentence emphasis-bold, no one-sentence-whole-app run-ons. Keep normal technical density (em-dashes, fragments, tables are fine — this is a technical doc). See the operating-manual template's "How to fill" note and `tightening-prose` for the full register. The `**Hard rules:**` block below is STRICT/directive by design — this register governs FILL narrative, not the process directives.
+
 ## Section order (fixed)
 
-1. `# <Project> — Claude entry point`
-2. `## How to work here (read first)` — the pipeline one-liner + pointer to `.claude/CLAUDE.md`, then a distinct **Hard rules** block.
-3. `## What this project is` — product + stack, grounded; plus, for an SDD-chain repo, the single design-docs location convention.
-4. `## Common commands` — the real dev commands table.
-5. `## Skill routing` — task → skill table.
-6. `## Slash commands` — (only if the repo has `.claude/commands/`).
-7. `## Where rules live` — layer → folder table.
-8. `## Engineering system` — pointer to the operating manual.
+1. `# <Project> — Claude entry point` — **[FILL]** project name, then a **[FILL]** one/two-sentence plain project description immediately after the title
+2. `## How to work here (read first)` — **[SECTION: how-to-work.md]** (SDD-chain pipeline one-liner, front-door + operating-manual slots) + **[SECTION: hard-rules.md]** (verbatim)
+3. `## What this project is` — **[FILL]** product + stack, grounded; plus, for an SDD-chain repo, the single design-docs location convention
+4. `## Common commands` — **[FILL]** the real dev commands table
+5. `## Skill routing` — **[FILL]** task → skill table
+6. `## Slash commands` — **[COND]** only if the repo has `.claude/commands/`
+7. `## Where rules live` — **[FILL]** layer → folder table
+8. `## Engineering system` — **[STRICT]** frame; the section list and the persona string are `<slots>` (the persona MUST equal the operating manual's `## Role` `<POSITION>` verbatim)
 
 ## Template
 
 ```markdown
 # <Project> — Claude entry point
 
-## How to work here (read first)
+<!-- [FILL] one- or two-sentence plain project description, immediately after the title (before any @import). Plain README register: what the app is, who it's for, platform; no manifesto/slogans. The fuller stack detail stays in ## What this project is below. -->
+<One or two plain sentences: what this app is, who it's for, and the platform.>
 
-Every non-trivial task runs through **<PIPELINE>** and ends with the Completeness Checklist walked in the status block. Full operating manual: [.claude/CLAUDE.md](./.claude/CLAUDE.md).
+[SECTION: assets/sections/how-to-work.md — transclude verbatim for an SDD-chain repo; fill the front-door-command and operating-manual-filename slots. A non-chain repo replaces this with its own [FILL] pipeline one-liner instead.]
 
-**Hard rules:**
-
-- **Temp-file / plan creation goes through `handoff` — never a hand-written `/tmp` file.** Invoke it (a) when the task crosses the plan-file threshold (<shared contracts / data shapes / routes / >2 features — link the repo's framework rule>) to persist the plan, and (b) when a turn ends incomplete or the context window nears its limit to write the handoff doc — independent of the threshold, for any task. For batches of small fixes, use a todo list — no plan file.
-- **Batch of fixes = one process pass.** When the user sends N independent fixes in one message, do ALL of them in the same turn: one todo list, one Completeness Checklist at the end, one status block. Do not stop after item 1 to confirm — finish the list.
-- **Search before asking. Always.** Before any clarifying question, run the search order in [.claude/CLAUDE.md](./.claude/CLAUDE.md) → "Search-before-ask". Only escalate when sources conflict, are demonstrably wrong, or are silent on a genuine business decision.
-- **A task is "done" only when every Completeness Checklist row is `[x]` or `[N/A]`-with-reason.** Any `[ ]` item → no `Suggested commit:` line.
+[SECTION: assets/sections/hard-rules.md — transclude 100% verbatim; byte-identical across every repo, no per-repo edits]
 
 ## What this project is
 
@@ -83,7 +89,8 @@ One row per rule folder the repo actually has:
 
 ## Engineering system
 
-Full operating manual (system prompt for HOW to work): [.claude/CLAUDE.md](./.claude/CLAUDE.md). Covers <the manual's actual sections — e.g. the Role/persona, Non-negotiables, operating modes, the <PIPELINE> workflow, the Completeness Checklist, plan persistence & session-handoff, search-before-ask, git boundary, status-block format>.
+<!-- [STRICT] frame. The persona in parentheses MUST equal the operating manual's `## Role` <POSITION> verbatim — same intake fact in both files; a mismatch is the drift auditing-claude-md flags. List only sections the manual actually has. Strip this comment. -->
+Full operating manual (system prompt for HOW to work): [.claude/CLAUDE.md](./.claude/CLAUDE.md). Covers the **Role** (`<POSITION — identical to the operating manual's ## Role>`), the Non-negotiables, <the manual's other actual sections — e.g. operating modes, the <PIPELINE> workflow, the Completeness Checklist, plan persistence & session-handoff, search-before-ask, git boundary, status-block format>.
 
 Process basics (<Implementation Protocol, Suspicion Protocol, evidence-based verification, question discipline>): [.claude/rules/domains/framework.md](./.claude/rules/domains/framework.md).
 ```

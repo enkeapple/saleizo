@@ -2,9 +2,16 @@
 
 The charter governs *how* to work in this repo, regardless of module. It is concrete — grounded in this repo's real commands, patterns, and failure modes — not generic advice. Every command and pattern named is one you confirmed by reading the repo.
 
+**This is a strict contract, not a loose shape.** The generated file MUST reproduce the frontmatter and the section set and order below, verbatim. `auditing-glossary` validates a live charter against this same file — a missing frontmatter block, or a renamed/added/dropped section, is drift it will flag and fix. The specifics inside each section are the consumer repo's; the shape is fixed.
+
 ## Template
 
-```markdown
+````markdown
+---
+description: '<how to work in this repo: the implementation/suspicion/verification discipline and the real failure modes it guards, in one line>'
+paths: ['**/*.md']
+---
+
 # Framework Rules
 
 Stack-agnostic process rules: how to approach work, verify it, and avoid this repo's common failure modes. They apply regardless of which module you touch. Domain rules live alongside under `.claude/rules/`.
@@ -50,7 +57,13 @@ After any code change, run and SHOW the output of the repo's real checks (no "sh
 ## Question Discipline
 
 Don't ask what the repo or rules already answer. Before asking, check: is it in the code (grep/read)? in `.claude/rules/`? a technical sub-variant? If yes → decide, justify in one line, proceed (pick the closest existing pattern, smallest diff, no shared-interface change). Reserve questions for genuine product/business decisions with no precedent.
-```
+````
+
+## Strict rules (what `auditing-glossary` enforces against this file)
+
+1. **Frontmatter is required** — a leading `--- … ---` block with a non-empty `description` and `paths: ['**/*.md']`. A charter that starts directly with `#` is non-conformant.
+2. **Section set and order are fixed** — the H1 title is `# Framework Rules` or `# Framework Charter` (either is conformant; do not flag one for the other), then exactly `## Implementation Protocol` → `## Suspicion Protocol` → `## Zero-hallucination rule` → `## Evidence-Based Verification` → `## Question Discipline`, each heading **verbatim** including the lowercase `rule` in `## Zero-hallucination rule`. These five are the **only** top-level `##` sections — the top-level structure is identical across every repo.
+3. **Repo-specific disciplines are `###` subsections, never new top-level `##`.** A real extra discipline (plan-file threshold, repo-specific invariants, batch policy, …) is placed as a `### ` subsection under the closest fixed `##` section — never as a sixth top-level `##`. Dropping or renaming one of the five fixed sections is a defect.
 
 ## Notes
 

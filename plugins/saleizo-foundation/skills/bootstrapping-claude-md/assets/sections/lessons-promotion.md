@@ -1,0 +1,3 @@
+## Lessons promotion path
+
+A non-obvious failure → a captured lesson in the backlog; same root cause hits 3+ → an actionable rule under `.claude/rules/` (see `writing-rules`). On promotion the contributing entries are **deleted** from the log and the tag recorded in a `## Promoted clusters` ledger — git keeps the history, so the log stays a transient backlog of un-promoted candidates, not an append-only archive. The `writing-lessons` skill owns these mechanics — invoke it (the `Skill` tool) to capture and to promote; do not hand-edit [lessons-learned.md](./lessons-learned.md), which skips that discipline.

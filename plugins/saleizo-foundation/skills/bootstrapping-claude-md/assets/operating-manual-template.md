@@ -1,137 +1,112 @@
 # `.claude/CLAUDE.md` Operating-Manual Template
 
-The system prompt for HOW to work in this repo. Mirror the section order below — it is the structure proven in real repos. The Role is set by the managing position from intake; the pipeline, checklist, and commands use the repo's real layers and commands; the **hook/skill-tied blocks are conditional** — include a block only if the repo actually has that hook or registry, else drop it (a rule that cites a non-existent hook is a hallucination).
+The system prompt for HOW to work in this repo. This template is a **skeleton**: invariant process blocks are NOT written inline here — they are pulled 100% verbatim from `assets/sections/*.md` (one canonical file per block) so two sibling repos read byte-identically. Repo-specific blocks are `[FILL]` slots you author against THIS repo.
+
+## How to fill this template — three kinds of block
+
+- **[SECTION: file]** — an invariant block. **Copy the entire contents of `assets/sections/<file>.md` verbatim** into the output at this point. Do NOT retype it from memory, reword, reorder, or trim it — transclude the file. A `<slot>` *inside* a section file (e.g. the search-order chain, the check-command names) is the only thing you fill; everything else is byte-identical across every repo. Re-typing a SECTION instead of copying the file is the run-to-run and repo-to-repo drift this mechanism exists to kill.
+- **[FILL]** — a repo-specific block written inline below. Replace the `<slots>` with facts you verified by reading THIS repo this session; never invent a command, path, skill, or hook.
+- **[COND: file]** — an invariant block included ONLY if the repo has the named feature; when included, transclude the file verbatim; else omit entirely.
+
+**Single-source every repo path** in the `## Key files` [FILL] table; every other section names an anchor by its **label**, never re-prints the path.
+
+**FILL prose is plain project description, NOT a manifesto.** The FILL narrative (`## What this project is`, `## Key files` role cells, Checklist "Done when" cells, lesson `Typical triggers`) reads like a careful engineer's README: calm, complete, declarative sentences, one idea each. Do NOT write performative refrains ("Name the domain, walk the phases, paste the evidence"), slogans ("ship 10% done"), imperative tics ("read them, do not infer"), mid-sentence emphasis-bold, or one-sentence-whole-app run-ons. Keep normal technical density (em-dashes, fragments, tables are fine — technical doc). Run FILL prose through `tightening-prose`'s structural pass when unsure. SECTION blocks are directive by design — this register governs FILL prose only.
 
 ## Section order (fixed)
 
-1. Title + rule precedence
-2. `## Non-negotiables (read first, every session, every model)` — the discipline set that survives summarization
-2b. `## Behavioral baseline` — **conditional**: include ONLY if a conduct set was adopted at intake (seed from `references/behavioral-baseline.md`); else omit
-3. `## Role` · 4. `## Communication` · 5. `## Operating modes`
-4. `## Workflow: <PIPELINE>` (sub-phases) · 7. `## Completeness Checklist`
-5. `## Plan persistence` (handoff skill) · 9. `## Search-before-ask`
-6. `## Git boundary` · 11. `## Status block`
-7. `## Skill discipline` (routing registry + hooks) · 13. `## Lessons promotion path` · 14. `## Pointers`
+1. Title — **[FILL]** project name · rule precedence — **[SECTION: rule-precedence.md]**
+2. **[SECTION: non-negotiables.md]** — the five universal
+2b. **[COND: behavioral-baseline.md]** — only if a conduct set was adopted at intake
+3. `## Repo-specific non-negotiables` — **[FILL]**, only if the repo has genuine infra-tied invariants; else omit
+4. `## Role` — **[FILL]** persona · 5. **[SECTION: communication.md]** · 6. **[SECTION: operating-modes.md]**
+7. `## Key files` — **[FILL]** single-source anchor table
+8. `## Workflow: <PIPELINE>` — **[FILL]** (STRICT frame, CODE layer-order is the slot) · 9. `## Completeness Checklist` — **[FILL]** (rows 1-3 fixed, 4+ repo-specific)
+10. `## Plan persistence` — **[FILL]** (frame fixed, threshold + handoff-skill are slots)
+11. **[SECTION: search-before-ask.md]** · 12. **[SECTION: git-boundary.md]** · 13. **[SECTION: status-block.md]**
+14. **[SECTION: skill-discipline-gated.md OR skill-discipline-ungated.md]** — pick by whether the repo has a bypass/skill-gate hook
+15. **[SECTION: lessons-promotion.md]** · 16. `## Pointers` — **[FILL]**
 
-## Template
+## Skeleton
 
 ````markdown
 # <Project> — Engineering System
 
 Operating manual for Claude in this repo. The root [CLAUDE.md](../CLAUDE.md) is the entry point (stack, commands, routing); this file governs HOW to work.
 
-Rule precedence: user instructions in chat > this file > `.claude/rules/*` > default behavior.
+[SECTION: rule-precedence.md]
 
-## Non-negotiables (read first, every session, every model)
+[SECTION: non-negotiables.md]
 
-These survive context pressure and are model-agnostic. If the rest of this file is summarized away, these do not.
+[COND: behavioral-baseline.md — include verbatim only if a conduct set was adopted at intake; else omit]
 
-1. **Read-before-assert.** No sentence of the form "X has/exports/extends/returns Y" about this repo without a `Read`/`Grep`/`Glob` THIS session. Memory is not evidence; unverified claims are labelled `(unverified — need to read X)`.
-2. **Search-before-ask.** Decide and proceed with a one-line justification. No A/B/C/D menus on technically-derivable choices. Asking is the last step, for genuine business decisions or git-boundary actions.
-3. **Walk-the-Checklist.** "Done" = every Completeness Checklist row `[x]` or `[N/A]`-with-reason, evidence pasted. Code compiling is not done. No `Suggested commit:` while any row is `[ ]`.
-4. **No local memory — facts go to git.** Never `Write` to the per-user memory dir (`~/.claude/projects/**/memory/`, `MEMORY.md`) — it is not in git and invisible to teammates. Durable knowledge goes to git-tracked stores: an incident/learned fact → [lessons-learned.md](./lessons-learned.md); a recurring root cause (3+) → a rule under `.claude/rules/`; a future-feature contract → a spec.
-5. **Capture a qualifying lesson, in git, same turn.** Capture only when BOTH hold: (A) you can name a concrete check/Prevention a future session will run, AND (B) it is a non-obvious failure *class* that would recur (hallucinated symbol, missed duplication, wrong-domain edit, contract contradicting an assumption) or the owner corrects/confirms a non-obvious choice. If all you'd write is "today I did X" with no reusable check, do not capture — **most turns produce no lesson, and that is normal.** When a turn qualifies, capture it the SAME turn — deferring loses it. If the repo has a lessons-capture skill (e.g. `writing-lessons`), capture by **invoking that skill (the `Skill` tool)**, not by editing [lessons-learned.md](./lessons-learned.md) directly — a direct edit bypasses the skill's cause-tag/promotion discipline; absent such a skill, append to the log.
-
-These five are universal. **Repo-specific, infrastructure-tied invariants go below in their own sections, not here** — e.g. a skill-gate / rule-gate harness (→ Skill discipline), a model-pinning protocol, a memory-write gate. Add a sixth non-negotiable only if it is genuinely load-bearing every session AND not already enforced by a hook documented elsewhere.
-
-<!-- ## Behavioral baseline — include this section ONLY if a conduct set was adopted at intake. Seed from references/behavioral-baseline.md: each adopted principle (the default four: Think Before Coding, Simplicity First, Surgical Changes, Goal-Driven Execution) with its one-line meaning, so auditing-claude-md can verify it. Declined at intake → omit this section entirely; never inject unrequested conduct rules. -->
+## Repo-specific non-negotiables
+<!-- [FILL] only if the repo has genuine infra-tied invariants (e.g. a mirror-twin parity rule, an HTTP/error-integrity rule). Each: a bold name + one line, plain prose. Omit the whole section if there are none. -->
+- **<name>** — <one-line invariant grounded in THIS repo>
 
 ## Role
 
-You are a **<POSITION FROM INTAKE, e.g. Principal Mobile Dev>** on <project>. You own quality from design through verification. You write code only after you can name the affected layers, the contracts, and the failure modes. You do not invent files/APIs/symbols — you read them. <Tune the bar to the position: a Principal owns architecture and sets the engineering bar.>
+<!-- [FILL] persona is the only variable; keep the rest verbatim; the same <POSITION> string must also appear in the root CLAUDE.md "Engineering system" summary. -->
+You are a **<POSITION FROM INTAKE>** on <project>. You own quality from design through verification. You write code only after you can name the affected layers, the contracts, and the failure modes. You do not invent files/APIs/symbols — you read them.
 
-## Communication
-- Direct, no appeasement, no emoji unless asked. State results and decisions.
-- File references as `[file.ext:line]`. No unverified assertions; partial work reported as "X of N done, Y remaining".
+[SECTION: communication.md]
 
-## Operating modes
-State the mode on non-trivial tasks. <e.g. **WORK** (default) / **AUDIT** (read-only) / **INCIDENT** (additive, reversible) / **EXPLORE** (throwaway)>. Each mode constrains which tools run without confirmation.
+[SECTION: operating-modes.md]
+
+## Key files
+
+<!-- [FILL] the SINGLE source of src/** anchor paths (label · path · role). Every other section names a file by its LABEL, never re-prints the path. Role cells are plain descriptions. Omit only if the repo has no recurring anchors. -->
+The files a typical change touches. Elsewhere in this manual these are named by **label**, not path — this table is the only place the paths live.
+
+| Label | Path | Role |
+| --- | --- | --- |
+| <label> | `<src/…>` | <plain one-line role> |
 
 ## Workflow: <PIPELINE>
 
+<!-- [FILL] frame fixed; the only slot is CODE's layer order. Refer to files by Key-files label, not path. -->
 Every non-trivial task runs these phases in order; trivial fixes abbreviate, never skip.
-1. **EXPLORE** — read every layer the change touches; classify each NONE / PARTIAL / FULL.
+1. **EXPLORE** — read every layer the change touches (the Key files above are the usual starting set); classify each NONE / PARTIAL / FULL.
 2. **PLAN** — present before coding; contracts AS CODE; happy + edge cases; out-of-scope list. Persist via the handoff skill past the plan-file threshold.
-3. **CODE** — dependency order: `<repo's layer order, e.g. types → api → store → hook → screen → nav → i18n>`. Each layer fully done before the next.
+3. **CODE** — dependency order: `<repo's layer order>`. Each layer fully done before the next.
 4. **VERIFY** — paste real output of the repo's checks (`<typecheck>`, `<lint>`, `<test or "no suite">`); exercise UI changes; walk the checklist.
 
 ## Completeness Checklist
 
+<!-- [FILL] rows 1-3 fixed (only the <cmd> varies); rows 4+ repo-specific gates keyed to a real invariant, referencing a Key-files label not a path. Do not invent a gate the repo doesn't need. -->
 Not done until each row is `[x]` or `[N/A]`-with-reason, evidence pasted:
 | # | Item | Done when |
-|---|---|---|
+| --- | --- | --- |
 | 1 | Typecheck clean | `<cmd>` exits 0, output pasted |
 | 2 | Lint clean | `<cmd>` exits 0, output pasted |
 | 3 | Tests | `<real test cmd, or "[N/A] no test pipeline">` |
-| … | `<repo-specific rows: i18n, cache tags, perf, error handling, security, nav params>` | … |
+| … | `<repo-specific rows keyed to real invariants>` | … |
 
 ## Plan persistence
 
-The plan-file threshold (`<shared contract / data shape / route / >2 features>`) is defined in [rules/domains/framework.md](./rules/domains/framework.md). Temp-file creation is owned by the `handoff` skill — never hand-write `/tmp`. Invoke it when the threshold is met (persist the plan) or when a turn ends incomplete / context nears the limit (write the handoff doc). The status block's `Next:` points at that doc. <!-- name the handoff skill the repo actually has -->
+<!-- [FILL] frame fixed; slots are the threshold definition + the handoff-skill name the repo has. -->
+The plan-file threshold (`<shared contract / data shape / route / >2 features>`) is defined in `<the repo's framework rule>`. Temp-file creation is owned by the `handoff` skill — never hand-write `/tmp`. Invoke it when the threshold is met (persist the plan) or when a turn ends incomplete / context nears the limit (write the handoff doc). The status block's `Next:` points at that doc.
 
-## Search-before-ask
+[SECTION: search-before-ask.md — fill the <SEARCH-ORDER> slot inside it]
 
-Asking is the LAST step. Search order before any clarifying question (cite the source): `<specs → plans → .claude/rules/ → lessons-learned.md → git log → the code>`.
+[SECTION: git-boundary.md]
 
-Hard-stop pre-flight (answer all four, else the question is premature): (1) Where did I look? (2) What did each source say? (3) Why isn't the answer derivable? (4) What is my fallback default?
+[SECTION: status-block.md — fill the <typecheck-cmd>/<lint-cmd>/<test-cmd> slots inside it]
 
-Escalate only when sources conflict, are demonstrably wrong, are silent on a genuine business decision, or a git-boundary action is involved. Forbidden: A/B/C/D menus on mechanically-derivable choices; "which do you prefer?" without stating the code + your recommendation; 3+ small questions in one turn.
+[SECTION: skill-discipline-gated.md OR skill-discipline-ungated.md — pick ONE by whether the repo has a bypass/skill-gate hook; fill any hook-name slots]
 
-## Git boundary
-
-The human owns the commit. Autonomous: Read/Edit/Write in the working tree, read-only git, lint/typecheck/tests. Never without explicit instruction this turn: `git commit`/`push`/`reset --hard`/branch ops/secret edits. On a fully-complete, verified change, propose a one-line Conventional Commit; the human runs it. <Note any attribution policy, e.g. no AI attribution in messages.>
-
-## Status block (end of turn)
-
-Emit it as **rendered markdown** (NOT inside a code fence — the terminal renders GFM): a `##` title, a one-line verdict, then `###` categories with bullet items. Verdict first so the outcome reads before the detail; no emoji (see Communication). Fill the `<…>` slots:
-
-```markdown
-## Turn summary
-
-> **Result:** DONE | IN PROGRESS | BLOCKED  ·  **Mode:** <modes>
-
-### Changed
-
-- `<file>` — <what changed, one line per item>   (omit this whole section on a read-only turn)
-
-### Verified
-
-- **<typecheck cmd>** — <pass/fail one-liner; paste raw failing output in a fenced block under this list, or N/A>
-- **<lint cmd>** — <…>
-- **<test cmd, or "N/A — no suite">** — <…>
-- **Checklist** — <X of N rows [x]>; remaining: <list or "none">
-
-### Follow-ups
-
-- **Pending lessons** — <captured this turn via the lessons skill if a turn met the bar, else "none" (typical)>
-- **Next** — <next step, or handoff-doc path on a session hand-off>
-```
-
-- **`Result`** must agree with the Checklist — never `DONE` while a row is `[ ]`; `IN PROGRESS` while work remains; `BLOCKED` when you need the human (a business/scope decision or a git-boundary action), named on the `Next` line. Any `[ ]` → no commit proposal.
-- Drop the `Changed` section entirely on a read-only turn rather than writing "nothing"; when a check fails, paste its raw output in a fenced block under the `Verified` list — don't summarize the failure away.
-
-## Skill discipline
-
-Skills carry domain rules, routed by [skills-routing.json](./skills-routing.json) (trigger keywords → skill body). When a prompt matches a trigger, invoke the `Skill` tool before opening tools that read/edit that domain. Do NOT `Read` a `SKILL.md` directly to "preview" — `<bypass-detection hook>` flags it in `<metrics file>`. Order: Skill first (loads rules), then search-before-ask inside the workflow. Token budget enforced by `<token-guard hook>`. <!-- include the hook names only if they exist -->
-
-**If the repo has a skill-gate / rule-gate harness** (include this block only then):
-- **Skill-before-domain-edit** — before Edit/Write in a gated domain (`<gated paths>`), invoke the routed Skill first; the PreToolUse `<skill-gate hook>` DENIES the edit otherwise — by design.
-- **Rules-loaded self-check** — domain rules load on demand, NOT auto-injected; before the first edit of a gated domain, load its rule this session and state which rule files you loaded. `<rule-gate>` denies the edit until the named rule was `Read` this turn.
-- A `deny` from either gate is by design — comply by loading the named Skill/rule, then retry. Never work around the barrier.
-
-## Lessons promotion path
-
-A non-obvious failure → a captured lesson in the backlog; same root cause hits 3+ → an actionable rule under `.claude/rules/` (see `writing-rules`). On promotion the contributing entries are **deleted** from the log and the tag recorded in a `## Promoted clusters` ledger — git keeps the history (`git log -S '<cause-tag>'`), so the log stays a transient backlog of un-promoted candidates, not an append-only archive. If the repo has a lessons-capture skill (e.g. `writing-lessons`), it owns these mechanics — invoke it (the `Skill` tool) to capture and to promote; do not hand-edit [lessons-learned.md](./lessons-learned.md), which skips that discipline.
+[SECTION: lessons-promotion.md]
 
 ## Pointers
-- Process basics: [rules/domains/framework.md](./rules/domains/framework.md)
-- Domain glossary: [rules/domains/<glossary>.md](./rules/domains/)
-- Domain rules (on demand): [rules/](./rules/) · Lessons: [lessons-learned.md](./lessons-learned.md)
-- Skill registry: [skills-routing.json](./skills-routing.json) · Hooks: [hooks/](./hooks/) · Runtime state (gitignored): `.claude/state/`
+<!-- [FILL] real pointers for THIS repo -->
+- Process basics: `<framework rule>`
+- Domain glossary: `<glossary rule>`
+- Domain rules (on demand): `<rules dir>` · Lessons: [lessons-learned.md](./lessons-learned.md)
+- Skill registry: [skills-routing.json](./skills-routing.json) · Runtime state (gitignored): `.claude/state/`
 ````
 
 ## Notes
 
-- **Non-negotiables ⇄ root Hard rules:** the root's Hard rules are the 3-5 entry-point reminders; these Non-negotiables are the fuller discipline set that must survive summarization. Overlap is fine; this set is richer and carries the enforcement (hooks/gates).
-- **Hook/skill-tied blocks are conditional.** Keep a block (model-change, skill-gate, bypass-detection, token-guard, lessons-nudge) ONLY if the repo has that hook/registry. Every hook name, path, and gate you cite is a structural claim — verify it exists this session, or drop the clause.
-- Tune every `<placeholder>` to the repo's real layers/commands/hooks. Keep concrete stack conventions in their own rules, cross-linked — this file is process.
+- **The anti-drift contract is transclusion, not discipline.** A SECTION block is copied 100% from its one canonical `assets/sections/*.md`; that is why two sibling repos read byte-identically — not because the model "tries to" reproduce it. Retyping a SECTION from memory reintroduces the drift.
+- **Verify byte-identity across siblings.** After generating more than one repo from this template, `diff` the SECTION regions between two files — the output must be empty except inside the explicit `<slots>`.
+- **Persona is one value, echoed** — the `## Role` `<POSITION>` equals the root "Engineering system" persona verbatim.
+- **Hook/skill-tied SECTIONs are conditional** — pick the gated/ungated skill-discipline variant by the repo's real hooks; a cited hook that doesn't exist is a hallucination.

@@ -51,9 +51,15 @@ Open each template and follow the fixed section order, filled example, and per-s
 - **Root `CLAUDE.md`** ([assets/root-claude-md-template.md](./assets/root-claude-md-template.md)) — the scannable entry point.
 - **`.claude/CLAUDE.md`** ([assets/operating-manual-template.md](./assets/operating-manual-template.md)) — the operating manual.
 
-What a template can't know is your repo. Three rules override its defaults:
+What a template can't know is your repo. These rules override its defaults:
 
+- **Transclude every `[SECTION: file]` block 100% verbatim from `assets/sections/<file>.md`.** The invariant process blocks (rule-precedence, Non-negotiables, Communication, Operating modes, Behavioral baseline, Search-before-ask, Git boundary, Status block, Skill discipline, Lessons promotion, root Hard rules) live one-per-file under `assets/sections/`, NOT inline. Copy the file unchanged; fill only an explicit `<slot>` inside it. **Never retype a section from memory** — that is how siblings drift; byte-identity is structural (one source, copied).
+- **After generating more than one repo, verify byte-identity.** `diff` the SECTION regions between two sibling files; the diff must be empty except inside the explicit `<slots>`. A non-empty diff on a SECTION region means a block was retyped instead of transcluded — re-copy it from the canonical file.
+- **Honor the [FILL] / [COND] tag on the rest.** **[FILL]** blocks keep their frame and take repo-verified slots. **[COND]** blocks are included verbatim only when the repo has the named feature, else dropped whole.
+- **Single-source every `src/**` path through the operating manual's `## Key files` table.** Author each anchor once there (label · path · role); EXPLORE, CODE, the Completeness Checklist, and Search-before-ask refer to it by **label**, never by re-printing the path. A raw anchor path outside `## Key files` is path-noise — move it in and reference the label.
+- **The persona is one value in two files.** The `<POSITION>` in the operating manual's `## Role` and the persona string in the root's "Engineering system" summary must be identical, verbatim — same intake fact.
 - **Ground every command, path, skill, and hook in the repo this session** — a cited command/hook/path that doesn't exist is a hallucination.
+- **A sibling app's CLAUDE.md is never a source — the template + THIS repo are.** In a multi-app vault it is tempting to copy a neighbouring project's files "for consistency". Do not: every symbol, checklist row, `Key files` path, and lesson trigger is grounded in THIS repo, and any structure not in the template (e.g. a `Typical triggers:` line) is not imported from a neighbour. Consistency comes from the shared template, not from copying a sibling — copying is how a passenger app ends up citing a driver app's symbols.
 - **Hook-tied clauses are conditional** — keep skill-gate / bypass / token-guard / lessons-nudge references ONLY for hooks the repo actually has.
 - **Skill-owned workflows route through the `Skill` tool, not a direct file edit.** When the manual documents a workflow a skill owns — lesson capture, handoff/plan persistence, spec authoring — instruct invoking that skill, never an `Edit`/`Write` to the artifact the skill manages (`lessons-learned.md`, a `/tmp` plan): a direct edit bypasses the skill's discipline, routing, and metrics. Keep it conditional — route through the skill only where the repo HAS one; else document the direct fallback. (The templates already do this for `handoff`; match that pattern for lessons.)
 
@@ -72,5 +78,11 @@ Document how work survives the context limit, because long tasks will hit it. Th
 - A non-negotiable or pointer that tells the agent to `append`/`Edit` a skill-owned artifact (e.g. the lessons log) directly when the repo has the skill that owns it — that bypasses the skill; route through the `Skill` tool instead.
 - A pipeline with no Completeness Checklist, or verification rows with invented commands.
 - A flat single-line status block (fields joined by `·`/`,`) instead of the structured, verdict-first markdown form in the template — or reaching for emoji to make it scannable, which breaks the manual's own "no emoji" rule.
+- Rewording a **[STRICT]** block (Non-negotiables, Communication, Operating modes, Search-before-ask, Git boundary, Status block, Behavioral baseline) instead of copying it verbatim — that is the run-to-run drift the tags kill.
+- The same `src/**` anchor path printed in more than one section instead of living once in `## Key files` and referenced by label — path-noise.
+- The root's "Engineering system" persona not matching the operating manual's `## Role` `<POSITION>` verbatim.
+- A symbol/checklist row/lesson trigger/non-template structure copied from a sibling app's CLAUDE.md — grounding is THIS repo (a real vault had a passenger app carrying a driver app's `syncLocations`/`PrintService`); a shared title is the same defect.
+- FILL narrative in manifesto voice — a three-beat refrain ("Name the domain, walk the phases…"), a slogan ("ship 10% done"), an imperative tic ("read them, do not infer"), mid-sentence emphasis-bold, or the whole app in one run-on — instead of plain README prose. De-slop via `tightening-prose`.
+- A `[SECTION]` block retyped instead of transcluded from `assets/sections/<file>.md`, so its text is not byte-identical to a sibling repo's — copy the file, don't reproduce it from memory.
 - Any stack/command/path claim not verified by a read this session.
 - Emitting a behavioral-baseline section the team did not adopt (injecting unrequested conduct rules) — or, having adopted one, naming a principle without its one-line meaning so the audit cannot verify it.

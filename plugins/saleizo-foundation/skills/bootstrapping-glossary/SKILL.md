@@ -13,10 +13,10 @@ allowed-tools: Read, Grep, Glob, Write, Edit
 
 Create the two foundational, always-on rules every other rule hangs off, by default under `.claude/rules/domains/`:
 
-- **Domain glossary** ([assets/domain-glossary-template.md](./assets/domain-glossary-template.md)) — what the app's concepts *mean*, who owns what, and how to disambiguate overlapping terms. The source of truth for domain vocabulary.
-- **Framework charter** ([assets/framework-charter-template.md](./assets/framework-charter-template.md)) — how to approach work in this repo regardless of which module you touch: implementation protocol, suspicion/verification discipline, question discipline.
+- **Domain glossary** ([../shared/domain-glossary-template.md](../shared/domain-glossary-template.md)) — what the app's concepts *mean*, who owns what, and how to disambiguate overlapping terms. The source of truth for domain vocabulary.
+- **Framework charter** ([../shared/framework-charter-template.md](../shared/framework-charter-template.md)) — how to approach work in this repo regardless of which module you touch: implementation protocol, suspicion/verification discipline, question discipline.
 
-Each template carries the full required anatomy and a filled example; write each doc to its template. This skill owns only the one thing the templates cannot enforce: **that every part is grounded in the real codebase.**
+Each template is a **strict contract** — it carries required frontmatter, a fixed section set and order, and (for the glossary) a fixed ownership-table column set, plus a filled example. Write each doc to its template exactly; `auditing-glossary` validates a live doc against the **same** shared template, so a structural deviation is drift. These two templates live in `../shared/` because both this skill (which creates the docs) and `auditing-glossary` (which keeps them true) reference them. This skill owns only the one thing the templates cannot enforce: **that every part is grounded in the real codebase.**
 
 ## When to use
 
