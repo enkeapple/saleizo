@@ -1,6 +1,10 @@
+---
+status: draft
+---
+
 # <Feature name>
 
-*(the feature overview — `requirements.md` at the root of a `features/YYYY-MM-DD-<slug>/` folder; each story lives in its own `NN-<story-slug>.md` beside it)*
+*(the feature overview — `requirements.md` at the root of a `features/YYYY-MM-DD-<slug>/` folder; each story lives in its own `NN-<story-slug>.md` beside it. This overview's `status:` is the feature's overall lifecycle state — `draft → ready → in progress → done`, starting at `draft`; each story file carries its own `status:` so stories progress independently. See the skill's Lifecycle status section.)*
 
 > **Source ticket:** <ticket ID or "free-text idea">
 > **Depends on:** <prerequisite work, or "none">

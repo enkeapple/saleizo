@@ -1,6 +1,10 @@
+---
+status: draft
+---
+
 # <short, business-oriented story title>
 
-*(one story per file: `NN-<story-slug>.md` inside a feature folder, or a single `stories/…md` when the requirement has only one story)*
+*(one story per file: `NN-<story-slug>.md` inside a feature folder, or a single `stories/…md` when the requirement has only one story. `status:` tracks the lifecycle — `draft → ready → in progress → done`; a new file starts at `draft`. See the skill's Lifecycle status section.)*
 
 As a <role>, I want <capability>, so that <business value>.
 

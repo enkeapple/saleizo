@@ -41,6 +41,22 @@ Every story follows this recipe — same sections, same order, every time. Use r
 6. **Acceptance Criteria** — three sub-blocks **Success / Failure / Edge Cases**, numbered **continuously** across all three (Success 1–3, Failure 4–5, Edge 6–…). Each item one testable, declarative statement.
 7. **Supporting Details** — tables only: **Affected Apps and Services**; new **Texts** (page/button/field/error names introduced); any status/state tables the ACs depend on; and an **Open Questions** table.
 
+Above the `#` H1, every requirements file opens with a YAML frontmatter block carrying a `status:` field (see *Lifecycle status* below) — frontmatter first, then a blank line, then the H1.
+
+## Lifecycle status
+
+Every requirements artifact carries a `status:` field in YAML frontmatter — the first thing in the file, a blank line before the H1. It tracks where the requirement sits in its life. The agent moves it **by hand at the matching gate**, one forward step at a time; it is not inferred or automated.
+
+| `status` | Meaning | Set it when |
+| --- | --- | --- |
+| `draft` | Being written; not yet approved | on creation — the template default |
+| `ready` | Approved; ready for development — handed to `grilling` / `sdd-lifecycle` | the user approves the requirements |
+| `in progress` | Implementation is underway | development on the requirement starts |
+| `done` | Delivered and verified | the requirement is implemented and confirmed |
+
+- The order is fixed: `draft → ready → in progress → done`. Advance exactly one state at the gate that earns it; never pre-set a later state (no `done` on an unbuilt requirement).
+- For a **feature** folder, the overview `requirements.md` carries the feature's overall status and each `NN-<story>.md` carries its own, so stories can progress independently.
+
 ## Discipline — behaviour, not implementation
 
 - **Non-technical — a business reader must understand every line.** No code or code blocks, no data formats (JSON/XML/payload examples), no HTTP status codes, no transport/protocol vocabulary (webhook, endpoint, API, queue, worker, idempotency key, polling). Describe the business outcome, not the wire. Name an external system in plain business terms only when unavoidable ("the partner's booking integration") — never its mechanism. If a line needs a technical term to make sense, it belongs in the spec, not here.
@@ -56,7 +72,7 @@ Every story follows this recipe — same sections, same order, every time. Use r
 2. Scope: which apps/services/external integrations are touched, and the hand-off points between them.
 3. Draft from the template.
 4. Self-check against [assets/quality-checklist.md](./assets/quality-checklist.md); fix every miss or flag it.
-5. Save the doc.
+5. Save the doc with `status: draft` in its frontmatter. Advance the status by hand as the requirement passes each gate (`ready` on user approval, then `in progress`, then `done`) — see *Lifecycle status*.
 6. **Validate with a cold subagent** — dispatch a fresh zero-context reviewer ([assets/requirements-reviewer-prompt.md](./assets/requirements-reviewer-prompt.md)) with the original request *and* the doc; it hunts implementation leakage, non-testable ACs, missing scope boundary, unflagged assumptions. Read its findings, then fix or report. Use this generic subagent — never a project-specific named validation agent.
 
 ## Hand-off
@@ -73,6 +89,7 @@ An approved requirements doc is an INPUT to design:
 - An empty or absent Out of Scope → boundary unset.
 - A number the request never gave, stated as fact → move to an Assumption + Open Questions.
 - Producing "contracts" or "files touched" → wrong artifact; that is `writing-specs`, downstream.
+- A requirements file with no `status:` frontmatter, or a status jumped ahead of its gate (e.g. `done` on an unimplemented requirement) → add/correct it; advance one state at the gate that earns it.
 
 ## Rationalizations
 
@@ -84,3 +101,4 @@ An approved requirements doc is an INPUT to design:
 | "User stories are ceremony, the functional list is enough." | The story fixes role + value; without it Scope and ACs drift. Three lines — write them. |
 | "Out of scope is empty, everything's in scope." | Empty = boundary undrawn. Name what looks related but is excluded. |
 | "'The system should validate…' is clear enough." | "Should" is untestable. State the system doing it: "the system rejects an invalid postal code and shows an error message." |
+| "The doc is written, I'll mark it done." | `done` means delivered and verified. A freshly written doc is `draft`; it becomes `ready` only on approval. Advance one state per gate — never skip to a later state. |

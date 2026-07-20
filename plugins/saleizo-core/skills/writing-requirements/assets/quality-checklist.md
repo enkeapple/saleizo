@@ -3,6 +3,7 @@
 Run this against every story before saving. If an item fails, fix it; if you cannot fix it without user input, flag it as an Open Question.
 
 - [ ] Layout matches the story count: one story → a single `docs/requirements/stories/YYYY-MM-DD-<slug>.md`; more than one → a `docs/requirements/features/YYYY-MM-DD-<slug>/` folder with `requirements.md` + one `NN-<story-slug>.md` per story. Never several stories in one file. Separate from specs/plans.
+- [ ] The file opens with YAML frontmatter carrying a `status:` field, one of `draft` / `ready` / `in progress` / `done`; a newly written doc is `draft` (advanced only at its gate, one state at a time).
 - [ ] Each story file's title is its `#` H1; sections are `##`; the Success/Failure/Edge sub-blocks are `###`. Real headings, not bold pseudo-headings.
 - [ ] Each story has a `As a <role>, I want <capability>, so that <value>` user story.
 - [ ] **In Scope** and **Out of Scope** are both present and non-empty.
