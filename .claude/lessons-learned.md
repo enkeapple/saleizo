@@ -4,6 +4,15 @@ Transient backlog of un-promoted candidate rules — newest at the top of `## En
 
 ## Entries
 
+## 2026-07-21 — Planned persisted fixtures for a prompt-dependent hook gate the runner structurally cannot inject state for
+
+- **Cause-tag**: fixture-state-uninjectable
+- **Symptom**: building `skill-gate.sh` Pass 3 (a task-list barrier that denies an Edit when the cached prompt matches an SDD run AND no `session-tasklist-seeded.flag` exists), I planned to cover the deny path with a persisted `tests/skill-gate.sh.cases` entry. Reading `scripts/run-hook-fixtures.sh` showed the runner feeds only `stdin` + per-case `.env` (`env -i PATH HOME <.env> bash hook`) — it has NO setup step to pre-seed state files (`last-prompt.txt`, flags) under `$CLAUDE_PROJECT_DIR/.claude/state/<sid>/`. So the deny decision, which depends on that state, is structurally uninjectable via the suite. The existing prompt-triggered ruleGate (Pass 2) is likewise uncovered for the same reason — a latent pattern, not a one-off.
+- **Root cause**: assumed the persisted fixture suite can regress any hook decision. It can only vary what it injects — stdin + env. A decision keyed on session/turn STATE files the hook reads (prompt cache, seeded flags, turn-reads) cannot be set up by this runner, so those branches are verifiable only at authoring-time against a hand-built temp `CLAUDE_PROJECT_DIR`.
+- **Wrong approach**: about to add a persisted deny-case and treat a green suite as regression coverage for the state-dependent branch — a false coverage claim (the case could only ever exercise the no-state → allow path).
+- **Correct approach**: proved RED→GREEN authoring-time against a temp project dir with seeded `last-prompt.txt` + flag; in the persisted suite added only the injectable assertions (garbage→fail-open, no-prompt→allow no-false-fire, `TaskCreate`→sets-flag exit-0); and logged the coverage gap explicitly in the `taskListGate._comment` in `skills-routing.json` ("prompt-dependent → verified at authoring-time, not by the fixture suite").
+- **Prevention**: before claiming a hook decision is covered by the persisted fixture suite, check whether it depends on state the runner can inject (stdin + `.env` only) vs state it reads from `.claude/state/**` (prompt cache, flags, turn files). State-file-dependent branches are NOT suite-regressable here — prove them authoring-time against a temp `CLAUDE_PROJECT_DIR` and record the gap in-config; never let a green suite that only exercises the no-state path read as coverage of the state-present decision. (Kin: `fixture-env-contamination` — fixture isolation; `plugin-boundary-infra-reach` — the runner not crossing to consumers; `untested-empty-branch` — a branch the fixture didn't exercise but could. Distinct here: the harness CANNOT exercise the branch at all.)
+
 ## 2026-07-18 — A later phase's RED baseline was confounded by earlier same-session edits already in the artifact
 
 - **Cause-tag**: confounded-red-control

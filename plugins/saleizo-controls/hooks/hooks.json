@@ -60,7 +60,7 @@
         ]
       },
       {
-        "matcher": "Read|Skill|Edit|Write|MultiEdit",
+        "matcher": "Read|Skill|Edit|Write|MultiEdit|TaskCreate|TodoWrite",
         "hooks": [
           {
             "type": "command",

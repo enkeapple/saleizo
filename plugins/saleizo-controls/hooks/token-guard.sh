@@ -1,7 +1,4 @@
 #!/usr/bin/env bash
-# PostToolUse hook: estimate tokens from tool output size, warn/block on overuse.
-# Input: JSON on stdin from Claude Code (tool_name, tool_input, tool_response).
-# Output: stderr for warnings (visible to model); exit 2 to block next tool call.
 
 set -euo pipefail
 
@@ -16,7 +13,6 @@ TURN_FILE="$STATE_DIR/turn-budget.json"
 SESSION_FILE="$STATE_DIR/session-budget.json"
 BY_MODEL_FILE="$STATE_DIR/by-model-budget.json"
 
-# Thresholds in TOKENS (byte/4 heuristic applied below). 3x baseline.
 WARN_PER_TOOL=60000
 WARN_PER_TURN=80000
 HARD_STOP_PER_TURN=450000
@@ -28,33 +24,24 @@ mkdir -p "$STATE_DIR"
 [[ -f "$BY_MODEL_FILE" ]] || echo '{}' > "$BY_MODEL_FILE"
 
 TOOL_NAME=$(hook_field "$INPUT" '.tool_name // "unknown"')
-# tool_response is either string or object; stringify for size measurement
 RESP_BYTES=$(hook_field "$INPUT" '.tool_response | if type=="string" then . else tostring end' | wc -c | tr -d ' ')
 RESP_TOKENS=$(( RESP_BYTES / 4 ))
 
-# Update turn budget
 TURN_BYTES=$(jq -r '.bytes' "$TURN_FILE")
 NEW_TURN_BYTES=$(( TURN_BYTES + RESP_BYTES ))
 hook_json_update "$TURN_FILE" --argjson b "$NEW_TURN_BYTES" --arg n "$TOOL_NAME" --argjson tb "$RESP_BYTES" --arg ts "$(date -u +%FT%TZ)" \
    '.bytes=$b | .tools += [{name:$n, bytes:$tb, ts:$ts}]'
 
-# Update session budget
 SESS_BYTES=$(jq -r '.bytes' "$SESSION_FILE")
 NEW_SESS_BYTES=$(( SESS_BYTES + RESP_BYTES ))
 hook_json_update "$SESSION_FILE" --argjson b "$NEW_SESS_BYTES" '.bytes=$b'
 
-# Per-agent accounting: bucket the tool_response bytes by the dispatch's accounting key — an
-# explicit .model override if present, else .subagent_type (Task/Agent dispatches carry
-# subagent_type, NOT model — the model lives in the agent's frontmatter; see lessons-learned:
-# hook-payload-assumption), else "inherited" for main-context calls. Coarse proxy only: a parent
-# PostToolUse sees the subagent's final-output bytes, not its internal token consumption.
 KEY=$(hook_field "$INPUT" '.tool_input.model // .tool_input.subagent_type // "inherited"')
 hook_json_update "$BY_MODEL_FILE" --arg m "$KEY" --argjson b "$RESP_BYTES" '.[$m] = ((.[$m] // 0) + $b)'
 
 TURN_TOKENS=$(( NEW_TURN_BYTES / 4 ))
 SESS_TOKENS=$(( NEW_SESS_BYTES / 4 ))
 
-# Warnings
 if (( RESP_TOKENS > WARN_PER_TOOL )); then
   echo "TOKEN-GUARD warn: tool '$TOOL_NAME' returned ~${RESP_TOKENS} tokens (threshold ${WARN_PER_TOOL}). Narrow next read." >&2
 fi

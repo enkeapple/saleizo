@@ -1,10 +1,4 @@
 #!/usr/bin/env bash
-# PostToolUse hook (matcher: Read|Skill|Edit|Write|MultiEdit): detect skill bypass.
-# Triggers three warnings:
-#   (1)  Read on a file registered as a skill body without invoking the Skill tool earlier in the turn.
-#   (1b) Edit/Write/MultiEdit on lessons-learned.md without invoking the writing-lessons Skill this turn.
-#   (2)  After N tool calls without Skill, if the user prompt matched any skill's triggers -- remind.
-# Also logs events to metrics. (Edit/Write/MultiEdit events are needed for check 1b.)
 set -euo pipefail
 
 GUARDRAILS_LIB="${BASH_SOURCE[0]%/*}/lib/common.sh"
@@ -22,7 +16,6 @@ TURN_TOOL_COUNT_FILE="$STATE_DIR/turn-tool-count.json"
 LAST_PROMPT_FILE="$STATE_DIR/last-prompt.txt"
 BYPASS_WARNED_FILE="$STATE_DIR/turn-bypass-warned.flag"
 
-# Threshold: after this many non-Skill tool calls in a turn with a matched trigger, warn.
 TRIGGER_BYPASS_THRESHOLD=3
 
 mkdir -p "$STATE_DIR" "$(dirname "$METRICS")"
@@ -32,23 +25,24 @@ mkdir -p "$STATE_DIR" "$(dirname "$METRICS")"
 
 TOOL=$(hook_field "$INPUT" '.tool_name // ""')
 
-# Track Skill invocations -- reset bypass-warned flag, record skill name, exit.
+if [[ "$TOOL" == "TaskCreate" || "$TOOL" == "TodoWrite" ]]; then
+  touch "$STATE_DIR/session-tasklist-seeded.flag" 2>/dev/null || true
+  exit 0
+fi
+
 if [[ "$TOOL" == "Skill" ]]; then
   SKILL_NAME=$(hook_field "$INPUT" '.tool_input.skill // ""')
-  SKILL_NAME="${SKILL_NAME##*:}"   # strip <plugin>: namespace -> bare key (key === skill dir name)
+  SKILL_NAME="${SKILL_NAME##*:}"
   if [[ -n "$SKILL_NAME" ]]; then
     hook_json_update "$TURN_SKILLS_FILE" --arg s "$SKILL_NAME" '. + [$s] | unique'
   fi
   exit 0
 fi
 
-# Bump non-Skill tool counter.
 COUNT=$(jq -r '.count' "$TURN_TOOL_COUNT_FILE")
 NEW_COUNT=$(( COUNT + 1 ))
 hook_json_update "$TURN_TOOL_COUNT_FILE" --argjson c "$NEW_COUNT" '.count=$c'
 
-# Record every Read's relative path this turn so skill-gate.sh can verify a gated
-# rule file was actually loaded before allowing an edit (ruleGates barrier, gap #2).
 if [[ "$TOOL" == "Read" ]]; then
   RP=$(hook_field "$INPUT" '.tool_input.file_path // ""')
   if [[ -n "$RP" ]]; then
@@ -59,7 +53,6 @@ if [[ "$TOOL" == "Read" ]]; then
   fi
 fi
 
-# (1) Read-on-skill-body check (original behavior).
 if [[ "$TOOL" == "Read" ]]; then
   READ_PATH=$(hook_field "$INPUT" '.tool_input.file_path // ""')
   if [[ -n "$READ_PATH" ]]; then
@@ -82,8 +75,6 @@ if [[ "$TOOL" == "Read" ]]; then
   fi
 fi
 
-# (1b) Direct-write-to-lessons-log check: editing lessons-learned.md without first invoking
-# the writing-lessons skill bypasses its cause-tag discipline + promotion-debt scan.
 if [[ "$TOOL" == "Edit" || "$TOOL" == "Write" || "$TOOL" == "MultiEdit" ]]; then
   WRITE_PATH=$(hook_field "$INPUT" '.tool_input.file_path // ""')
   if [[ "$WRITE_PATH" == *lessons-learned.md ]]; then
@@ -96,7 +87,6 @@ if [[ "$TOOL" == "Edit" || "$TOOL" == "Write" || "$TOOL" == "MultiEdit" ]]; then
   fi
 fi
 
-# (2) Trigger-based bypass: once per turn, after threshold, if prompt matched a skill trigger and skill not invoked, remind.
 if [[ -f "$BYPASS_WARNED_FILE" ]]; then
   exit 0
 fi
@@ -107,7 +97,6 @@ fi
 USER_PROMPT=$(cat "$LAST_PROMPT_FILE")
 [[ -n "$USER_PROMPT" ]] || exit 0
 
-# Find first skill whose trigger fires on the prompt AND which was not invoked.
 MATCHED_MISSED=$(jq -r '.skills | to_entries[] | "\(.key)\t\(.value.triggers // [] | join("|"))"' "$ROUTING" | while IFS=$'\t' read -r skill trigger_union; do
   [[ -n "$trigger_union" ]] || continue
   if echo "$USER_PROMPT" | grep -qiE "$trigger_union"; then
@@ -121,9 +110,6 @@ done | head -1)
 
 if [[ -n "$MATCHED_MISSED" ]]; then
   echo "SKILL-BYPASS warn: user prompt matched trigger for Skill '$MATCHED_MISSED' and you have run ${NEW_COUNT} tools without invoking it. If the task touches that domain, invoke Skill('$MATCHED_MISSED') to load the relevant rules before continuing." >&2
-  # The bypass signal is recorded solely by log-skill-usage at Stop (outcome.bypass) — emitting a
-  # trigger_bypass_warn metric here too would double-count. Keep the stderr warn + the flag (read
-  # by lessons-nudge); do not write a metric line.
   touch "$BYPASS_WARNED_FILE"
 fi
 

@@ -64,11 +64,11 @@ Before the first phase, seed a single harness task list with these **canonical p
 8. Audit against the spec (verifying-implementation)
 ```
 
-Then drive its statuses as you advance. The status discipline — exactly one `in_progress`, the create-or-update logic, and the binding of `completed` to the user's explicit approval — holds here: keep one shared create-or-update list, never a second competing one. An item turns `completed` only when the user approves that phase's artifact, so the list mirrors the gate below rather than running ahead of it.
+Then drive its statuses as you advance. The status discipline — exactly one `in_progress`, the create-or-update logic, and the binding of `completed` to the user's explicit approval — holds here: keep one shared create-or-update list, never a second competing one. An item turns `completed` only when the user approves that phase's artifact, so the list mirrors the gate below rather than running ahead of it. This create-or-update and status-to-approval discipline is owned by `phase-task-visualization` — load it before seeding the list.
 
 ## The gate — the load-bearing rule
 
-After each phase: **present its artifact, then STOP.** Advance to the next phase only on the user's explicit approval of *that* artifact. Never auto-advance — not when confident, not because the previous phase was approved, not because the next phase is "just an elaboration". One approval unlocks exactly one phase. Present that approval choice as archetype A — a picker of labeled options-with-descriptions (numbered markdown-list fallback when no picker tool exists): `Approve` (advance to the next phase), `Request changes` (revise this same artifact — the user says what), `Redo a previous phase` (a defect upstream — name the phase and return to rework it).
+After each phase: **present its artifact, then STOP.** Advance to the next phase only on the user's explicit approval of *that* artifact. Never auto-advance — not when confident, not because the previous phase was approved, not because the next phase is "just an elaboration". One approval unlocks exactly one phase. Present that approval choice as the `interactive-gates` archetype A — a picker of labeled options-with-descriptions (numbered markdown-list fallback when no picker tool exists): `Approve` (advance to the next phase), `Request changes` (revise this same artifact — the user says what), `Redo a previous phase` (a defect upstream — name the phase and return to rework it).
 
 If a later phase reveals an earlier artifact is wrong, **loop back**: return to that phase, fix it, and re-advance with fresh approval — do not patch forward.
 
@@ -80,7 +80,7 @@ If a later phase reveals an earlier artifact is wrong, **loop back**: return to 
 
 ## Execution-mode fork
 
-After the plan is approved and before execution, present the execution-mode choice as archetype **B** (a picker of labeled options; markdown-list fallback). The plan's shape selects the path:
+After the plan is approved and before execution, present the execution-mode choice as the `interactive-gates` archetype **B** (a picker of labeled options; markdown-list fallback). The plan's shape selects the path:
 
 - `test-driven-development` — a single-behavior change / trivial plan (one behavior, nothing to orchestrate): skip the inline/subagent wrapper and run RED→GREEN directly.
 - `inline-driven-development` — coupled tasks / small multi-task plan: execute solo, in-session.
