@@ -29,7 +29,7 @@ Without one canonical form, gate prompts drift run to run — prose one time, a 
 
 ### Mechanism
 
-Present the choice as a **numbered picker of options-with-descriptions**. In a harness with a dedicated picker tool, use it (typically 1–4 questions; each 2–4 explicit options; a free-text "Other" option is usually added automatically, so never list it). When no picker tool exists, **fall back** to a markdown numbered list with one-line descriptions and ask the user to reply with a number — never silently drop the choice.
+Present the choice as a **numbered picker of options-with-descriptions**. In a harness with a dedicated picker tool, use it — **in Claude Code that tool is `AskUserQuestion`** (1–4 questions; each 2–4 explicit options; a free-text "Other" option is added automatically, so never list it). Do NOT default to a text list when `AskUserQuestion` is available: emitting the options as markdown prose instead of invoking the tool is the recurring miss this rule prevents. **Fall back** to a markdown numbered list with one-line descriptions (reply with a number) *only* when no picker tool exists — never silently drop the choice.
 
 ```text
 ❌ WRONG — bespoke prose, no clickable choice; drifts run to run, approval is implicit.
@@ -79,7 +79,7 @@ An **interrupt (Esc) or a mid-step user redirect is not a pick** and never an im
 
 ## Review Checklist
 
-- [ ] Every gate choice in the four covered points is a picker (or its markdown fallback), never bespoke prose.
+- [ ] Every gate choice in the four covered points invokes the picker tool (`AskUserQuestion` in Claude Code) when one exists — the markdown-list fallback is used only when no picker tool is available, never as the default; never bespoke prose.
 - [ ] Option sets match the archetype table verbatim; auto-"Other" not listed; each list is 2–4 options.
 - [ ] Archetype letters A/B/C-readiness/C-drift are unchanged — other skills cite them.
 - [ ] C-drift is one batched picker and the audit produces a per-finding recommended disposition.

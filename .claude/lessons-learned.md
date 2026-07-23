@@ -4,6 +4,15 @@ Transient backlog of un-promoted candidate rules — newest at the top of `## En
 
 ## Entries
 
+## 2026-07-23 — Fixed a rule in the source repo; the fix reached no consumer because rules are copied per-consumer into the vault, not plugin-shipped — and the copies had drifted
+
+- **Cause-tag**: rule-source-consumer-drift
+- **Symptom**: owner reported `interactive-gates.md` "loads badly / gives a text list instead of the picker" across consumer repos. Two coupled causes: (a) the rule described "a dedicated picker tool" abstractly and never named `AskUserQuestion`, so a consumer-floor model defaulted to the markdown-list fallback; (b) after fixing the source `.claude/rules/common/interactive-gates.md`, the fix reached NO consumer — each consumer reads its own copy under `flibco/claude-vault/projects/<repo>/rules/common/`, and the three copies (`d2g`, `s2s`, `ticket-desk`) had already drifted from source and from each other (different `description`, a 2-option vs 3-option archetype B, missing the interrupt block).
+- **Root cause**: assumed editing the framework's source rule propagates like a skill/hook does. It does not — unlike skills/hooks (shipped via the installed plugin), **rules are copied into each consumer's vault by hand** at adopt time, so a source edit is inert for every consumer until re-propagated, and the copies drift independently in the meantime.
+- **Wrong approach**: fix only the source rule and treat the bug as closed; or blind-overwrite the consumer copies with the new source (would clobber their independent drift).
+- **Correct approach**: fixed the source rule (named `AskUserQuestion`, forbade defaulting to a text list), then found every copy (`find <vault> -name interactive-gates.md`), confirmed the target sentence was byte-identical across all three, and applied the SAME surgical edit to each — leaving their other drift untouched.
+- **Prevention**: after editing any `.claude/rules/**` file whose value is meant for consumers, do NOT consider it done at source — `find <vault>/projects -name '<rule>.md'` for every consumer copy and propagate the same surgical edit to each (they may have drifted; edit surgically, never overwrite). Rules are not plugin-shipped; there is no automatic sync. (Kin: `dev-source-vs-consumer-routing`, `plugin-boundary-infra-reach`, `skill-path-source-vs-symlink` — same "dev-source reality ≠ what the consumer sees" family, here the mechanism is manual-copy propagation + inter-copy drift, not addressing. Family is large and flagged for a unified "source ≠ consumer reach" promotion — watch.)
+
 ## 2026-07-21 — Planned persisted fixtures for a prompt-dependent hook gate the runner structurally cannot inject state for
 
 - **Cause-tag**: fixture-state-uninjectable
