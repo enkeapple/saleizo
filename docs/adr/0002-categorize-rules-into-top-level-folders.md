@@ -11,7 +11,7 @@
 
 ## Decision
 
-We split `common/` into four top-level folders — `verification/`, `authoring/`, `workflow/`, `conduct/` — as siblings of the existing concern folders, and emptied `common/`. Chosen over **sub-folders inside `common/`**, which would push files to three levels deep and break every `../../CLAUDE.md`-style relative link in the moved files (top-level folders keep the two-level depth those links assume); and over an **index-only README**, which leaves the flat directory and delivers no real structure. The cost we accept: the three pinned `ruleGates` paths, the `CLAUDE.md` "Where rules live" table, `lessons-learned.md` provenance, and the consumer-vault copies must all be updated in lockstep with the move — a wide but one-time edit.
+We split `common/` into four top-level folders — `verification/`, `authoring/`, `workflow/`, `conduct/` — as siblings of the existing concern folders, and emptied `common/`. Chosen over **sub-folders inside `common/`**, which would push files three levels deep and break the `../../CLAUDE.md`-style relative links in the moved files (top-level folders keep the two-level depth those links assume), and over an **index-only README**, which leaves the flat directory. The cost: the three pinned `ruleGates` paths, the `CLAUDE.md` folder map, and `lessons-learned.md` provenance are updated in lockstep — a wide but one-time edit. Consumer-vault copies reference their own `common/` and are unaffected; propagating the split to them was declined (poor taxonomy fit, and it would deepen copy-drift).
 
 ## Related files
 
