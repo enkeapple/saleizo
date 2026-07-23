@@ -28,6 +28,33 @@ rm -f "$STATE_DIR/turn-lessons-nudged.flag"
 printf '%s' "$INPUT" | jq -e . >/dev/null 2>&1 || exit 0
 PROMPT=$(hook_field "$INPUT" '.prompt // .user_prompt // ""')
 
+# A slash command is an EXPLICIT skill invocation, but a skill loaded that way emits no
+# `Skill`-tool PostToolUse event — so without this it is never recorded as used, `used_correctly`
+# is never emitted, and the bypass rate reads a structural 100%. Credit it here (metric denominator)
+# and drop it from pending-triggers so an earlier keyword-match can't later flush as a false bypass.
+# Alias facades map to their canonical routed skill.
+if [[ "$PROMPT" =~ ^[[:space:]]*/ ]]; then
+  CMD=$(printf '%s' "$PROMPT" | sed -E 's|^[[:space:]]*/([^[:space:]]+).*|\1|')
+  CMD="${CMD##*:}"
+  case "$CMD" in
+    sdd) CMD=sdd-lifecycle;; grill) CMD=grilling;; spec) CMD=writing-specs;;
+    audit) CMD=verifying-implementation;; adr) CMD=writing-adrs;;
+  esac
+  ROUTING="${CLAUDE_PROJECT_DIR:-.}/.claude/skills-routing.json"
+  if [[ -n "$CMD" && -f "$ROUTING" ]] && jq -e --arg s "$CMD" '.skills | has($s)' "$ROUTING" >/dev/null 2>&1; then
+    METRICS="${CLAUDE_PROJECT_DIR:-.}/.claude/state/metrics/$(date -u +%F).jsonl"
+    mkdir -p "$(dirname "$METRICS")" 2>/dev/null || true
+    jq -cn --arg ts "$(date -u +%FT%TZ)" --arg sid "$SID" --arg s "$CMD" \
+      '{v:1, type:"skill_event", ts:$ts, session:$sid, skill:$s, event:"used_correctly"}' \
+      >> "$METRICS" 2>/dev/null || true
+    PEND="$STATE_DIR/pending-triggers.json"
+    if [[ -f "$PEND" ]]; then hook_json_update "$PEND" --arg s "$CMD" 'map(select(. != $s))' || true; fi
+    # Record it as invoked this turn too, so skill-gate's editGlobs gate and the
+    # cross-turn resolution treat a slash invocation the same as a Skill-tool call.
+    hook_json_update "$STATE_DIR/turn-skills-invoked.json" --arg s "$CMD" '. + [$s] | unique' || true
+  fi
+fi
+
 if [[ "$PROMPT" =~ ^[[:space:]]*'<task-notification>' ]] || [[ "$PROMPT" =~ ^[[:space:]]*/ ]]; then
   : > "$STATE_DIR/last-prompt.txt"
   rm -f "$STATE_DIR/pending-prompt.json"

@@ -1,4 +1,5 @@
 {"name":"deny-memory-write","stdin":{"tool_name":"Write","tool_input":{"file_path":"/x/.claude/projects/p/memory/y.md"}},"expect_exit":0,"expect_stdout_jq":".hookSpecificOutput.permissionDecision==\"deny\""}
 {"name":"allow-readme-edit","stdin":{"tool_name":"Edit","tool_input":{"file_path":"/x/README.md"}},"expect_exit":0}
+{"name":"deny-lessons-log-edit-without-writing-lessons (editGlob gate)","stdin":{"session_id":"fixturelessons","tool_name":"Edit","tool_input":{"file_path":"./.claude/lessons-learned.md"}},"env":{"CLAUDE_PROJECT_DIR":"."},"expect_exit":0,"expect_stdout_jq":".hookSpecificOutput.permissionDecision==\"deny\""}
 {"name":"garbage-fail-open","stdin_raw":"not json","expect_exit":0}
 {"name":"tasklist-gate: no cached prompt -> allow (no false-fire)","stdin":{"session_id":"fixturenoprompt","tool_name":"Edit","tool_input":{"file_path":"/x/docs/specs/y.md"}},"expect_exit":0,"expect_stdout_empty":true}

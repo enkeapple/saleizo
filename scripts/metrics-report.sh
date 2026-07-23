@@ -51,7 +51,8 @@ else
 fi
 echo
 
-echo "## Friction (deterministic is_error, by class)"
+echo "## Friction (tool results flagged is_error, by class)"
+echo "_Caveats: \`error\` counts ANY is_error tool result — includes benign failures (empty grep, missing-file read, intentional RED test, sandbox-denied command), not only real friction. \`denied\` = any user-rejected tool call, including routine AskUserQuestion picker rejections. \`blocked\` = guard/hook denials (may include guard false-positives)._"
 if (( ${#METRICS_FILES[@]} > 0 )); then
   jq -rs '
     (map(select(.type == "friction" and ((.session // "" | tostring | test("fixture")) | not)))) as $f
@@ -63,18 +64,24 @@ else
 fi
 echo
 
-echo "## Token spend by model (≈ bytes / 4)"
+echo "## Tool-response volume by dispatch target (≈ bytes/4 of tool responses — NOT model token billing)"
+echo "_\`inherited\` = every non-subagent tool call (Read/Bash/Edit/Grep/…), which is most of them; a model name appears only for subagent (Task) dispatches, attributed to that subagent's model. This measures the size of tool responses the loop read, not prompt/completion token spend. Fixture/test sessions excluded, consistent with the sections above._"
 shopt -s nullglob
 files=("$STATE_DIR"/*/by-model-budget.json)
-if (( ${#files[@]} > 0 )); then
+# Exclude fixture/test sessions so the token picture matches the routing/friction exclusion above.
+prod_files=()
+for f in ${files[@]+"${files[@]}"}; do
+  case "$f" in */fixture*) ;; *) prod_files+=("$f") ;; esac
+done
+if (( ${#prod_files[@]} > 0 )); then
   jq -rs '
     reduce .[] as $f ({};
       reduce ($f | to_entries[]) as $kv (.; .[$kv.key] = ((.[$kv.key] // 0) + $kv.value)))
     | to_entries | sort_by(-.value)[]
     | "- \(.key): \((.value / 4) | floor) tokens"
-  ' "${files[@]}" 2>/dev/null || echo "- (could not parse by-model files)"
+  ' "${prod_files[@]}" 2>/dev/null || echo "- (could not parse by-model files)"
   echo
-  echo "Sessions tracked: ${#files[@]}"
+  echo "Sessions tracked: ${#prod_files[@]}"
 else
   echo "- no by-model-budget data yet (run some tool calls first)"
 fi

@@ -106,9 +106,19 @@ fi
 
 TASKLIST_FLAG="$STATE_DIR/session-tasklist-seeded.flag"
 if [[ ! -f "$TASKLIST_FLAG" && -n "$PROMPT" ]]; then
-  TLG=$(jq -r '.taskListGate.promptTriggers // [] | join("|")' "$ROUTING" 2>/dev/null)
-  if [[ -n "$TLG" ]] && printf '%s' "$PROMPT" | grep -qiE "$TLG"; then
-    REASON="Edit blocked by task-list gate: your task matches an SDD run but no harness task list has been seeded this session. Seed the canonical phase progress list first (create it with the task tool), per 'phase-task-visualization', so the list exists and mirrors the approval gate before the first artifact. This barrier is intentional and model-agnostic."
+  TL_RULES=""
+  while IFS= read -r tlgate; do
+    [[ -n "$tlgate" ]] || continue
+    TLG=$(jq -r --arg g "$tlgate" '.taskListGate[$g].promptTriggers // [] | join("|")' "$ROUTING" 2>/dev/null)
+    [[ -n "$TLG" ]] || continue
+    if printf '%s' "$PROMPT" | grep -qiE "$TLG"; then
+      TL_RULES=$(jq -r --arg g "$tlgate" '(.taskListGate[$g].rule // []) | if type=="array" then join(", ") else . end' "$ROUTING" 2>/dev/null)
+      break
+    fi
+  done < <(jq -r '.taskListGate // {} | keys[]' "$ROUTING" 2>/dev/null)
+
+  if [[ -n "$TL_RULES" ]]; then
+    REASON="Edit blocked by task-list gate: your task matches an SDD run but no harness task list has been seeded this session. Seed the canonical phase progress list first (create it with the task tool), per ${TL_RULES}, so the list exists and mirrors the approval gate before the first artifact. This barrier is intentional and model-agnostic."
     jq -cn --arg r "$REASON" \
       '{hookSpecificOutput:{hookEventName:"PreToolUse", permissionDecision:"deny", permissionDecisionReason:$r}}' \
       2>/dev/null || exit 0

@@ -56,27 +56,32 @@
     }
   },
   "taskListGate": {
-    "rule": ".claude/rules/common/phase-task-visualization.md",
-    "promptTriggers": [
-      "lifecycle",
-      "run the (full )?workflow",
-      "kick off the pipeline",
-      "full pipeline",
-      "the whole flow",
-      "grill me",
-      "write a spec",
-      "spec this out",
-      "write a plan",
-      "implementation plan",
-      "execute the plan",
-      "audit the spec",
-      "запусти воркфлоу",
-      "прогон по циклу",
-      "весь цикл",
-      "написать план",
-      "написать специф",
-      "исполнить план"
-    ]
+    "sdd-run": {
+      "rule": [
+        ".claude/rules/common/phase-task-visualization.md",
+        ".claude/rules/common/interactive-gates.md"
+      ],
+      "promptTriggers": [
+        "lifecycle",
+        "run the (full )?workflow",
+        "kick off the pipeline",
+        "full pipeline",
+        "the whole flow",
+        "grill me",
+        "write a spec",
+        "spec this out",
+        "write a plan",
+        "implementation plan",
+        "execute the plan",
+        "audit the spec",
+        "запусти воркфлоу",
+        "прогон по циклу",
+        "весь цикл",
+        "написать план",
+        "написать специф",
+        "исполнить план"
+      ]
+    }
   },
   "skills": {
     "resolving-requirements": {
@@ -360,6 +365,9 @@
         "захватить урок",
         "это уже было",
         "извлечь урок"
+      ],
+      "editGlobs": [
+        ".claude/lessons-learned.md"
       ]
     },
     "adopting-framework": {
