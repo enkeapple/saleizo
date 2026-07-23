@@ -3,13 +3,13 @@
   "ruleGates": {
     "_comment": "Path-or-prompt-triggered MANDATORY reads. skill-gate.sh (Pass 2) DENIES an Edit/Write until 'rule' was Read this turn. Unlike skills (which carry rules in their body), these gate plain rule files that must be loaded before touching the domain. Start narrow; add gates as lessons accrue.",
     "routing-sync": {
-      "rule": ".claude/rules/common/skill-routing-sync.md",
+      "rule": ".claude/rules/authoring/skill-routing-sync.md",
       "editGlobs": [
         ".claude/skills-routing.json"
       ]
     },
     "sdd-gate-presentation": {
-      "rule": ".claude/rules/common/interactive-gates.md",
+      "rule": ".claude/rules/workflow/interactive-gates.md",
       "promptTriggers": [
         "lifecycle",
         "run the (full )?workflow",
@@ -32,7 +32,7 @@
       ]
     },
     "sdd-phase-visualization": {
-      "rule": ".claude/rules/common/phase-task-visualization.md",
+      "rule": ".claude/rules/workflow/phase-task-visualization.md",
       "promptTriggers": [
         "lifecycle",
         "run the (full )?workflow",
@@ -59,8 +59,8 @@
     "_comment": "Keyed map (mirrors ruleGates): each entry {rule (string or array), promptTriggers}. skill-gate.sh iterates keys and, for the first entry whose promptTriggers match the cached prompt while no session task-list seed flag exists, DENIES the edit citing that entry's rule(s). Shared one-per-session seed flag across entries. Prompt-dependent deny path is verified at authoring-time (temp project dir + seeded last-prompt.txt), NOT by the fixture suite (declarative cases cannot seed prompt state) — the suite covers only no-prompt -> allow.",
     "sdd-run": {
       "rule": [
-        ".claude/rules/common/phase-task-visualization.md",
-        ".claude/rules/common/interactive-gates.md"
+        ".claude/rules/workflow/phase-task-visualization.md",
+        ".claude/rules/workflow/interactive-gates.md"
       ],
       "promptTriggers": [
         "lifecycle",

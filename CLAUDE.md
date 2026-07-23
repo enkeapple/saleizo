@@ -16,7 +16,7 @@ Authoring or changing a skill runs through **RED → GREEN → REFACTOR → VALI
 
 ## What this project is
 
-Agnostic skills authored flat under `plugins/<kit>/skills/<name>/` (no category dir) across the nine skill-bearing kits (`saleizo-core`, `saleizo-commands`, `saleizo-authoring`, `saleizo-foundation`, `saleizo-design`, `saleizo-prose`, `saleizo-learning`, `saleizo-react-native`, `saleizo-docs`; `saleizo-controls` ships hooks only — ten plugins total, each with its own `.claude-plugin/plugin.json`) and discovered by Claude Code via the installed marketplace plugins, plus the harness around them: the marketplace manifest `.claude-plugin/marketplace.json`, guard hooks in `hooks/guards/` surfaced via `.claude/hooks/` symlinks (wired by root `settings.json`), routing/metric/session/quality hooks in `plugins/saleizo-controls/hooks/` (wired by its `hooks.json`), `.claude/rules/domains/` (framework + domain glossary) and `.claude/rules/common/` (cross-cutting rules), `.claude/skills-routing.json`, `.claude/state/`. No application code, no `package.json`, no build.
+Agnostic skills authored flat under `plugins/<kit>/skills/<name>/` (no category dir) across the nine skill-bearing kits (`saleizo-core`, `saleizo-commands`, `saleizo-authoring`, `saleizo-foundation`, `saleizo-design`, `saleizo-prose`, `saleizo-learning`, `saleizo-react-native`, `saleizo-docs`; `saleizo-controls` ships hooks only — ten plugins total, each with its own `.claude-plugin/plugin.json`) and discovered by Claude Code via the installed marketplace plugins, plus the harness around them: the marketplace manifest `.claude-plugin/marketplace.json`, guard hooks in `hooks/guards/` surfaced via `.claude/hooks/` symlinks (wired by root `settings.json`), routing/metric/session/quality hooks in `plugins/saleizo-controls/hooks/` (wired by its `hooks.json`), `.claude/rules/domains/` (framework + domain glossary) and the concern folders `.claude/rules/{verification,authoring,workflow,conduct}/` (cross-cutting rules), `.claude/skills-routing.json`, `.claude/state/`. No application code, no `package.json`, no build.
 
 This repo's own design docs follow a single convention: **specs live in `docs/specs/YYYY-MM-DD-<topic>.md`, plans in `docs/plans/YYYY-MM-DD-<topic>.md`** — never bare `specs/` or `plans/` at the root. This is the convention `writing-specs`/`writing-plans` detect via "where the project keeps design docs"; keeping it single-valued is what makes the output path deterministic.
 
@@ -72,7 +72,10 @@ When a user prompt contains a registered trigger and the corresponding skill is 
 | Layer | Folder |
 | --- | --- |
 | Domain rules (glossary, framework charter) | [.claude/rules/domains/](./.claude/rules/domains/) |
-| Cross-cutting process & policy (markdown style, skill-routing sync, git conventions, …) | [.claude/rules/common/](./.claude/rules/common/) |
+| Verification guards (the false-clean "check didn't establish what it claimed" family) | [.claude/rules/verification/](./.claude/rules/verification/) |
+| Skill / rule / test authoring discipline (agnostic authoring, scoping, self-containment, RED baseline, routing sync) | [.claude/rules/authoring/](./.claude/rules/authoring/) |
+| SDD-chain UX presentation (interactive gates, phase-task visualization) | [.claude/rules/workflow/](./.claude/rules/workflow/) |
+| Cross-cutting agent conduct (concise responses, git conventions, model selection, markdown style) | [.claude/rules/conduct/](./.claude/rules/conduct/) |
 | Code-quality conventions (clear names, concise functions, no over-engineering, reuse-first, …) | [.claude/rules/clean-code/](./.claude/rules/clean-code/) |
 | Anti-patterns to refuse (error-handling, type-escape-hatch, debugging residue, security baseline, …) | [.claude/rules/anti-patterns/](./.claude/rules/anti-patterns/) |
 | Repo-local consumer config (e.g. the `resolving-requirements` ticket source) | [.claude/rules/flbco/](./.claude/rules/flbco/) |

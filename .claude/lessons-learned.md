@@ -4,7 +4,14 @@ Transient backlog of un-promoted candidate rules — newest at the top of `## En
 
 ## Entries
 
-## 2026-07-23 — Fixed a rule in the source repo; the fix reached no consumer because rules are copied per-consumer into the vault, not plugin-shipped — and the copies had drifted
+## 2026-07-23 — Moving a gated rule file re-pinned its own ruleGate mid-turn, blocking the follow-up edits
+
+- **Cause-tag**: gated-rule-relocation-repins-gate
+- **Symptom**: reorganizing `.claude/rules/common/` into folders, the first `skills-routing.json` edit (repointing the `routing-sync` gate to `authoring/skill-routing-sync.md`) succeeded, but the next edits were blocked demanding the NEW path be Read this turn — despite having Read the old `common/` path.
+- **Root cause**: the `routing-sync` ruleGate guards `skills-routing.json` by requiring its `rule` path Read this turn; rewriting that `rule` value re-pins the gate to the new path, which was never Read.
+- **Wrong approach**: Read the rule at its old path, then edited all routing paths in sequence assuming one satisfied read covered the whole file.
+- **Correct approach**: after the first edit re-pinned the gate, Read the file at its new `authoring/` path, then retried the blocked edits.
+- **Prevention**: when relocating a rule that is itself a `ruleGates` target, Read it at its NEW path before the dependent gated edits — or edit the gate's own `rule`-path last.
 
 - **Cause-tag**: rule-source-consumer-drift
 - **Symptom**: owner reported `interactive-gates.md` "loads badly / gives a text list instead of the picker" across consumer repos. Two coupled causes: (a) the rule described "a dedicated picker tool" abstractly and never named `AskUserQuestion`, so a consumer-floor model defaulted to the markdown-list fallback; (b) after fixing the source `.claude/rules/common/interactive-gates.md`, the fix reached NO consumer — each consumer reads its own copy under `flibco/claude-vault/projects/<repo>/rules/common/`, and the three copies (`d2g`, `s2s`, `ticket-desk`) had already drifted from source and from each other (different `description`, a 2-option vs 3-option archetype B, missing the interrupt block).
@@ -357,11 +364,11 @@ Transient backlog of un-promoted candidate rules — newest at the top of `## En
 
 ## Promoted clusters
 
-- relative-link-read-location → rules/common/link-resolution-verification.md (2026-07-18, owner-directed on 1 reproduced incident — verification family, distinct mechanism from search-scope/usage-claim)
-- unverified-usage-assumption → rules/common/usage-claim-verification.md (2026-07-09)
-- export-baseline-mismatch → KEPT in lessons, not promoted (independent review 2026-06-27): real, generalizable class but already covered by `rules/common/fair-red-baseline.md` §"Context inheritance" + `rules/common/scoping-skill-value.md` §Caveat + `rules/common/scoping-rule-value.md` Edge Case; a new rule would duplicate them (too thin a delta). Entry bodies deleted 2026-07-17 (covered — git keeps them via `git log -S 'export-baseline-mismatch'`).
-- dedup-drops-required-element → rules/common/dedup-drops-required-element.md (2026-06-26)
-- contaminated-red-baseline → rules/common/fair-red-baseline.md (2026-06-24)
-- broken-grep-false-verification → rules/common/search-scope-verification.md (2026-06-23)
-- skill-value-vs-noop → rules/common/scoping-skill-value.md (2026-06-19)
-- markdown-fence-counting → rules/common/markdown-style.md (2026-06-19)
+- relative-link-read-location → rules/verification/link-resolution-verification.md (2026-07-18, owner-directed on 1 reproduced incident — verification family, distinct mechanism from search-scope/usage-claim)
+- unverified-usage-assumption → rules/verification/usage-claim-verification.md (2026-07-09)
+- export-baseline-mismatch → KEPT in lessons, not promoted (independent review 2026-06-27): real, generalizable class but already covered by `rules/authoring/fair-red-baseline.md` §"Context inheritance" + `rules/authoring/scoping-skill-value.md` §Caveat + `rules/authoring/scoping-rule-value.md` Edge Case; a new rule would duplicate them (too thin a delta). Entry bodies deleted 2026-07-17 (covered — git keeps them via `git log -S 'export-baseline-mismatch'`).
+- dedup-drops-required-element → rules/verification/dedup-drops-required-element.md (2026-06-26)
+- contaminated-red-baseline → rules/authoring/fair-red-baseline.md (2026-06-24)
+- broken-grep-false-verification → rules/verification/search-scope-verification.md (2026-06-23)
+- skill-value-vs-noop → rules/authoring/scoping-skill-value.md (2026-06-19)
+- markdown-fence-counting → rules/conduct/markdown-style.md (2026-06-19)
