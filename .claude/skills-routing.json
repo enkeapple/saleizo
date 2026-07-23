@@ -56,6 +56,7 @@
     }
   },
   "taskListGate": {
+    "_comment": "Keyed map (mirrors ruleGates): each entry {rule (string or array), promptTriggers}. skill-gate.sh iterates keys and, for the first entry whose promptTriggers match the cached prompt while no session task-list seed flag exists, DENIES the edit citing that entry's rule(s). Shared one-per-session seed flag across entries. Prompt-dependent deny path is verified at authoring-time (temp project dir + seeded last-prompt.txt), NOT by the fixture suite (declarative cases cannot seed prompt state) — the suite covers only no-prompt -> allow.",
     "sdd-run": {
       "rule": [
         ".claude/rules/common/phase-task-visualization.md",
